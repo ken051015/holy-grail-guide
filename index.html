@@ -3,69 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>《聖杯盈滿之夜》v2.03 終極數據攻略：全機率、隱藏公式與頂配養成指南 | @AirInMyMind</title>
-    <meta name="description" content="基於 v2.03 底層機制拆解的完整數據攻略。涵蓋7大出身家世、魔術迴路機率、魔眼寶石級突破、21種魔術/武術硬性屬性門檻、從者五圍真實權重、知名度修正公式與全135從者聖遺物即時檢索辭典。">
-    <!-- X (Twitter) 精美分享卡片設定 -->
+    <title>《聖杯盈滿之夜》v2.03 終極數據攻略 | The Night the Grail Fills Guide</title>
+    <meta name="description" content="基於 v2.03 底層機制拆解的完整數據攻略。涵蓋7大出身家世、魔術迴路機率、魔眼寶石級突破、21種魔術/武術硬性屬性門檻、從者五圍真實權重、知名度修正公式與全135從者聖遺物搜尋器。撰寫 by @AirInMyMind">
+    <!-- Open Graph / X (Twitter) 精美預覽卡片設定 -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="🏆《聖杯盈滿之夜》v2.03 終極數據攻略：全機率、隱藏公式與頂配養成指南">
+    <meta property="og:description" content="全機率拆解、魔眼寶石級突破、21種魔術/武術隱藏屬性門檻、v2.03知名度公式與全135從者聖遺物即時搜尋辭典。by @AirInMyMind">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@AirInMyMind">
     <meta name="twitter:creator" content="@AirInMyMind">
-    <meta name="twitter:title" content="《聖杯盈滿之夜》v2.03 終極數據攻略 & 135從者聖遺物檢索辭典">
-    <meta name="twitter:description" content="全機率、魔術迴路、寶石級魔眼、21技能屬性門檻、v2.03知名度公式與T0從者實戰排行完全解析！">
-    <meta property="og:title" content="《聖杯盈滿之夜》v2.03 終極數據攻略 | The Night the Grail Fills">
-    <meta property="og:description" content="涵蓋7大出身家世、魔術迴路機率、魔眼寶石級突破、21種魔術/武術硬性屬性門檻與全135從者聖遺物即時搜尋。">
+    <meta name="twitter:title" content="🏆《聖杯盈滿之夜》v2.03 終極數據攻略 | The Night the Grail Fills">
+    <meta name="twitter:description" content="7大出身與魔術迴路機率、魔眼晉升寶石級條件、21種魔術/武術隱藏門檻、v2.03知名度公式與全135從者聖遺物辭典。">
 
-    <!-- 引入 Marked.js 渲染 Markdown -->
+    <!-- 引入 GitHub 開源 Markdown 渲染引擎 Marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 引入 GitHub 開源前端多語系自動翻譯引擎 translate.js -->
+    <script src="https://cdn.staticfile.net/translate.js/3.2.1/translate.js"></script>
 
     <style>
         /* =========================================================
-           《聖杯盈滿之夜》官方同款・黑金星空 RWD 響應式美術系統
+           《聖杯盈滿之夜》官方星空黑金質感 UI + 電腦/手機 RWD 響應式架構
            ========================================================= */
         :root {
             --bg-deep: #080b12;
             --bg-main: #0d121f;
             --bg-card: #141b2d;
             --bg-card-alt: #182138;
-            --bg-header: #1f2a48;
-            --gold-bright: #ffe28a;
+            --bg-header: #1f2947;
+            --gold-light: #ffe596;
             --gold-primary: #e6c15c;
-            --gold-muted: #9e823c;
-            --gold-border: #5c4b24;
+            --gold-dark: #8c6f2d;
+            --gold-border: rgba(230, 193, 92, 0.35);
             --gold-glow: rgba(230, 193, 92, 0.25);
             --text-main: #ece6d8;
             --text-muted: #a8a090;
             --accent-blue: #6bc5ff;
             --accent-coral: #ff9d76;
-            --accent-green: #6ee7b7;
+            --accent-green: #6be6a2;
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
-        html, body {
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
             margin: 0;
             padding: 0;
             background-color: var(--bg-deep);
             background-image: 
-                radial-gradient(circle at 20% 10%, rgba(35, 50, 95, 0.45) 0%, transparent 50%),
-                radial-gradient(circle at 80% 0%, rgba(75, 55, 20, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 20% 10%, rgba(45, 65, 120, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 80% 0%, rgba(180, 140, 50, 0.12) 0%, transparent 45%),
                 linear-gradient(180deg, #0b101d 0%, #080b12 100%);
             background-attachment: fixed;
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Noto Sans SC", "Noto Sans KR", "Noto Sans JP", "Microsoft JhengHei", sans-serif;
             line-height: 1.75;
-            scroll-behavior: smooth;
+            font-size: 16px;
         }
 
-        /* 頂部懸浮導航與多語系切換列 */
+        /* 頂部玻璃擬態懸浮導航與 6 國語言切換列 */
         .top-navbar {
             position: sticky;
             top: 0;
             z-index: 9999;
-            background: rgba(11, 15, 26, 0.92);
+            background: rgba(11, 15, 26, 0.88);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--gold-border);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.75);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
             padding: 10px 20px;
             display: flex;
             flex-wrap: wrap;
@@ -75,10 +83,10 @@
         }
 
         .brand-title {
+            color: var(--gold-light);
             font-weight: 800;
-            color: var(--gold-bright);
             font-size: 1.05rem;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -94,14 +102,14 @@
 
         .lang-label {
             color: var(--text-muted);
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             margin-right: 4px;
         }
 
         .lang-btn {
-            background: #172036;
+            background: rgba(28, 38, 66, 0.85);
             color: var(--text-main);
-            border: 1px solid #3c4b70;
+            border: 1px solid rgba(230, 193, 92, 0.3);
             border-radius: 6px;
             padding: 5px 11px;
             font-size: 0.82rem;
@@ -111,43 +119,52 @@
         }
 
         .lang-btn:hover, .lang-btn.active {
-            background: linear-gradient(135deg, #3d3014, #6b5320);
-            color: var(--gold-bright);
-            border-color: var(--gold-primary);
+            background: linear-gradient(135deg, #473716, #785d22);
+            color: var(--gold-light);
+            border-color: var(--gold-light);
             box-shadow: 0 0 12px var(--gold-glow);
             transform: translateY(-1px);
         }
 
         /* 電腦版雙欄佈局 (左側懸浮目錄 + 右側主內容) */
-        .page-container {
-            max-width: 1360px;
-            margin: 24px auto;
-            padding: 0 20px 60px;
-            display: grid;
-            grid-template-columns: 270px minmax(0, 1fr);
+        .layout-container {
+            max-width: 1380px;
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-start;
             gap: 28px;
-            align-items: start;
+            padding: 28px 24px 80px;
         }
 
-        /* 左側懸浮目錄 (Sticky Sidebar TOC) */
+        /* 左側懸浮目錄 (Desktop Sticky Sidebar) */
         .sidebar-toc {
+            width: 280px;
+            flex-shrink: 0;
             position: sticky;
             top: 76px;
-            background: rgba(20, 27, 45, 0.85);
-            border: 1px solid var(--gold-border);
-            border-radius: 10px;
-            padding: 16px;
-            max-height: calc(100vh - 100px);
+            max-height: calc(100vh - 96px);
             overflow-y: auto;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            background: rgba(18, 24, 41, 0.85);
+            border: 1px solid var(--gold-border);
+            border-radius: 12px;
+            padding: 18px 16px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar-toc::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar-toc::-webkit-scrollbar-thumb {
+            background: var(--gold-dark);
+            border-radius: 3px;
         }
 
         .toc-header {
-            color: var(--gold-bright);
-            font-weight: 700;
-            font-size: 0.95rem;
+            color: var(--gold-light);
+            font-weight: 800;
+            font-size: 0.98rem;
             padding-bottom: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             border-bottom: 1px solid var(--gold-border);
             display: flex;
             align-items: center;
@@ -158,7 +175,6 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            font-size: 0.86rem;
         }
 
         .toc-list li {
@@ -166,17 +182,18 @@
         }
 
         .toc-list a {
+            display: block;
             color: var(--text-muted);
             text-decoration: none;
-            display: block;
-            padding: 4px 8px;
-            border-radius: 5px;
-            transition: all 0.15s ease;
+            font-size: 0.86rem;
+            padding: 5px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
             line-height: 1.4;
         }
 
         .toc-list a:hover {
-            color: var(--gold-bright);
+            color: var(--gold-light);
             background: rgba(230, 193, 92, 0.1);
             padding-left: 12px;
         }
@@ -184,254 +201,249 @@
         .toc-list .toc-h3 {
             padding-left: 20px;
             font-size: 0.81rem;
+            opacity: 0.85;
         }
 
-        /* 主內容卡片區 */
-        .main-card {
-            background: rgba(16, 22, 37, 0.92);
+        /* 主內容區 */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            background: rgba(16, 22, 38, 0.78);
             border: 1px solid var(--gold-border);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 36px 42px;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.65);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
         }
 
-        /* 標題與排版美化 */
-        .markdown-body h1 {
+        /* 標題與排版美術 */
+        .main-content h1 {
             text-align: center;
-            color: var(--gold-bright);
+            color: var(--gold-light);
             font-size: 2.2rem;
             margin-top: 0;
             margin-bottom: 8px;
-            text-shadow: 0 0 20px var(--gold-glow);
+            text-shadow: 0 0 22px var(--gold-glow);
         }
 
-        .subtitle-banner {
+        .subtitle {
             text-align: center;
             color: var(--text-muted);
-            font-size: 1rem;
-            margin-bottom: 24px;
+            font-size: 1.05rem;
+            margin-bottom: 26px;
             padding-bottom: 20px;
-            border-bottom: 2px solid var(--gold-border);
+            border-bottom: 1px solid var(--gold-border);
         }
 
-        .markdown-body h2 {
-            color: var(--gold-bright);
+        .main-content h2 {
+            color: var(--gold-light);
             font-size: 1.45rem;
             margin-top: 2.2em;
-            margin-bottom: 0.8em;
+            margin-bottom: 0.9em;
             padding: 8px 14px;
             border-left: 4px solid var(--gold-primary);
             background: linear-gradient(90deg, rgba(230, 193, 92, 0.12) 0%, transparent 100%);
             border-radius: 0 8px 8px 0;
         }
 
-        .markdown-body h3 {
+        .main-content h3 {
             color: #ffd875;
             font-size: 1.18rem;
             margin-top: 1.6em;
-            border-bottom: 1px dashed #3d3522;
+            margin-bottom: 0.7em;
+            border-bottom: 1px dashed rgba(230, 193, 92, 0.25);
             padding-bottom: 6px;
         }
 
-        .markdown-body h4 {
+        .main-content h4 {
             color: var(--accent-blue);
             font-size: 1.05rem;
             margin-top: 1.3em;
+            margin-bottom: 0.5em;
         }
 
-        .markdown-body a {
+        .main-content a {
             color: var(--accent-blue);
             text-decoration: none;
             font-weight: 600;
         }
-
-        .markdown-body a:hover {
-            color: var(--gold-bright);
+        .main-content a:hover {
+            color: var(--gold-light);
             text-decoration: underline;
         }
 
-        .markdown-body code {
-            background: #222c47;
+        .main-content code {
+            background: #212c47;
             color: var(--accent-coral);
-            border: 1px solid #394870;
             padding: 2px 6px;
             border-radius: 4px;
-            font-family: Consolas, "JetBrains Mono", monospace;
+            border: 1px solid #35466e;
+            font-family: "JetBrains Mono", Consolas, monospace;
             font-size: 0.9em;
         }
 
-        /* 頂部作者與資訊面板 */
-        .info-panel {
-            background: linear-gradient(135deg, rgba(25, 34, 58, 0.95), rgba(18, 24, 42, 0.95));
+        /* 資訊卡片盒 */
+        .info-box {
+            background: linear-gradient(135deg, rgba(26, 36, 64, 0.92), rgba(18, 25, 44, 0.95));
             border: 1px solid var(--gold-primary);
-            border-left: 5px solid var(--gold-bright);
+            border-left: 5px solid var(--gold-light);
             border-radius: 10px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-        }
-
-        .info-panel ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-
-        .info-panel li {
-            margin-bottom: 6px;
+            padding: 16px 22px;
+            margin: 20px 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
         }
 
         .warn-box {
-            background: rgba(45, 28, 20, 0.85);
-            border: 1px solid #b86b35;
+            background: linear-gradient(135deg, rgba(55, 28, 36, 0.9), rgba(32, 18, 26, 0.95));
+            border: 1px solid #d96b43;
             border-left: 5px solid #ff9d76;
-            border-radius: 8px;
-            padding: 14px 18px;
-            margin: 16px 0;
+            border-radius: 10px;
+            padding: 16px 22px;
+            margin: 20px 0;
         }
 
         .formula-box {
             background: #101626;
-            border: 1px solid #3a4a70;
+            border: 1px solid #3c4d7a;
             border-radius: 8px;
-            padding: 12px 18px;
+            padding: 14px 18px;
             margin: 14px 0;
             text-align: center;
             font-weight: 700;
-            color: var(--gold-bright);
-            font-size: 1.02rem;
+            color: var(--gold-light);
+            font-size: 1.05rem;
             overflow-x: auto;
         }
 
-        /* 表格系統：電腦端美觀展開，手機端自動觸控橫滑 */
+        /* 表格外層彈性滑動容器 (完美解決手機端表格排版) */
         .table-wrap {
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            margin: 16px 0 24px;
+            margin: 18px 0;
             border-radius: 8px;
             border: 1px solid var(--gold-border);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
         }
 
-        .markdown-body table {
+        table {
             width: 100%;
             border-collapse: collapse;
             background: var(--bg-card);
-            margin: 0;
+            font-size: 0.94rem;
         }
 
-        .markdown-body th {
+        th {
             background: var(--bg-header);
-            color: var(--gold-bright);
-            border-bottom: 2px solid var(--gold-border);
-            border-right: 1px solid #2e3b5e;
-            padding: 11px 13px;
+            color: var(--gold-light);
             font-weight: 700;
+            padding: 12px 14px;
+            border-bottom: 2px solid var(--gold-dark);
+            border-right: 1px solid #2e3b5e;
             white-space: nowrap;
             text-align: left;
         }
 
-        .markdown-body td {
-            padding: 9px 13px;
+        td {
+            padding: 10px 14px;
             border-bottom: 1px solid #232e4a;
-            border-right: 1px solid #1e2840;
+            border-right: 1px solid #232e4a;
             color: var(--text-main);
         }
 
-        .markdown-body tr:nth-child(2n) td {
+        tr:nth-child(even) td {
             background: var(--bg-card-alt);
         }
 
-        .markdown-body tr:hover td {
-            background: #222f4f;
+        tr:hover td {
+            background: rgba(230, 193, 92, 0.08);
         }
 
         /* 🔍 全 135 從者聖遺物即時搜尋框 */
-        .search-box-wrap {
-            background: #172038;
-            border: 1px solid var(--gold-primary);
-            border-radius: 10px;
-            padding: 14px 18px;
-            margin: 18px 0;
+        .search-container {
+            margin: 18px 0 12px;
             display: flex;
             flex-wrap: wrap;
+            gap: 10px;
             align-items: center;
-            gap: 12px;
-            box-shadow: 0 0 15px var(--gold-glow);
+            background: #161f36;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--gold-primary);
         }
 
         .search-input {
             flex: 1;
             min-width: 220px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 1px solid #4a5c8c;
             background: #0c111e;
             color: #fff;
-            border: 1px solid var(--gold-border);
-            border-radius: 6px;
-            padding: 10px 14px;
             font-size: 0.95rem;
             outline: none;
         }
-
         .search-input:focus {
-            border-color: var(--gold-bright);
-            box-shadow: 0 0 8px var(--gold-glow);
+            border-color: var(--gold-light);
+            box-shadow: 0 0 10px var(--gold-glow);
         }
 
         .search-count {
-            color: var(--gold-bright);
-            font-weight: 700;
+            color: var(--gold-light);
             font-size: 0.9rem;
+            font-weight: 700;
         }
 
-        /* 手機端懸浮目錄按鈕 */
-        .mobile-toc-fab {
+        /* 手機版懸浮目錄按鈕 */
+        .mobile-toc-btn {
             display: none;
             position: fixed;
             bottom: 20px;
             right: 20px;
-            z-index: 10000;
-            background: linear-gradient(135deg, #4b3814, #8a6a26);
-            color: var(--gold-bright);
-            border: 2px solid var(--gold-bright);
+            z-index: 9998;
+            background: linear-gradient(135deg, #634f21, #9c7b32);
+            color: #fff;
+            border: 1px solid var(--gold-light);
             border-radius: 50px;
-            padding: 10px 16px;
-            font-weight: 800;
+            padding: 10px 18px;
+            font-weight: 700;
             font-size: 0.9rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.85);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
             cursor: pointer;
         }
 
         /* 📱 手機與平板響應式設計 (<= 960px) */
         @media (max-width: 960px) {
-            .page-container {
-                grid-template-columns: 1fr;
-                margin: 12px auto;
-                padding: 0 10px 70px;
+            .layout-container {
+                flex-direction: column;
+                padding: 14px 10px 70px;
             }
             .sidebar-toc {
                 display: none;
                 position: fixed;
-                top: 60px;
-                left: 12px;
-                right: 12px;
-                z-index: 9998;
-                max-height: 75vh;
+                top: auto;
+                bottom: 75px;
+                right: 16px;
+                left: 16px;
+                width: auto;
+                max-height: 65vh;
+                z-index: 9997;
                 background: rgba(14, 19, 34, 0.98);
                 border: 2px solid var(--gold-primary);
             }
             .sidebar-toc.mobile-open {
                 display: block;
             }
-            .mobile-toc-fab {
+            .mobile-toc-btn {
                 display: block;
             }
-            .main-card {
+            .main-content {
+                width: 100%;
                 padding: 20px 14px;
             }
-            .markdown-body h1 {
+            .main-content h1 {
                 font-size: 1.55rem;
             }
-            .markdown-body h2 {
+            .main-content h2 {
                 font-size: 1.22rem;
             }
             .top-navbar {
@@ -443,71 +455,70 @@
                 justify-content: center;
                 font-size: 0.95rem;
             }
-            .lang-btn {
-                padding: 4px 8px;
-                font-size: 0.78rem;
-            }
-            .markdown-body td, .markdown-body th {
-                white-space: nowrap;
-                font-size: 0.86rem;
+            th, td {
                 padding: 8px 10px;
+                font-size: 0.86rem;
+                white-space: nowrap;
             }
         }
 
-        /* 隱藏預設翻譯浮動條 */
-        #translateSelectLanguage, .skiptranslate iframe, .goog-te-banner-frame {
-            display: none !important;
-        }
+        /* 隱藏預設翻譯工具列 */
+        #translate { display: none !important; }
+        .skiptranslate iframe, .goog-te-banner-frame { display: none !important; }
         body { top: 0 !important; }
     </style>
 </head>
 <body>
 
-    <!-- 🌐 頂部導航與 6 國語言即時無刷新切換列 -->
-    <header class="top-navbar ignore" translate="no">
-        <a href="#" class="brand-title">🏆 《聖杯盈滿之夜》v2.03 終極攻略</a>
+    <!-- 🌐 頂部懸浮導航與 6 國語言無刷新即時切換器 -->
+    <nav class="top-navbar" translate="no">
+        <a href="#" class="brand-title">🏆 《聖杯盈滿之夜》v2.03 終極數據攻略</a>
         <div class="lang-switcher">
             <span class="lang-label">🌐 Language:</span>
-            <button class="lang-btn" onclick="changeAppLang('chinese_traditional')" id="btn-chinese_traditional">繁體中文</button>
-            <button class="lang-btn" onclick="changeAppLang('chinese_simplified')" id="btn-chinese_simplified">简体中文</button>
-            <button class="lang-btn" onclick="changeAppLang('korean')" id="btn-korean">한국어</button>
-            <button class="lang-btn" onclick="changeAppLang('japanese')" id="btn-japanese">日本語</button>
-            <button class="lang-btn" onclick="changeAppLang('english')" id="btn-english">English</button>
-            <button class="lang-btn" onclick="changeAppLang('russian')" id="btn-russian">Русский</button>
+            <button class="lang-btn active" onclick="changeLanguage('chinese_traditional')" id="lang-chinese_traditional">繁體中文</button>
+            <button class="lang-btn" onclick="changeLanguage('chinese_simplified')" id="lang-chinese_simplified">简体中文</button>
+            <button class="lang-btn" onclick="changeLanguage('korean')" id="lang-korean">한국어</button>
+            <button class="lang-btn" onclick="changeLanguage('japanese')" id="lang-japanese">日本語</button>
+            <button class="lang-btn" onclick="changeLanguage('english')" id="lang-english">English</button>
+            <button class="lang-btn" onclick="changeLanguage('russian')" id="lang-russian">Русский</button>
         </div>
-    </header>
+    </nav>
 
     <!-- 📱 手機版右下角懸浮目錄按鈕 -->
-    <button class="mobile-toc-fab ignore" translate="no" onclick="toggleMobileToc()">📑 章節目錄</button>
+    <button class="mobile-toc-btn" onclick="toggleMobileToc()" translate="no">📑 章節導覽</button>
 
-    <div class="page-container">
-        <!-- 左側自動生成懸浮目錄 -->
+    <div class="layout-container">
+        <!-- 左側自動生成的懸浮章節導覽列 -->
         <aside class="sidebar-toc" id="sidebar-toc">
-            <div class="toc-header">📑 攻略章節導覽</div>
+            <div class="toc-header">📑 攻略章節導覽 (TOC)</div>
             <ul class="toc-list" id="toc-list"></ul>
         </aside>
 
-        <!-- 右側主內容區 -->
-        <main class="main-card markdown-body" id="content-area">
-            <h1>🏆 《聖杯盈滿之夜》v2.03 終極數據攻略</h1>
-            <div class="subtitle-banner">全機率、隱藏公式與頂配養成指南 (<span class="ignore" translate="no">The Night the Grail Fills / 성배가 차는 밤</span>)</div>
-
-            <div class="info-panel">
-                <ul>
-                    <li>🎮 <b>遊戲遊玩網址</b>：<a href="https://holygrailwargame.cupnight.workers.dev/" target="_blank" rel="noopener">https://holygrailwargame.cupnight.workers.dev/</a> <i>(支援繁中、簡中、韓文、日文、英文、俄文)</i></li>
-                    <li>🎨 <b>遊戲原作者 X (Twitter)</b>：<a href="https://x.com/cupnight_" target="_blank" rel="noopener"><span class="ignore" translate="no">@cupnight_</span> (Holy Grail War game)</a></li>
-                    <li>✍️ <b>本攻略作者 X (Twitter)</b>：<a href="https://x.com/AirInMyMind" target="_blank" rel="noopener"><span class="ignore" translate="no">@AirInMyMind</span> (AirInMyMind)</a> <i>(歡迎至 X 追蹤、交流或分享新發現！)</i></li>
-                    <li>📅 <b>適用版本</b>：<code class="ignore" translate="no">v2.03</code> (2026.11.25 更新：包含最新「知名度修正」、「四維情報系統」、「全 135 從者聖遺物即時搜尋器」與「NPC 魔眼機制」)</li>
-                </ul>
-            </div>
-
-            <!-- Markdown 渲染容器 -->
-            <div id="md-rendered"></div>
+        <!-- 右側攻略主體渲染區 -->
+        <main class="main-content" id="content-area">
+            正在載入攻略數據...
         </main>
     </div>
 
-<!-- 📝 原始 Markdown 內容儲存區 (以後要修改攻略直接改這裡的純文字即可！) -->
-<script type="text/markdown" id="raw-md">
+<!-- =========================================================
+     📝 攻略 Markdown 原始碼區 (以後想改文字，直接改這裡的 Markdown 即可！)
+     ========================================================= -->
+<script type="text/markdown" id="md-source">
+# 🏆 《聖杯盈滿之夜》v2.03 終極數據攻略
+<div class="subtitle">全機率、隱藏公式與頂配養成指南 (<span class="notranslate" translate="no">The Night the Grail Fills / 성배가 차는 밤</span>)</div>
+
+<div class="info-box">
+
+* 🎮 **遊戲遊玩網址**：[https://holygrailwargame.cupnight.workers.dev/](https://holygrailwargame.cupnight.workers.dev/) *(支援：繁體中文、简体中文、한국어、日本語、English、Русский)*
+* 🎨 **遊戲原作者 X (Twitter)**：[**@cupnight_** (Holy Grail War game)](https://x.com/cupnight_)
+* ✍️ **本攻略作者 X (Twitter)**：[**@AirInMyMind** (AirInMyMind)](https://x.com/AirInMyMind) *(若有疑問或發現新彩蛋，歡迎至 X 交流分享！)*
+* 📅 **適用版本**：`v2.03` (2026.11.25 更新：包含最新「知名度修正」、「四維情報系統」、「全 135 從者聖遺物即時搜尋器」與「NPC 魔眼機制」)
+* 🌐 **智慧多語系支援**：本網站已自動偵測您的系統預設語言，您亦可隨時點擊頂部導航列一鍵無刷新切換 6 國語言！手機用戶可左右滑動表格查看完整數據。
+
+</div>
+
+---
+
 ## 一、 投胎首抽：7 大出身家世、魔術迴路與魔力上限公式
 
 每次點擊「降生」時，系統會先按權重（總和剛好為 100%）抽出你的**「出身家世」**，再從該家世允許的**「魔術迴路區間」**中等機率抽取一個整數等級。
@@ -549,15 +560,15 @@
 
 ### 2. 覺醒死線（6 ～ 18 歲）與「喪親爆種機制」
 <div class="warn-box">
-<ul>
-<li><b>硬性年齡限制</b>：魔眼只能在 <b><code>6 歲 ～ 18 歲</code>（且聖杯戰爭尚未爆發前）</b> 觸發覺醒！若跨入 19～20 歲仍未跳出覺醒事件，代表這局沒有抽中種子（或屬於約 12% 抽中種子但連續 13 年未骰過的非酋情況），想刷魔眼的玩家可在 19 歲直接重開。</li>
-<li><b>🔥 喪親爆種機制</b>：6～18 歲期間，每年基礎覺醒率為 <b><code>15%</code></b>。<b>但若當年剛好發生「親人過世」事件，當年的魔眼覺醒機率會直接暴增 3 倍變為 <code>45%</code>！</b></li>
-</ul>
+
+* **硬性年齡限制**：魔眼只能在 **`6 歲 ～ 18 歲`（且聖杯戰爭尚未爆發前）** 觸發覺醒！若跨入 19～20 歲仍未跳出覺醒事件，代表這局沒有抽中種子（或屬於約 12% 抽中種子但連續 13 年未骰過的非酋情況），想刷魔眼的玩家可在 19 歲直接重開。
+* **🔥 喪親爆種機制**：6～18 歲期間，每年基礎覺醒率為 **`15%`**。**但若當年剛好發生「親人過世」事件，當年的魔眼覺醒機率會直接暴增 3 倍變為 `45%`！**
+
 </div>
 
 ### 3. 魔眼威力公式與「30% 晉升寶石級」秘訣
 魔眼分為 4 個等級（**下級 `1.0x`、中級 `2.5x`、上級 `4.0x`、寶石級 `6.0x`**）與 3 段控制度（**無法控制 `0.7x`、控制普通 `1.0x`、控制純熟 `1.3x`**）：
-<div class="formula-box">魔眼最終倍率 = 等級基礎倍率 × 控制度修正 （最高為寶石級 6.0 × 1.3 = 7.8 倍！）</div>
+<div class="formula-box">魔眼最終威力倍率 = 等級倍率 × 控制度倍率 （最高為寶石級：6.0 × 1.3 = 7.8 倍！）</div>
 
 * **控制度修煉**：覺醒後至 50 歲前，每年有 **15%** 機率觸發修煉事件。若有魔術師/師父、教會（花 5 財富）、退魔家門背景，可 **100% 安全提升 1 階控制度**；普通人選「獨自硬撐」只有 **50% 成功率**（失敗扣 5 健康）。
 * **💎 晉升寶石級**：當控制度修煉到最高階（**第 2 階：控制純熟**）的那一瞬間，若魔眼尚未達到寶石級，系統會立刻進行一次 **`30%` 機率** 的判定——骰過即可直接將魔眼提升一個階級（最高直接進化為 **`寶石級魔眼`**）！
@@ -585,7 +596,7 @@
    * **`6 ～ 25 歲`**：屬性成長 **`× 1.2 倍`**（黃金養成期）
    * **`26 ～ 45 歲`**：`× 1.0 倍` ｜ **`46 ～ 65 歲`**：`× 0.75 倍` ｜ **`66 歲以上`**：`× 0.5 倍`
 3. **修煉 (`train`) 加魔力公式**：
-   <div class="formula-box">每年魔力增加 = 隨機(2~5) × 年齡倍率 × (0.6 + 迴路等級×0.15) × (有魔術家世或師父 ? 1.0 : 0.7)</div>
+   <div class="formula-box">每年魔力增加 = 隨機(2~5) × 年齡倍率 × (0.6 + 迴路等級 × 0.15) × (有魔術家世或師父 ? 1.0 : 0.7)</div>
    *(⚠️ 注意：13 歲後選「修煉」，每年會固定增加 `0.15%` 的「魔術實驗事故」意外猝死率！)*
 4. **自然死亡率與 `104 歲` 硬性壽命極限**：
    * 40 歲起每年扣減健康；55 歲起魔力 > 30 者每年自然流失 0～2 點魔力。
@@ -602,8 +613,8 @@
 * **技能槽位上限**：一生最多只能習得 **`3 門魔術系技能`** ＋ **`2 門武術/教會系技能`**！（一旦學滿槽位，就不會再觸發新技能入門，因此不想要的流派請務必選「現在先放著」跳過）。
 * **Lv.1（入門）**：魔術需 6～30 歲；武術/教會需 8～35 歲（代行者體術需滿 14 歲、槍械需滿 16 歲）。
   * *💡 武術入門秘訣*：武術平時的入門率僅 `0.6%`，但當年度目標選**「身體 (`body`)」**時，入門觸發率會直接**暴增 4 倍**！
-* **Lv.2（熟練）硬門檻**：距離入門滿 2 年、年齡 ≤ 50 歲，且**該技能對應的檢定屬性必須 ≥ 40**！
-* **Lv.3（高位）硬門檻**：距離熟練滿 3 年、**對應檢定屬性必須 ≥ 60**，且若是魔術系技能，**天生的魔術迴路必須至少為 `C 級 (3)` 以上**！
+* **Lv.2（熟練）硬門檻**：距離入門滿 2 年、年齡 <= 50 歲，且**該技能對應的檢定屬性必須 >= 40**！
+* **Lv.3（高位）硬門檻**：距離熟練滿 3 年、**對應檢定屬性必須 >= 60**，且若是魔術系技能，**天生的魔術迴路必須至少為 `C 級 (3)` 以上**！
 * **Lv.4（秘傳）硬門檻**：全遊戲僅 **元素魔術、結界魔術、詛咒** 三門可達 Lv.4 秘傳！必須年滿 **25 歲**、該魔術必須是你的**「本系主修 (`main`)」**，且**魔術迴路達 `B 級 (4)` 以上（或持有家族魔術刻印）**！
 
 ### 2. 「經驗值 (`xp`) 累積」與「2 年 100% 保底突破規則」
@@ -629,7 +640,7 @@
 
 ### 1. 從者五圍面板的真實權重公式 (`heroBase`)
 遊戲中五圍等級換算分數為：**`E=1, D=2, C=3, B=4, A=5, EX=6`**，每多一個 `+` 號額外 **`+0.4`**（因此 **`A+++ (6.2)`** 在數值上比 **`EX (6.0)`** 還高 0.2 分！）。
-<div class="formula-box">基礎戰力 = ( 78 + 筋力×1.7 + (敏捷 + 耐久 + 魔力)×1.4 + 幸運×1.9 ) × ( 0.55 + 0.45 × 當前HP/100 )</div>
+<div class="formula-box">基礎戰力 = [ 78 + 筋力×1.7 + (敏捷 + 耐久 + 魔力)×1.4 + 幸運×1.9 ] × (0.55 + 0.45 × 當前HP / 100)</div>
 
 * **核心細節 1：「幸運 (`×1.9`)」是全五圍中加基礎戰力權重最高的屬性**，其次是「筋力 (`×1.7`)」！
 * **核心細節 2（傷勢懲罰與令咒無視傷勢）**：從者扣血會導致基礎戰力下降（殘血時最低跌至 55%）；**但使用「令咒強化」或 Berserker「狂化爆發」的回合，會強制以 `100% 滿血` 計算最高戰力**！
@@ -663,12 +674,367 @@
 | 排名 | 從者名稱 (職階) | 知名度 | 綜合常駐戰力 (含知名度) | 核心機制與強勢點分析 |
 | :---: | :--- | :---: | :---: | :--- |
 | **1** | **所羅門 (Caster)** | `EX` (+11.0) | **`148.0`** | **v2.03 常駐戰力斷檔第一！** 魔力 EX 吃滿 Caster 1.2倍加成、召喚術 EX (+7.2)、所羅門戒指 EX (-6.6 敵戰力)、千里眼 EX (預知閃避敵寶具)。*(註：寶具 Ars Nova 為同歸於盡技，平砍與魔術即無敵)* |
-| **2** | **吉爾伽美什 (Archer)** | `A` (+7.9) | **`142.1`** *(前兩回合 **`149.1`**)* | 開局前兩回合吃滿 Archer 射程 (`+7`)、王之財寶專屬被動 (`+7`，半血以下認真模式再 `+5` = **`154.1`**)！物理輸出天花板。 |
-| **3** | **貞德 [Alter] (Avenger)** | `D` (+1.0) | **`139.4`** *(殘血破 **`155+`**)* | 三重高階 `power` 技能疊加（技能加分 `+31.2` 全服第一）＋ 復仇者殘血暴走 ＋ **D 知名度放寶具不暴露真名、極少受情報懲罰**！ |
-| **4** | **赫拉克勒斯 (Berserker)**| `EX` (+11.0) | **`139.2`** *(狂化爆發 **`151.2`**)*| 五圍面板總分頂點 (115.8) ＋ EX 知名度 (`+11`) ＋ 狂化突破 (`+12` 且無視傷勢) ＋ **戰鬥續行 A (倒下時原地復活一次)**！ |
+| **2** | **吉爾伽美什 (Archer)** | `A` (+7.9) | **`142.1`**<br>*(前兩回合 **`149.1`**)* | 開局前兩回合吃滿 Archer 射程 (`+7`)、王之財寶專屬被動 (`+7`，半血以下認真模式再 `+5` = **`154.1`**)！物理輸出天花板。 |
+| **3** | **貞德 [Alter] (Avenger)** | `D` (+1.0) | **`139.4`**<br>*(殘血破 **`155+`**)* | 三重高階 `power` 技能疊加（技能加分 `+31.2` 全服第一）＋ 復仇者殘血暴走 ＋ **D 知名度放寶具不暴露真名、極少受情報懲罰**！ |
+| **4** | **赫拉克勒斯 (Berserker)**| `EX` (+11.0) | **`139.2`**<br>*(狂化爆發 **`151.2`**)*| 五圍面板總分頂點 (115.8) ＋ EX 知名度 (`+11`) ＋ 狂化突破 (`+12` 且無視傷勢) ＋ **戰鬥續行 A (倒下時原地復活一次)**！ |
 | **5** | **魁札爾·科亞特爾 (Rider)**| `B` (+5.1) | **`139.0`** | 3 個 EX 技能 ＋ 3 個 A+ 技能、對魔力 A (砍敵寶具 -11 威力) 與極高續航力。 |
 | **6** | **阿爾托莉雅 (Saber)** | `EX` (+11.0) | **`138.4`** | EX 知名度 (`+11`) ＋ 對魔力 A ＋ 直感 A (自動預知閃避敵方寶具) ＋ 魔力放出爆發。 |
 | **7** | **克里姆希爾德 (Berserker)**| `C` (+2.8) | **`137.8`** | 獨享 `MAGE_BERSERK`（魔力 ×2.0 戰力加成）＋ `EDGE` 殘血反殺加成 ＋ 高續航。 |
 | **8** | **黑森·羅伯 (Avenger)** | `C` (+2.8) | **`139.5`** | 技能加分高達 `+30.6`（全服前三）＋ 復仇者殘血加成。 |
 | **9** | **平景清 (Avenger)** | `D` (+1.0) | **`135.0`** | 自帶 `14%` 獨立迴避 ＋ 戰鬥續行原地復活 ＋ 復仇者殘血暴走 ＋ D 知名度低懲罰。 |
 | **10**| **始皇帝 (Ruler)** | `EX` (+11.0) | **`134.5+`** | Ruler 職階真名看穿與裁定特權 ＋ EX 知名度 (`+11`) ＋ 永世帝位專屬常駐 `+6` 戰力。 |
+
+---
+
+## 六、 兩套「無敵畢業流派」養成 SOP
+
+### 🔮 流派一：【全魔術・根源神代流】
+* **首抽目標**：**名門魔術家門長子**（自帶 300 年魔術刻印）＋ **魔術迴路 A 級 (或 B 級)** ＋ 家傳主修 **【元素魔術】或【結界魔術】**。
+* **3 大魔術槽配置**：
+  1. 主修：**【元素魔術】(衝 Lv.4 秘傳)** —— 主力輸出與強化。
+  2. 副修 1：**【占星術】(Lv.3 高位)** —— Lv.1 御主單挑 100% 看穿對手出招；Lv.2 群星預警 100% 免疫夜襲！
+  3. 副修 2：**【鍊金術】(Lv.3 高位)** —— 每場戰鬥 2 次應急治癒，且 Lv.3 **免費贈送「人造人」當使魔**（不佔使魔魔術槽位即可白天偵查盯梢、偷看敵人寶具真名！）。
+* **養成時間軸**：6～14 歲年度目標全選 **「學習」** 把**知識衝到 60**（解鎖占星與鍊金 Lv.3 門檻）➔ 15 歲起全程切回 **「修煉」** 把**魔力衝到 90~100**（讓從者五圍全部升一階）並灌滿技能 `xp` 觸發 2 年保底升級！
+
+### 🥊 流派二：【全體術・魔術師殺手流（手撕從者與御主）】
+* **首抽目標**：**退魔家門**（12% 機率抽中**「魔之血」**，且全武術觸發率 ×2 倍）＋ **魔術迴路 C 級**。
+* **技能槽配置（2 武術 ＋ 1 魔術）**：
+  1. 武術 1：**【退魔體術】(Lv.2 滿)** 或 **【八極拳】(Lv.3)** —— 解鎖遭遇暗殺時肉身反殺與單挑必殺技。
+  2. 武術 2：**【槍械・近接制壓】(16 歲解鎖，Lv.3)** —— 現代槍械可用 **2 次**，無視單挑猜拳相剋，對正統魔術師擁有毀滅性特攻！
+  3. 魔術槽：**【強化魔術】(Lv.3)** —— 唯一檢定「健康」的魔術！與武術連動，大幅強化御主肉搏單挑威力！
+* **養成時間軸**：全程主選 **「身體」**（使武術入門率變 4 倍並穩定 +2 xp，把**健康衝到 90~100**），穿插幾年 **「心靈」** 把**精神拉到 60**。在御主決鬥或與從者死鬥（Duel）中，靠著 v2.03 新增的「施放高位秘技當回合免疫從者普攻」與雙發特攻手槍，御主本人就能正面擊潰敵方陣營！
+
+---
+
+## 七、 從者召喚與聖遺物機制：獲取途徑、滿月劫持與 全 135 從者聖遺物大辭典
+
+### 1. 聖遺物（催化劑）的獲取規則與「戰前一年保底」
+* **持有上限**：每段人生最多可同時持有 **`3 件`** 聖遺物（僅會抽出常規七職階從者的聖遺物）。
+* **圖鑑未收錄加權 (`sumW`)**：只要是你的**「從者圖鑑中尚未契約過」**的從者，無論在隨機獲得聖遺物、或是不放聖遺物進行相性召喚時，其出現權重都會**自動 `× 2 倍`**！
+* **5 大獲取途徑**：
+  1. **魔術家門庫房發現**（限魔術師家世）。
+  2. **海外留學奇遇**（曾觸發海外/時計塔留學事件）。
+  3. **孤兒院身世遺物**（河畔育幼院出身且解開身世之謎，會獲得當年被遺棄時留在身邊的聖遺物）。
+  4. **沒落家門戰前黑市舉債購買**（**沒落的魔術家門**專屬：若到聖杯戰爭爆發時身上 1 件聖遺物都沒有，可在開戰前夕選擇**「舉債購買催化劑（財富 -20）」**強制獲得 1 件聖遺物！）。
+  5. **🔥 戰前一年強制保底事件**：在聖杯戰爭爆發的**前一年（`warAge - 1` 歲）**，只要你身上的聖遺物少於 3 件，系統必定會強制觸發一次古董店/遺物事件讓你有機會入手聖遺物！
+* **⚠️ 單一聖遺物的自動放入注意**：若你沒有設定首頁的「羈絆召喚」，且身上**剛好只有 `1 件` 聖遺物**，召喚時系統不會跳出選擇視窗，而是會**自動將該聖遺物放入陣中直接召喚**！只有當持有 `2 ～ 3 件` 聖遺物（或有設定羈絆召喚）時，才會跳出選單讓你挑「放哪一件」或「什麼都不放」。
+
+### 2. 召喚儀式的前置隱藏選項（開戰前夕）
+當手背浮現令咒時，依據你的出身與經歷會解鎖特殊的開戰準備選項：
+* **名門長子 / 名門次子 / 持有魔術刻印** ➔ 可選**「按家族儀式準備 3 天（財富 -6）」**：開局直接獲得**防禦結界與從者信賴度加成**！
+* **聖堂教會神父家門** ➔ 可選**「先告知父親」**：獲得聖堂教會的暗中支援，戰爭期間監督官的情報會悄悄流入你手中！
+* **曾出國留學 (`abroad`)** ➔ 可選**「向時計塔的師父尋求建議」**：開局直接獲得參加本次戰爭的魔術協會派系御主情報！
+
+### 3. 召喚卡池的 4 大分支判定順序與精確機率公式
+
+當你進入午夜召喚儀式時，系統會嚴格按照以下 **1 ➔ 2 ➔ 3 ➔ 4** 的優先順序進行判定：
+
+#### 【第 1 順位】羈絆召喚 (`Bond Summon`)
+* 若在首頁選擇了過往契約過的從者並點選「緣之召喚」，會依顯示的羈絆成功率（最高 **100% 必定成功**）進行判定。若未命中，則自動轉入下方的「無聖遺物召喚」流程。
+
+#### 【第 2 順位】放入聖遺物召喚（含「聖遺物碎裂」強行歪出 Avenger / Ruler 機制！）
+* **一般情況（復仇與正義傾向皆 `< 5`）**：放入哪一件聖遺物，就 **`100%` 必定召喚出該聖遺物對應的從者**！
+* **🔥 聖遺物碎裂機制（當你的隱藏傾向 `復仇 avenger` 或 `正義 judge` 累積達 `5 點以上` 時）**：
+  即使你放入了某位從者的專屬聖遺物，也有 **`pSp × 50%`（約 `15.75% ～ 30%`）** 的機率發生**「魔法陣中央的聖遺物無聲碎裂！回應你的不是遺物呼喚的英靈，而是與你相似的某種存在」**，直接無視聖遺物，強行召喚出 **Avenger（復仇者）** 或 **Ruler（裁定者）**！
+
+#### 【第 3 順位】不放聖遺物 ➔ 「滿月之夜 BB / Alter Ego 強制劫持召喚」
+* **滿月之夜機率**：每一局聖杯戰爭的召喚之夜，固定有 **`12.5% (1/8)`** 的機率出現*「那天晚上，天上升起了滿月」*。
+* **BB 劫持率 (`moonHijP`)**：在**「滿月之夜」且「不放任何聖遺物」**時，會有 **`2.5%`** 的機率（若前世達成過與 BB 的「月之約定 `moonVow`」，劫持率翻倍為 **`5.0%`**）觸發滿月月光改寫魔法陣！
+  * 若尚未看過「去往月亮的杯 (`moonSend`)」結局：**`100%` 強制召喚出 `Moon Cancer：BB`**！
+  * 若已達成過「去往月亮的杯」結局：有 **`1/3 (33.3%)` 機率召喚出 `Alter Ego`（Meltryllis 或 Passionlip）**，**`2/3 (66.7%)` 機率召喚出 `BB`**！
+  * *(💡 註：v2.03 版本起，只要達成過一次「去往月亮的杯」結局，BB 就會永久解鎖並加入首頁的「羈絆召喚」列表中！此外，當你自己擔任 BB 的御主時，戰爭第 2～8 天每天早上有 4% 機率，Meltryllis 或 Passionlip 會作為額外組別亂入戰場！)*
+
+#### 【第 4 順位】不放聖遺物 ➔ 「特殊職階（Avenger / Ruler）亂入」或「常規相性召喚」
+1. **先判定特殊職階亂入率 (`pSp`)**：
+   <div class="formula-box">Avenger / Ruler 亂入率 pSp = min( 60%, 1.5% + 6% × max(復仇傾向, 正義傾向) )</div>
+   * 即使你的復仇與正義傾向都是 `0`，不放聖遺物時也有 **`1.5%` 的保底機率** 直接抽中 Avenger 或 Ruler！
+   * 孤兒院出身（自帶復仇 +1）或教會出身（自帶正義 +1），開局基礎亂入率即從 **`7.5%`** 起跳；傾向疊到 10 點時可達最高 **`60%`**！
+   * 決定出特殊職階後，抽出 Avenger 與 Ruler 的權重比為 `(復仇傾向 + 0.5) : (正義傾向 + 0.5)`。
+2. **最後進行常規七職階「相性召喚 (`affinity`)」**：
+   * 若未觸發上述特殊職階，系統會計算你的性格與全體常規從者的契合度分數 `fitScore`，並按權重公式 **`權重 = exp(契合度 / 8) × 未契約過加權(2倍)`** 抽出與你靈魂波長最契合的從者！
+
+### 4. 敵方陣營出現特殊職階（Extra Class）的機率
+* 每一場聖杯戰爭開局時，另外 6 組 NPC 敵人中，固定有 **`12.0%`** 的機率會將其中一席常規職階替換為 **特殊職階（Avenger / Ruler / Alter Ego；若當天為滿月之夜，敵方特殊席位也有機率刷出野生 BB！）**。
+
+### 5. 📖 全 135 名從者專屬聖遺物（催化劑）、知名度與性格相性即時搜尋大辭典
+
+<div class="search-container">
+    <span>🔍 <b>聖遺物 / 從者即時搜尋：</b></span>
+    <input type="text" id="relic-search" class="search-input" placeholder="輸入聖遺物關鍵字 (如：戒指、羽毛、劍) 或從者名、職階..." oninput="filterRelicTable()">
+    <span class="search-count" id="relic-count">顯示 135 / 135 名從者</span>
+</div>
+
+<div id="relic-table-box">
+
+| # | 從者真名 | 職階 | 知名度 | 五圍 (筋/敏/耐/魔/幸) | 性格相性 | 專屬聖遺物 (催化劑) | 傳說出處 |
+| :---: | :--- | :---: | :---: | :---: | :---: | :--- | :--- |
+| 1 | **西格魯德** | Saber | `B` | `A+/B/A+/C/E` | 名譽、憐憫 | 被火燻黑的戒指碎片 | 北歐神話 |
+| 2 | **齊格飛** | Saber | `B` | `B+/B/A/C/E` | 忠誠、憐憫 | 一片龍鱗 | 尼伯龍根之歌 |
+| 3 | **蘭斯洛特** | Berserker | `A` | `A/A+/A/C/B` | 忠誠、憐憫 | 被湖水侵蝕的銀馬刺 | 亞瑟王傳說 |
+| 4 | **阿周那** | Archer | `B` | `A/B/B/B/A++` | 名譽、憐憫 | 破舊的弓弦絲線 | 摩訶婆羅多 |
+| 5 | **羅賓漢** | Archer | `A` | `C/B/C/B/B` | 自由、憐憫 | 橡樹葉箭羽 | 英國民間故事 |
+| 6 | **阿塔蘭黛** | Archer | `C` | `D/A/E/B/C` | 自由、憐憫 | 卡呂冬野豬的獠牙碎片 | 希臘神話 |
+| 7 | **庫·夫林** | Lancer | `B` | `B/A/C/C/E` | 自由、名譽 | 曾綁在石柱上的腰帶 | 阿爾斯特傳說 |
+| 8 | **赫克托耳** | Lancer | `B` | `B/A/B/B/B` | 忠誠、憐憫 | 青銅頭盔的馬尾盔纓 | 伊利亞德 |
+| 9 | **列奧尼達一世** | Lancer | `A` | `B/D/A/C/C` | 忠誠、名譽 | 溫泉關生鏽的槍尖 | 希羅多德歷史 |
+| 10 | **伊斯坎達爾** | Rider | `EX` | `B/D/A/C/A+` | 野心、自由 | 刻有王之面容的銀幣 | 古希臘史書 |
+| 11 | **布狄卡** | Rider | `C` | `C/C/B+/D/D` | 憐憫、自由 | 青銅戰車飾件 | 羅馬史書 |
+| 12 | **阿基里斯** | Rider | `A` | `B+/A+/A/C/D` | 名譽、野心 | 赫淮斯托斯之盾的青銅碎片 | 伊利亞德 |
+| 13 | **美狄亞** | Caster | `B` | `E/C/D/A+/B` | 野心 | 一縷金色羊毛 | 希臘悲劇 |
+| 14 | **梅林** | Caster | `A` | `B/D/E/A/C` | 自由 | 長滿青苔的橡樹枝 | 亞瑟王傳說 |
+| 15 | **帕拉塞爾蘇斯** | Caster | `B` | `D/C/E/A/B` | 野心、憐憫 | 曾鑲在劍柄上的紅石碎片 | 文藝復興醫學史 |
+| 16 | **荊軻** | Assassin | `C` | `D/A/E/E/D` | 忠誠、名譽 | 易水畔冰冷的石頭 | 史記刺客列傳 |
+| 17 | **赫拉克勒斯** | Berserker | `EX` | `A+/A/A/A/B` | 憐憫、名譽 | 涅墨亞巨獅的毛髮 | 希臘神話 |
+| 18 | **斯巴達克斯** | Berserker | `A` | `A/D/EX/E/D` | 自由、憐憫 | 生鏽的腳鐐鐵環 | 羅馬史書 |
+| 19 | **呂布奉先** | Berserker | `B` | `A+/B+/A+/C+/C+` | 野心 | 赤紅雉雞翎毛 | 三國志故事 |
+| 20 | **巖窟王** | Avenger | `A` | `B/C/A+/B/-` | 野心、憐憫 | 挖開監獄牆壁的斷裂湯匙 | 基督山恩仇記 |
+| 21 | **安東尼奧·薩里耶利** | Avenger | `B` | `B/A/C/C/B` | 野心、名譽 | 泛黃的五線譜紙 | 普希金戲劇與維也納傳聞 |
+| 22 | **貞德** | Ruler | `EX` | `B/A/B/A/C` | 憐憫、忠誠 | 燒焦的旗幟布料 | 百年戰爭紀錄 |
+| 23 | **始皇帝** | Ruler | `EX` | `B+/B+/B+/B+/B+` | 野心、名譽 | 斷成兩半的玉璽碎片 | 史記秦始皇本紀 |
+| 24 | **阿爾托莉雅·潘德拉剛** | Saber | `EX` | `B/B/B/A/A+` | 名譽、忠誠 | 閃耀金光的劍鞘碎片 | 亞瑟王傳說 |
+| 25 | **尼祿·克勞狄烏斯** | Saber | `A` | `D/A/D/B/A` | 野心、憐憫 | 金線刺繡的玫瑰繡片 | 羅馬史書 |
+| 26 | **高文** | Saber | `B` | `B+/B+/B+/A/A` | 忠誠、名譽 | 綠色腰帶的絲線 | 亞瑟王傳說 |
+| 27 | **莫德雷德** | Saber | `B` | `B+/B/A/B/D` | 野心、自由 | 鏽成暗紅的頭盔飾件 | 亞瑟王傳說 |
+| 28 | **阿蒂拉** | Saber | `A` | `B/A/A/B/A` | 野心、憐憫 | 染上三色光芒的劍之碎片 | 匈人編年史 |
+| 29 | **查理曼** | Saber | `A` | `A/B/C/A/A` | 名譽、自由 | 留有十二道傷痕的劍柄裝飾 | 查理曼傳說 |
+| 30 | **貝德維爾** | Saber | `C` | `A/A+/B/C/B` | 忠誠、憐憫 | 沾濕湖水的銀色指節 | 亞瑟王傳說 |
+| 31 | **沖田總司** | Saber | `C` | `C/A+/E/E/D` | 忠誠、名譽 | 印有「誠」字的羽織衣角 | 幕末紀錄 |
+| 32 | **宮本武藏** | Saber | `A` | `B/B/B/E/B` | 自由、名譽 | 兩把木劍的木屑 | 五輪書 |
+| 33 | **羅摩** | Saber | `B` | `A/A+/B/B/B` | 名譽、憐憫 | 被火燻黑的金色鹿毛 | 羅摩衍那 |
+| 34 | **理查一世** | Saber | `B` | `B/EX/B/B/C` | 名譽、野心 | 刻有獅子紋章的盾牌碎片 | 十字軍編年史 |
+| 35 | **衛宮** | Archer | `E` | `D/C/C/B/E` | 憐憫、名譽 | 出現裂痕的紅寶石吊墜 | 某位魔術師的終點 |
+| 36 | **吉爾伽美什** | Archer | `A` | `B/B/B/A/A` | 野心、自由 | 世上第一條蛻皮之蛇的化石 | 吉爾伽美什史詩 |
+| 37 | **喀戎** | Archer | `B` | `B/A+/B/B/C` | 憐憫、忠誠 | 半人馬的破舊弓弦 | 希臘神話 |
+| 38 | **阿拉什** | Archer | `C` | `B/B+/A/E/D` | 憐憫、忠誠 | 身軀碎裂之弓手的箭簇 | 波斯傳承 |
+| 39 | **崔斯坦** | Archer | `B` | `B/A/B/B/E` | 憐憫、自由 | 斷裂的一根豎琴琴弦 | 亞瑟王傳說 |
+| 40 | **織田信長** | Archer | `A` | `C/C/B/B/B` | 野心、自由 | 被火燒焦的南蠻披風碎片 | 信長公記 |
+| 41 | **巴御前** | Archer | `C` | `C/C/D/B/A` | 忠誠、憐憫 | 繪有火焰紋樣的射箭護手 | 平家物語 |
+| 42 | **尼古拉·特斯拉** | Archer | `A` | `D/C/C/B/D` | 野心、憐憫 | 燒毀的一截線圈 | 近代科學史 |
+| 43 | **拿破崙** | Archer | `EX` | `D/A/C/E/B` | 野心、憐憫 | 雙角帽上的羽毛 | 近代歐洲史 |
+| 44 | **俄里翁** | Archer | `B` | `D/B/C/A/A+` | 自由、憐憫 | 蘊含月光的銀箭 | 希臘神話 |
+| 45 | **超人俄里翁** | Archer | `B` | `A/B+/A/C/A` | 自由、野心 | 徒步橫渡大海的獵人涼鞋 | 希臘神話 |
+| 46 | **迪爾姆德·奧迪那** | Lancer | `C` | `B/A+/C/D/E` | 忠誠、名譽 | 紅槍與黃槍的綁繩裝飾 | 費奧納傳說 |
+| 47 | **迦爾納** | Lancer | `B` | `B/A/C/B/D` | 名譽、憐憫 | 黃金鎧甲的一片甲鱗 | 摩訶婆羅多 |
+| 48 | **弗拉德三世** | Lancer | `A` | `B/E/A/A/D` | 忠誠、名譽 | 生鏽的木樁尖端 | 東歐史書 |
+| 49 | **伊莉莎白·巴托里** | Lancer | `B` | `C/E/D/A/B` | 野心、自由 | 破裂的手拿鏡 | 匈牙利紀錄 |
+| 50 | **恩奇都** | Lancer | `B` | `?/?/?/?/?` | 忠誠、憐憫 | 一把烏魯克城牆的泥土 | 吉爾伽美什史詩 |
+| 51 | **斯卡哈** | Lancer | `C` | `B/A/A/C/D` | 名譽、自由 | 掛在影之國大門上的紅布 | 阿爾斯特傳說 |
+| 52 | **羅慕路斯** | Lancer | `B` | `B/A/A/C/B` | 野心、憐憫 | 飲狼乳之孩童的銅鈴 | 羅馬建國神話 |
+| 53 | **布倫希爾德** | Lancer | `B` | `B+/A/A/C/E` | 憐憫、忠誠 | 從火焰之環中取出的戒指 | 北歐神話 |
+| 54 | **秦良玉** | Lancer | `D` | `C/A/B/D/A` | 忠誠、名譽 | 白欓槍的槍纓流蘇 | 明史 |
+| 55 | **芬恩·麥克庫爾** | Lancer | `C` | `B+/A+/B/C/C` | 自由、野心 | 智慧鮭魚的魚鱗 | 費奧納傳說 |
+| 56 | **梅杜莎** | Rider | `A` | `B/A/D/B/E` | 憐憫、忠誠 | 天馬佩加索斯的白羽 | 希臘神話 |
+| 57 | **法蘭西斯·德雷克** | Rider | `B` | `D/B/C/E/EX` | 自由、野心 | 刻有金鹿紋樣的船釘 | 大航海時代紀錄 |
+| 58 | **阿斯托爾福** | Rider | `C` | `D/B/D/C/A+` | 自由、憐憫 | 從月球帶回的玻璃瓶 | 瘋狂奧蘭多 |
+| 59 | **喬治亞斯** | Rider | `A` | `D/C++/A+/D/A+` | 名譽、憐憫 | 染有龍血的十字徽章 | 黃金傳說 |
+| 60 | **愛德華·蒂奇 (黑鬍子)** | Rider | `B` | `B+/E/A/D/C` | 野心、自由 | 曾插在鬍鬚上的一截導火線 | 海盜紀錄 |
+| 61 | **奧茲曼迪亞斯** | Rider | `A` | `C/B/C/A/A+` | 野心、名譽 | 刻有太陽紋樣的石板碎片 | 埃及史書 |
+| 62 | **女王梅芙** | Rider | `C` | `E/B/E/C/EX` | 野心、自由 | 裝有一塊起司的銀盒 | 阿爾斯特傳說 |
+| 63 | **牛若丸** | Rider | `B` | `D/A+/C/B/A` | 忠誠、野心 | 鞍馬山天狗的羽扇 | 平家物語 |
+| 64 | **伊凡雷帝** | Rider | `B` | `B+/D/A+/C/B` | 野心、名譽 | 黃金權杖的尖端飾件 | 俄羅斯史書 |
+| 65 | **奧德修斯** | Rider | `A` | `C/D/A+/B+/EX` | 忠誠、野心 | 特洛伊木馬的木片 | 奧德賽 |
+| 66 | **希波呂忒** | Rider | `C` | `B/A/B/C/D` | 名譽、自由 | 從軍神腰帶上掉落的金屬飾片 | 希臘神話 |
+| 67 | **吉爾·德·萊斯** | Caster | `C` | `D/D/E/C/E` | 野心、憐憫 | 被火燒焦的聖女旗幟絲線 | 法國紀錄 |
+| 68 | **玉藻前** | Caster | `C` | `E/B/E/A/D` | 憐憫、忠誠 | 以狐尾毛編織的護身符 | 日本傳承 |
+| 69 | **漢斯·克里斯蒂安·安徒生** | Caster | `A` | `E/E/E/EX/E` | 自由、憐憫 | 墨水暈開的一頁原稿 | 丹麥文學史 |
+| 70 | **威廉·莎士比亞** | Caster | `EX` | `E/D/E/C++/B` | 自由、野心 | 第一對開本撕裂的扉頁 | 英國文學史 |
+| 71 | **李奧納多·達文西** | Caster | `EX` | `E/C/E/A+/B` | 自由、憐憫 | 以鏡像文字書寫的一張便條 | 文藝復興美術史 |
+| 72 | **尼托克里絲** | Caster | `D` | `E/C/E/A/B+` | 名譽、忠誠 | 刻有冥界神祇的鏡子碎片 | 希羅多德歷史 |
+| 73 | **沃夫岡·阿瑪迪斯·莫札特** | Caster | `EX` | `D/B/E/B+/D` | 自由、憐憫 | 沾有墨漬的安魂曲樂譜 | 維也納音樂史 |
+| 74 | **玄奘三藏** | Caster | `A` | `E/B/D/A+/EX` | 憐憫、自由 | 一圈金箍 | 西遊記 |
+| 75 | **喀耳刻** | Caster | `B` | `E/D/B/A+/A` | 野心、憐憫 | 小豬造型的銀胸針 | 奧德賽 |
+| 76 | **阿維斯布隆** | Caster | `D` | `E/D/E/A/B` | 野心 | 刻有希伯來文字的泥板 | 中世紀猶太哲學 |
+| 77 | **法蘭索瓦·普雷拉蒂** | Caster | `D` | `E/C/D/A/B` | 自由、野心 | 畫有倒五芒星的卡片 | 法國紀錄 |
+| 78 | **佐佐木小次郎** | Assassin | `C` | `C/A+/E/E/A` | 自由、名譽 | 長刀「物干竿」的刀鐔 | 巖流島傳承 |
+| 79 | **咒腕哈桑** | Assassin | `D` | `B/A/C/C/E` | 忠誠、野心 | 纏繞右臂的繃帶布料 | 暗殺教團傳承 |
+| 80 | **百貌哈桑** | Assassin | `D` | `C/A/D/C/E` | 忠誠 | 白色骷髏面具的碎片 | 暗殺教團傳承 |
+| 81 | **靜謐哈桑** | Assassin | `D` | `D/A+/D/C/A` | 憐憫、忠誠 | 以毒草編織的髮帶 | 暗殺教團傳承 |
+| 82 | **山之翁 (王哈桑)** | Assassin | `B` | `B/B/A/E/E` | 名譽、忠誠 | 刻有晚鐘紋樣的黑鐵碎片 | 暗殺教團傳承 |
+| 83 | **賽米拉米斯** | Assassin | `C` | `E/D/D/A/A` | 野心 | 插著鴿羽的銀色毒藥瓶 | 亞述傳承 |
+| 84 | **開膛手傑克** | Assassin | `A` | `C/A/C/C/E` | 自由、憐憫 | 霧夜裡的報紙碎片 | 倫敦白教堂事件 |
+| 85 | **李書文** | Assassin | `D` | `C/A+/D/E/E` | 名譽、自由 | 槍頭磨損的大槍 | 八極拳傳承 |
+| 86 | **夏爾-亨利·桑松** | Assassin | `C` | `D/C/D/D/A` | 憐憫、名譽 | 斷頭台刀刃的鐵鏽碎片 | 法國大革命紀錄 |
+| 87 | **酒吞童子** | Assassin | `C` | `A/B/B/A+/D` | 自由、野心 | 紅色酒盞碎片 | 日本傳承 |
+| 88 | **弗蘭肯斯坦** | Berserker | `A` | `C/D/B/D/B` | 憐憫、自由 | 燒焦的一顆螺栓 | 科學怪人或現代普羅米修斯 |
+| 89 | **阿斯忒里翁** | Berserker | `B` | `A++/C/A++/D/E` | 憐憫、自由 | 迷宮牆壁的石塊碎片 | 希臘神話 |
+| 90 | **大流士三世** | Berserker | `C` | `A/B/A+/E/D` | 名譽、野心 | 不死軍團的槍尖 | 古波斯史書 |
+| 91 | **貝奧武夫** | Berserker | `B` | `A/C/A/D/A` | 名譽、自由 | 格倫戴爾的爪子 | 貝奧武夫 |
+| 92 | **坂田金時** | Berserker | `C` | `A+/B/B/C/C` | 忠誠、憐憫 | 金色巨斧的裝飾繩結 | 日本傳承 |
+| 93 | **源賴光** | Berserker | `C` | `A/D/B/A/C` | 憐憫、忠誠 | 雷電紋樣的弓弰 | 日本傳承 |
+| 94 | **茨木童子** | Berserker | `D` | `B/C/A+/C/B` | 自由、野心 | 曾包裹斷臂的絲綢 | 日本傳承 |
+| 95 | **彭忒西勒亞** | Berserker | `D` | `A+/C/B+/A/D` | 名譽、野心 | 亞馬遜女王折斷的長槍 | 希臘神話 |
+| 96 | **土方歲三** | Berserker | `C` | `C/C/C/E/D` | 忠誠、名譽 | 「誠」字軍旗的碎片 | 幕末紀錄 |
+| 97 | **卡利古拉** | Berserker | `A` | `A+/B+/B+/D+/D+` | 野心、憐憫 | 沐浴月光的金幣 | 羅馬史書 |
+| 98 | **黑森·羅伯** | Avenger | `C` | `A+/A+/B+/E/D` | 自由、野心 | 一撮灰狼毛髮 | 西頓動物記與斷頭谷 |
+| 99 | **平景清** | Avenger | `D` | `D/A+/A/B/B` | 野心 | 平家的紅旗碎片 | 平家物語 |
+| 100 | **安哥拉曼紐** | Avenger | `C` | `E/A/E/D/E+` | 自由、憐憫 | 印有紅色刺青的繃帶 | 瑣羅亞斯德教傳承 |
+| 101 | **貞德 [Alter]** | Avenger | `D` | `A/A/C/A+/E` | 野心、自由 | 燒成漆黑的旗幟布料 | 百年戰爭的陰影 |
+| 102 | **天草四郎** | Ruler | `C` | `C/B/C/A/B` | 憐憫、野心 | 刻有十字架的念珠 | 島原之亂紀錄 |
+| 103 | **夏洛克·福爾摩斯** | Ruler | `EX` | `D/B+/C/B/A++` | 自由、名譽 | 沾有菸斗菸灰的放大鏡 | 福爾摩斯系列 |
+| 104 | **凱妮絲** | Lancer | `C` | `A/A/B+/D/B` | 自由、野心 | 被海水沖刷的槍刃碎片 | 希臘神話 |
+| 105 | **唐吉訶德** | Lancer | `A` | `C/C/C/C/EX` | 名譽、憐憫 | 缺了一角的理髮師銅盆 | 唐吉訶德 |
+| 106 | **珀西瓦爾** | Lancer | `B` | `B/B/A/C/B` | 名譽、憐憫 | 目睹聖杯之騎士的銀酒杯 | 亞瑟王傳說 |
+| 107 | **長尾景虎** | Lancer | `B` | `C/C/D+/C+/A` | 名譽、自由 | 印有「毘」字的軍旗碎片 | 戰國時代紀錄 |
+| 108 | **摩根** | Berserker | `B` | `C/B/E/A+/B` | 野心、忠誠 | 結凍湖水的水滴結晶 | 亞瑟王傳說 |
+| 109 | **武田信玄** | Rider | `B` | `B+/B+/C+/C/C+` | 野心、忠誠 | 風林火山軍旗的一根絲線 | 戰國時代紀錄 |
+| 110 | **托勒密** | Archer | `C` | `B/C/A/A/A++` | 忠誠、憐憫 | 亞歷山大燈塔的石塊碎片 | 托勒密王朝紀錄 |
+| 111 | **克里姆希爾德** | Berserker | `C` | `C++/C/D/A/EX` | 忠誠、野心 | 留有血跡的菩提樹葉 | 尼伯龍根之歌 |
+| 112 | **所羅門** | Caster | `EX` | `E/E/B/A++/A++` | 憐憫、自由 | 第十枚戒指 | 舊約聖經列王紀 |
+| 113 | **芭萬·希** | Archer | `D` | `A/A/C/B/D` | 忠誠、野心 | 鞋跟磨損的一隻紅色高跟鞋 | 妖精國不列顛 |
+| 114 | **巴格斯特** | Saber | `D` | `B+/A/A/C/C` | 名譽、憐憫 | 被黑焰燻黑的獸角碎片 | 妖精國不列顛 |
+| 115 | **梅柳齊娜** | Lancer | `C` | `C/B/A+/A+/B` | 忠誠、憐憫 | 閃耀虹光的一片龍鱗 | 妖精國不列顛 |
+| 116 | **千子村正** | Saber | `C` | `B/D/A/E/B` | 名譽、憐憫 | 村正一派鍛造的一把短刀 | 伊勢桑名刀匠紀錄 |
+| 117 | **伊絲塔** | Archer | `B` | `B/B/B/EX/A` | 野心、自由 | 曾奉納於烏魯克神殿的青金石項鍊 | 美索不達米亞神話 |
+| 118 | **艾蕾什基伽爾** | Lancer | `C` | `A/D/B/B/B` | 名譽、憐憫 | 刻有冥界七道門的泥板 | 美索不達米亞神話 |
+| 119 | **蘭陵王** | Saber | `C` | `B/A+/B/D/D` | 忠誠、名譽 | 出現裂痕的鬼面面具碎片 | 北齊書 |
+| 120 | **哈貝特洛特** | Rider | `D` | `E/B/D/C/A+` | 憐憫、自由 | 小巧的紡車與一束金線 | 妖精國不列顛 |
+| 121 | **魁札爾·科亞特爾** | Rider | `B` | `B/B+/B/EX/A+` | 憐憫、自由 | 刻有羽蛇圖騰的石雕碎片 | 阿茲特克神話 |
+| 122 | **迦摩** | Assassin | `C` | `D/B/B+/A+/B` | 自由、野心 | 以甘蔗莖製成的弓 | 印度神話 |
+| 123 | **示巴女王** | Caster | `A` | `D/D/C/A/A` | 野心、自由 | 曾裝著香料與黃金的舊木盒 | 列王紀與衣索比亞傳承 |
+| 124 | **阿斯克勒庇俄斯** | Caster | `B` | `D/B/D/A/D` | 憐憫、名譽 | 盤繞著蛇的木杖 | 希臘神話 |
+| 125 | **君士坦丁十一世** | Rider | `C` | `C/C/A/D/C` | 名譽、忠誠 | 狄奧多西城牆的石塊碎片 | 拜占庭帝國紀錄 |
+| 126 | **呼延灼** | Assassin | `D` | `C+/A/C/D/D` | 野心、忠誠 | 竹節形狀的一對鐵鞭 | 水滸傳 |
+| 127 | **莉莉絲** | Berserker | `A` | `D+/B/B+/A+/B` | 自由、野心 | 黑色貓頭鷹的羽毛 | 美索不達米亞與猶太傳承 |
+| 128 | **遊翼哈桑** | Assassin | `D` | `D/C/C/D/E` | 自由、憐憫 | 熄滅的破舊影燈籠 | 暗殺教團傳承 |
+| 129 | **無名 Assassin** | Assassin | `E` | `C/A/B/C/D` | 名譽、憐憫 | 出現裂痕的骷髏面具碎片 | 暗殺教團傳承 |
+| 130 | **BB** | Moon Cancer | `E` | `C/C/C/A++/EX` | 自由、忠誠 | 尾端褪色的一根紅緞帶 *(註：滿月無催化劑劫持/羈絆召喚)* | 月之聖杯 Moon Cell |
+| 131 | **Meltryllis (梅爾特莉莉絲)** | Alter Ego | `E` | `E/A+/C/A/B` | 自由、野心 | 鞋尖磨得鋒利的一隻銀色芭蕾舞鞋 *(註：滿月劫持/羈絆召喚)* | BB 的 Alter Ego 紀錄 |
+| 132 | **Passionlip (帕森莉普)** | Alter Ego | `E` | `A+/C/A/B/E` | 忠誠、憐憫 | 留有深深爪痕的小巧音樂盒 *(註：滿月劫持/羈絆召喚)* | BB 的 Alter Ego 紀錄 |
+| 133 | **鈴鹿御前** | Saber | `D` | `D/A/D/A/B` | 自由、憐憫 | 當作手機吊飾的一截紅色刀繩 | 鈴鹿山傳承 |
+| 134 | **玉藻貓** | Berserker | `D` | `B+/A/E/A/B` | 忠誠、憐憫 | 留有爪痕的一隻巨大貓掌手套 | 日本傳承 |
+| 135 | **衛宮 [Alter]** | Archer | `E` | `C/D/B/B/E` | 自由、野心 | 附刃手槍退出的空彈殼 *(註：黑聖杯/特殊事件解鎖)* | 慘遭貶落的執行者 |
+
+*(※ 註：第 136 位隱藏規格外角色為 **Beast Ⅲ/R「殺生院祈荒」**，五圍 `C/B/EX/EX/A`、寶具 `快樂天・胎藏曼荼羅 (EX)`，於 Beast 危機劇本中作為最終 Boss 降臨，正常遊戲中不開放聖遺物召喚。)*
+
+</div>
+
+---
+
+## 八、 非同步連線「派出的組（第 8 組亂入者）」配對與戰力計算公式
+
+當你贏得聖杯戰爭且從者存活時，可在結算畫面或往生紀錄中將隊伍派往其他玩家的聖杯戰爭（每位玩家最多可在伺服器上同時維持 **`30 組`** 現役隊伍）：
+1. **時空配對規則**：你的隊伍只會出現在**「比你的戰爭年份晚 `1 ～ 40 年`、且發生在『不同城市』」**的其他玩家聖杯戰爭中（其他玩家在召喚時有 **15% 機率** 抽中第 8 組亂入）。由於大多數玩家遊玩預設的現代局（戰爭年份約落在 `1995 ～ 2035 年`），在 **`1995 ～ 2000 年`** 左右獲勝的隊伍擁有最高的配對覆蓋率。
+2. **派出的御主戰力 (`pw`) 公式**（最低 58，最高封頂 **88**）：
+   <div class="formula-box">派出御主戰力 pw = clamp( 58 ~ 88, 四捨五入(56 + 迴路等級×4 + 擊殺數×3 + 信賴度×0.08) )</div>
+   *(只要是 A 級迴路 (5)、信賴度 100，且親手擊殺滿 2 組以上敵人，派出去的御主戰力即可達到滿值 **`88` 點**！)*
+3. **派出的 AI 戰術性格 (`ghTac`)**：
+   * 該場戰爭親手擊殺 **>= 3 組** ➔ 成為 **`Hunter`（主動獵殺型 AI）**，在別人世界裡每晚積極主動出擊！
+   * 擊殺 < 3 組但信賴度 **>= 70** ➔ 成為 **`Defensive`（防守型 AI）**。
+   * 擊殺 1 ~ 2 組且信賴度 < 70 ➔ 成為 **`Proud`（自傲型 AI）**。
+4. **老手記憶壓制 (`know` / `gEdge`) 與 v2.03 魔眼繼承**：
+   * 你在該場戰爭中「看穿真名 (`+5`)、看穿寶具 (`+3`)、親手擊殺 (`+2`)」過的從者會被記錄在隊伍記憶中。若其他玩家召喚出你曾殺過的從者，你的分身會說出專屬台詞並獲得最高 **`+10` 戰鬥力優勢**！
+   * **v2.03 更新**：派出的御主現在會將**已覺醒的魔眼（等級 1~4 與控制度 0~2）**以及**剩餘令咒（最高支援至 9 劃）**一併帶入其他玩家的世界中！
+
+---
+> 📌 **攻略整理與數據解析**：[**@AirInMyMind**](https://x.com/AirInMyMind)  
+> 📌 **特別感謝遊戲開發者**：[**@cupnight_**](https://x.com/cupnight_) 製作出如此優秀且細節豐富的型月同人作品！
+</script>
+
+<!-- =========================================================
+     ⚙️ 網站核心驅動腳本：Markdown 渲染 + 自動生成 TOC 目錄 + 聖遺物搜尋 + 6國語言自動翻譯
+     ========================================================= -->
+<script>
+// 1. 渲染 Markdown 並自動包裝所有表格為手機可橫向滑動的容器
+(function renderApp() {
+    var mdText = document.getElementById('md-source').textContent;
+    var contentArea = document.getElementById('content-area');
+    contentArea.innerHTML = marked.parse(mdText);
+
+    // 為所有表格套上響應式滾動容器 .table-wrap
+    contentArea.querySelectorAll('table').forEach(function(tbl) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'table-wrap';
+        tbl.parentNode.insertBefore(wrapper, tbl);
+        wrapper.appendChild(tbl);
+    });
+
+    // 自動生成左側章節導覽 (TOC)
+    var tocList = document.getElementById('toc-list');
+    var headings = contentArea.querySelectorAll('h2, h3');
+    headings.forEach(function(h, idx) {
+        var id = 'section-' + idx;
+        h.id = id;
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + id;
+        a.textContent = h.textContent;
+        if (h.tagName === 'H3') a.className = 'toc-h3';
+        a.onclick = function() {
+            document.getElementById('sidebar-toc').classList.remove('mobile-open');
+        };
+        li.appendChild(a);
+        tocList.appendChild(li);
+    });
+})();
+
+// 2. 手機版目錄開關
+function toggleMobileToc() {
+    document.getElementById('sidebar-toc').classList.toggle('mobile-open');
+}
+
+// 3. 全 135 名從者聖遺物即時搜尋過濾器
+function filterRelicTable() {
+    var input = document.getElementById('relic-search');
+    if (!input) return;
+    var q = input.value.trim().toLowerCase();
+    var box = document.getElementById('relic-table-box');
+    if (!box) return;
+    var rows = box.querySelectorAll('tbody tr');
+    var shown = 0;
+    rows.forEach(function(r) {
+        var txt = r.textContent.toLowerCase();
+        if (!q || txt.includes(q)) {
+            r.style.display = '';
+            shown++;
+        } else {
+            r.style.display = 'none';
+        }
+    });
+    var cnt = document.getElementById('relic-count');
+    if (cnt) cnt.textContent = '顯示 ' + shown + ' / ' + rows.length + ' 名從者';
+}
+
+// 4. 啟動 GitHub 開源 translate.js v3 智慧多語系引擎 (免跳轉、原頁無刷新翻譯 + 自動匹配系統預設語言)
+function changeLanguage(langName) {
+    document.querySelectorAll('.lang-btn').forEach(function(b) { b.classList.remove('active'); });
+    var btn = document.getElementById('lang-' + langName);
+    if (btn) btn.classList.add('active');
+    if (typeof translate !== 'undefined') {
+        translate.changeLanguage(langName);
+    }
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    if (typeof translate !== 'undefined') {
+        // 設定原文為繁體中文
+        translate.language.setLocal('chinese_traditional');
+        // 使用高速客戶端通道 v2
+        translate.service.use('client.edge');
+        // 保護特定代碼與職階不被誤翻
+        translate.ignore.tag.push('code');
+        translate.ignore.class.push('notranslate');
+        // 自動偵測使用者系統預設語言並直接切換！
+        var sys = (navigator.language || navigator.userLanguage || 'zh-TW').toLowerCase();
+        var defaultLang = 'chinese_traditional';
+        if (sys.startsWith('zh-cn') || sys.startsWith('zh-hans') || sys === 'zh') defaultLang = 'chinese_simplified';
+        else if (sys.startsWith('ko')) defaultLang = 'korean';
+        else if (sys.startsWith('ja')) defaultLang = 'japanese';
+        else if (sys.startsWith('ru')) defaultLang = 'russian';
+        else if (sys.startsWith('en')) defaultLang = 'english';
+
+        translate.execute();
+
+        // 若使用者尚未手動選過語言，且系統語言非繁中，自動切換為使用者系統語言
+        var savedLang = translate.language.getCurrent();
+        var activeLang = savedLang || defaultLang;
+        document.querySelectorAll('.lang-btn').forEach(function(b) { b.classList.remove('active'); });
+        var activeBtn = document.getElementById('lang-' + activeLang);
+        if (activeBtn) activeBtn.classList.add('active');
+        if (!savedLang && defaultLang !== 'chinese_traditional') {
+            setTimeout(function() { translate.changeLanguage(defaultLang); }, 300);
+        }
+    }
+});
+</script>
+</body>
+</html>
