@@ -1,1040 +1,558 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>《聖杯盈滿之夜》v2.03 終極數據攻略 | The Night the Grail Fills Guide</title>
-    <meta name="description" content="基於 v2.03 底層機制拆解的完整數據攻略。涵蓋7大出身家世、魔術迴路機率、魔眼寶石級突破、21種魔術/武術硬性屬性門檻、從者五圍真實權重、知名度修正公式與全135從者聖遺物搜尋器。撰寫 by @AirInMyMind">
-    <!-- Open Graph / X (Twitter) 精美預覽卡片設定 -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="🏆《聖杯盈滿之夜》v2.03 終極數據攻略：全機率、隱藏公式與頂配養成指南">
-    <meta property="og:description" content="全機率拆解、魔眼寶石級突破、21種魔術/武術隱藏屬性門檻、v2.03知名度公式與全135從者聖遺物即時搜尋辭典。by @AirInMyMind">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:creator" content="@AirInMyMind">
-    <meta name="twitter:title" content="🏆《聖杯盈滿之夜》v2.03 終極數據攻略 | The Night the Grail Fills">
-    <meta name="twitter:description" content="7大出身與魔術迴路機率、魔眼晉升寶石級條件、21種魔術/武術隱藏門檻、v2.03知名度公式與全135從者聖遺物辭典。">
-
-    <!-- 引入 GitHub 開源 Markdown 渲染引擎 Marked.js -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- 引入 GitHub 開源前端多語系自動翻譯引擎 translate.js -->
-    <script src="https://cdn.staticfile.net/translate.js/3.2.1/translate.js"></script>
-
-    <style>
-        /* =========================================================
-           《聖杯盈滿之夜》官方星空黑金質感 UI + 電腦/手機 RWD 響應式架構
-           ========================================================= */
-        :root {
-            --bg-deep: #080b12;
-            --bg-main: #0d121f;
-            --bg-card: #141b2d;
-            --bg-card-alt: #182138;
-            --bg-header: #1f2947;
-            --gold-light: #ffe596;
-            --gold-primary: #e6c15c;
-            --gold-dark: #8c6f2d;
-            --gold-border: rgba(230, 193, 92, 0.35);
-            --gold-glow: rgba(230, 193, 92, 0.25);
-            --text-main: #ece6d8;
-            --text-muted: #a8a090;
-            --accent-blue: #6bc5ff;
-            --accent-coral: #ff9d76;
-            --accent-green: #6be6a2;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-deep);
-            background-image: 
-                radial-gradient(circle at 20% 10%, rgba(45, 65, 120, 0.25) 0%, transparent 50%),
-                radial-gradient(circle at 80% 0%, rgba(180, 140, 50, 0.12) 0%, transparent 45%),
-                linear-gradient(180deg, #0b101d 0%, #080b12 100%);
-            background-attachment: fixed;
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Noto Sans SC", "Noto Sans KR", "Noto Sans JP", "Microsoft JhengHei", sans-serif;
-            line-height: 1.75;
-            font-size: 16px;
-        }
-
-        /* 頂部玻璃擬態懸浮導航與 6 國語言切換列 */
-        .top-navbar {
-            position: sticky;
-            top: 0;
-            z-index: 9999;
-            background: rgba(11, 15, 26, 0.88);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--gold-border);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .brand-title {
-            color: var(--gold-light);
-            font-weight: 800;
-            font-size: 1.05rem;
-            letter-spacing: 0.04em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-
-        .lang-switcher {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .lang-label {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-right: 4px;
-        }
-
-        .lang-btn {
-            background: rgba(28, 38, 66, 0.85);
-            color: var(--text-main);
-            border: 1px solid rgba(230, 193, 92, 0.3);
-            border-radius: 6px;
-            padding: 5px 11px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .lang-btn:hover, .lang-btn.active {
-            background: linear-gradient(135deg, #473716, #785d22);
-            color: var(--gold-light);
-            border-color: var(--gold-light);
-            box-shadow: 0 0 12px var(--gold-glow);
-            transform: translateY(-1px);
-        }
-
-        /* 電腦版雙欄佈局 (左側懸浮目錄 + 右側主內容) */
-        .layout-container {
-            max-width: 1380px;
-            margin: 0 auto;
-            display: flex;
-            align-items: flex-start;
-            gap: 28px;
-            padding: 28px 24px 80px;
-        }
-
-        /* 左側懸浮目錄 (Desktop Sticky Sidebar) */
-        .sidebar-toc {
-            width: 280px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 76px;
-            max-height: calc(100vh - 96px);
-            overflow-y: auto;
-            background: rgba(18, 24, 41, 0.85);
-            border: 1px solid var(--gold-border);
-            border-radius: 12px;
-            padding: 18px 16px;
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
-        }
-
-        .sidebar-toc::-webkit-scrollbar {
-            width: 5px;
-        }
-        .sidebar-toc::-webkit-scrollbar-thumb {
-            background: var(--gold-dark);
-            border-radius: 3px;
-        }
-
-        .toc-header {
-            color: var(--gold-light);
-            font-weight: 800;
-            font-size: 0.98rem;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--gold-border);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .toc-list li {
-            margin-bottom: 6px;
-        }
-
-        .toc-list a {
-            display: block;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.86rem;
-            padding: 5px 8px;
-            border-radius: 6px;
-            transition: all 0.2s;
-            line-height: 1.4;
-        }
-
-        .toc-list a:hover {
-            color: var(--gold-light);
-            background: rgba(230, 193, 92, 0.1);
-            padding-left: 12px;
-        }
-
-        .toc-list .toc-h3 {
-            padding-left: 20px;
-            font-size: 0.81rem;
-            opacity: 0.85;
-        }
-
-        /* 主內容區 */
-        .main-content {
-            flex: 1;
-            min-width: 0;
-            background: rgba(16, 22, 38, 0.78);
-            border: 1px solid var(--gold-border);
-            border-radius: 14px;
-            padding: 36px 42px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
-        }
-
-        /* 標題與排版美術 */
-        .main-content h1 {
-            text-align: center;
-            color: var(--gold-light);
-            font-size: 2.2rem;
-            margin-top: 0;
-            margin-bottom: 8px;
-            text-shadow: 0 0 22px var(--gold-glow);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            margin-bottom: 26px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--gold-border);
-        }
-
-        .main-content h2 {
-            color: var(--gold-light);
-            font-size: 1.45rem;
-            margin-top: 2.2em;
-            margin-bottom: 0.9em;
-            padding: 8px 14px;
-            border-left: 4px solid var(--gold-primary);
-            background: linear-gradient(90deg, rgba(230, 193, 92, 0.12) 0%, transparent 100%);
-            border-radius: 0 8px 8px 0;
-        }
-
-        .main-content h3 {
-            color: #ffd875;
-            font-size: 1.18rem;
-            margin-top: 1.6em;
-            margin-bottom: 0.7em;
-            border-bottom: 1px dashed rgba(230, 193, 92, 0.25);
-            padding-bottom: 6px;
-        }
-
-        .main-content h4 {
-            color: var(--accent-blue);
-            font-size: 1.05rem;
-            margin-top: 1.3em;
-            margin-bottom: 0.5em;
-        }
-
-        .main-content a {
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .main-content a:hover {
-            color: var(--gold-light);
-            text-decoration: underline;
-        }
-
-        .main-content code {
-            background: #212c47;
-            color: var(--accent-coral);
-            padding: 2px 6px;
-            border-radius: 4px;
-            border: 1px solid #35466e;
-            font-family: "JetBrains Mono", Consolas, monospace;
-            font-size: 0.9em;
-        }
-
-        /* 資訊卡片盒 */
-        .info-box {
-            background: linear-gradient(135deg, rgba(26, 36, 64, 0.92), rgba(18, 25, 44, 0.95));
-            border: 1px solid var(--gold-primary);
-            border-left: 5px solid var(--gold-light);
-            border-radius: 10px;
-            padding: 16px 22px;
-            margin: 20px 0;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .warn-box {
-            background: linear-gradient(135deg, rgba(55, 28, 36, 0.9), rgba(32, 18, 26, 0.95));
-            border: 1px solid #d96b43;
-            border-left: 5px solid #ff9d76;
-            border-radius: 10px;
-            padding: 16px 22px;
-            margin: 20px 0;
-        }
-
-        .formula-box {
-            background: #101626;
-            border: 1px solid #3c4d7a;
-            border-radius: 8px;
-            padding: 14px 18px;
-            margin: 14px 0;
-            text-align: center;
-            font-weight: 700;
-            color: var(--gold-light);
-            font-size: 1.05rem;
-            overflow-x: auto;
-        }
-
-        /* 表格外層彈性滑動容器 (完美解決手機端表格排版) */
-        .table-wrap {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin: 18px 0;
-            border-radius: 8px;
-            border: 1px solid var(--gold-border);
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--bg-card);
-            font-size: 0.94rem;
-        }
-
-        th {
-            background: var(--bg-header);
-            color: var(--gold-light);
-            font-weight: 700;
-            padding: 12px 14px;
-            border-bottom: 2px solid var(--gold-dark);
-            border-right: 1px solid #2e3b5e;
-            white-space: nowrap;
-            text-align: left;
-        }
-
-        td {
-            padding: 10px 14px;
-            border-bottom: 1px solid #232e4a;
-            border-right: 1px solid #232e4a;
-            color: var(--text-main);
-        }
-
-        tr:nth-child(even) td {
-            background: var(--bg-card-alt);
-        }
-
-        tr:hover td {
-            background: rgba(230, 193, 92, 0.08);
-        }
-
-        /* 🔍 全 135 從者聖遺物即時搜尋框 */
-        .search-container {
-            margin: 18px 0 12px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-            background: #161f36;
-            padding: 12px 16px;
-            border-radius: 10px;
-            border: 1px solid var(--gold-primary);
-        }
-
-        .search-input {
-            flex: 1;
-            min-width: 220px;
-            padding: 10px 14px;
-            border-radius: 6px;
-            border: 1px solid #4a5c8c;
-            background: #0c111e;
-            color: #fff;
-            font-size: 0.95rem;
-            outline: none;
-        }
-        .search-input:focus {
-            border-color: var(--gold-light);
-            box-shadow: 0 0 10px var(--gold-glow);
-        }
-
-        .search-count {
-            color: var(--gold-light);
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-
-        /* 手機版懸浮目錄按鈕 */
-        .mobile-toc-btn {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9998;
-            background: linear-gradient(135deg, #634f21, #9c7b32);
-            color: #fff;
-            border: 1px solid var(--gold-light);
-            border-radius: 50px;
-            padding: 10px 18px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
-            cursor: pointer;
-        }
-
-        /* 📱 手機與平板響應式設計 (<= 960px) */
-        @media (max-width: 960px) {
-            .layout-container {
-                flex-direction: column;
-                padding: 14px 10px 70px;
-            }
-            .sidebar-toc {
-                display: none;
-                position: fixed;
-                top: auto;
-                bottom: 75px;
-                right: 16px;
-                left: 16px;
-                width: auto;
-                max-height: 65vh;
-                z-index: 9997;
-                background: rgba(14, 19, 34, 0.98);
-                border: 2px solid var(--gold-primary);
-            }
-            .sidebar-toc.mobile-open {
-                display: block;
-            }
-            .mobile-toc-btn {
-                display: block;
-            }
-            .main-content {
-                width: 100%;
-                padding: 20px 14px;
-            }
-            .main-content h1 {
-                font-size: 1.55rem;
-            }
-            .main-content h2 {
-                font-size: 1.22rem;
-            }
-            .top-navbar {
-                padding: 8px 12px;
-                justify-content: center;
-            }
-            .brand-title {
-                width: 100%;
-                justify-content: center;
-                font-size: 0.95rem;
-            }
-            th, td {
-                padding: 8px 10px;
-                font-size: 0.86rem;
-                white-space: nowrap;
-            }
-        }
-
-        /* 隱藏預設翻譯工具列 */
-        #translate { display: none !important; }
-        .skiptranslate iframe, .goog-te-banner-frame { display: none !important; }
-        body { top: 0 !important; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>《聖杯盈滿之夜》v2.03 終極數據攻略 | The Night the Grail Fills Guide</title>
+<meta name="description" content="基於 v2.03 底層機制拆解的完整數據攻略。涵蓋7大出身家世、魔術迴路機率、魔眼寶石級突破、21種魔術/武術硬性屬性門檻、從者五圍真實權重、知名度修正公式與全135從者聖遺物搜尋器。撰寫 by @AirInMyMind">
+<style>
+:root {
+  --bg-deep:#080b12; --bg-card:#131a2c; --bg-alt:#172036; --bg-th:#1e2946;
+  --gold:#f3d47c; --gold-b:rgba(243,212,124,0.35); --text:#ece6d8; --muted:#a8a090;
+  --blue:#6bc5ff; --coral:#ff9d76;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; padding:0; background:var(--bg-deep);
+  background-image:radial-gradient(circle at 50% 0%,#1a2542 0%,#080b12 75%);
+  background-attachment:fixed; color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Noto Sans SC","Noto Sans KR","Noto Sans JP","Microsoft JhengHei",sans-serif;
+  line-height:1.75; top:0!important;
+}
+.top-nav{
+  position:sticky; top:0; z-index:9999; background:rgba(10,14,24,0.92);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--gold-b);
+  padding:10px 20px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.7);
+}
+.brand{color:var(--gold); font-weight:800; font-size:1.05rem; text-decoration:none}
+.lang-bar{display:flex; flex-wrap:wrap; align-items:center; gap:6px}
+.lang-btn{
+  background:#1b243d; color:var(--text); border:1px solid var(--gold-b);
+  border-radius:6px; padding:5px 11px; font-size:0.82rem; font-weight:600; cursor:pointer; transition:.2s;
+}
+.lang-btn:hover,.lang-btn.active{
+  background:linear-gradient(135deg,#4a3916,#7d6022); color:#fff; border-color:var(--gold);
+  box-shadow:0 0 12px rgba(243,212,124,0.3);
+}
+.wrap{max-width:1360px; margin:0 auto; display:flex; align-items:flex-start; gap:26px; padding:26px 20px 80px}
+.toc{
+  width:270px; flex-shrink:0; position:sticky; top:74px; max-height:calc(100vh - 94px);
+  overflow-y:auto; background:rgba(18,24,41,0.9); border:1px solid var(--gold-b);
+  border-radius:12px; padding:16px;
+}
+.toc-title{color:var(--gold); font-weight:800; border-bottom:1px solid var(--gold-b); padding-bottom:8px; margin-bottom:10px}
+.toc a{display:block; color:var(--muted); text-decoration:none; font-size:0.86rem; padding:5px 8px; border-radius:6px; transition:.2s}
+.toc a:hover{color:var(--gold); background:rgba(243,212,124,0.1)}
+.main{flex:1; min-width:0; background:rgba(16,22,38,0.85); border:1px solid var(--gold-b); border-radius:14px; padding:34px 38px; box-shadow:0 12px 40px rgba(0,0,0,0.65)}
+h1{text-align:center; color:var(--gold); font-size:2.1rem; margin:0 0 8px; text-shadow:0 0 18px rgba(243,212,124,0.28)}
+.sub{text-align:center; color:var(--muted); margin-bottom:24px; padding-bottom:18px; border-bottom:1px solid var(--gold-b)}
+h2{color:var(--gold); font-size:1.4rem; margin:2em 0 0.8em; padding:7px 14px; border-left:4px solid var(--gold); background:linear-gradient(90deg,rgba(243,212,124,0.12),transparent); border-radius:0 8px 8px 0}
+h3{color:#ffd875; font-size:1.15rem; margin:1.5em 0 0.6em; border-bottom:1px dashed var(--gold-b); padding-bottom:5px}
+a{color:var(--blue); text-decoration:none; font-weight:600}
+a:hover{color:var(--gold); text-decoration:underline}
+code{background:#212c47; color:var(--coral); padding:2px 6px; border-radius:4px; border:1px solid #35466e; font-family:Consolas,monospace; font-size:0.9em}
+.box-info,.box-warn{border-radius:10px; padding:15px 20px; margin:18px 0}
+.box-info{background:rgba(24,34,60,0.9); border:1px solid var(--gold); border-left:5px solid var(--gold)}
+.box-warn{background:rgba(52,26,34,0.9); border:1px solid #d96b43; border-left:5px solid var(--coral)}
+.formula{background:#0f1524; border:1px solid #3c4d7a; border-radius:8px; padding:12px 16px; margin:12px 0; text-align:center; font-weight:700; color:var(--gold); overflow-x:auto}
+.tbl-wrap{width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; margin:16px 0; border-radius:8px; border:1px solid var(--gold-b)}
+table{width:100%; border-collapse:collapse; background:var(--bg-card); font-size:0.93rem}
+th{background:var(--bg-th); color:var(--gold); font-weight:700; padding:11px 13px; border-bottom:2px solid #8c6f2d; border-right:1px solid #2b3859; white-space:nowrap; text-align:left}
+td{padding:9px 13px; border-bottom:1px solid #222d47; border-right:1px solid #222d47}
+tr:nth-child(even) td{background:var(--bg-alt)}
+tr:hover td{background:rgba(243,212,124,0.08)}
+.search-bar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#161f36; padding:12px 16px; border-radius:10px; border:1px solid var(--gold); margin:16px 0 10px}
+.search-in{flex:1; min-width:210px; padding:9px 13px; border-radius:6px; border:1px solid #4a5c8c; background:#0b101d; color:#fff; font-size:0.95rem; outline:none}
+.search-in:focus{border-color:var(--gold)}
+.mob-btn{display:none; position:fixed; bottom:18px; right:18px; z-index:9998; background:linear-gradient(135deg,#634f21,#9c7b32); color:#fff; border:1px solid var(--gold); border-radius:50px; padding:10px 18px; font-weight:700; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.8)}
+@media (max-width:960px){
+  .wrap{flex-direction:column; padding:12px 10px 70px}
+  .toc{display:none; position:fixed; bottom:72px; left:14px; right:14px; top:auto; width:auto; max-height:62vh; z-index:9997; background:rgba(13,18,32,0.98); border:2px solid var(--gold)}
+  .toc.open{display:block}
+  .mob-btn{display:block}
+  .main{width:100%; padding:18px 13px}
+  h1{font-size:1.5rem} h2{font-size:1.2rem}
+  th,td{padding:8px 10px; font-size:0.85rem; white-space:nowrap}
+}
+.goog-te-banner-frame,.skiptranslate,#google_translate_element{display:none!important}
+font{background:transparent!important; box-shadow:none!important}
+</style>
 </head>
 <body>
 
-    <!-- 🌐 頂部懸浮導航與 6 國語言無刷新即時切換器 -->
-    <nav class="top-navbar" translate="no">
-        <a href="#" class="brand-title">🏆 《聖杯盈滿之夜》v2.03 終極數據攻略</a>
-        <div class="lang-switcher">
-            <span class="lang-label">🌐 Language:</span>
-            <button class="lang-btn active" onclick="changeLanguage('chinese_traditional')" id="lang-chinese_traditional">繁體中文</button>
-            <button class="lang-btn" onclick="changeLanguage('chinese_simplified')" id="lang-chinese_simplified">简体中文</button>
-            <button class="lang-btn" onclick="changeLanguage('korean')" id="lang-korean">한국어</button>
-            <button class="lang-btn" onclick="changeLanguage('japanese')" id="lang-japanese">日本語</button>
-            <button class="lang-btn" onclick="changeLanguage('english')" id="lang-english">English</button>
-            <button class="lang-btn" onclick="changeLanguage('russian')" id="lang-russian">Русский</button>
-        </div>
-    </nav>
+<nav class="top-nav" translate="no">
+  <a href="#" class="brand">🏆 《聖杯盈滿之夜》v2.03 終極數據攻略</a>
+  <div class="lang-bar">
+    <span style="color:var(--muted);font-size:0.84rem;">🌐 Language:</span>
+    <button class="lang-btn active" onclick="setLang('zh-TW')" id="btn-zh-TW">繁體中文</button>
+    <button class="lang-btn" onclick="setLang('zh-CN')" id="btn-zh-CN">简体中文</button>
+    <button class="lang-btn" onclick="setLang('ko')" id="btn-ko">한국어</button>
+    <button class="lang-btn" onclick="setLang('ja')" id="btn-ja">日本語</button>
+    <button class="lang-btn" onclick="setLang('en')" id="btn-en">English</button>
+    <button class="lang-btn" onclick="setLang('ru')" id="btn-ru">Русский</button>
+  </div>
+</nav>
+<div id="google_translate_element"></div>
+<button class="mob-btn" onclick="document.getElementById('toc').classList.toggle('open')" translate="no">📑 章節導覽</button>
 
-    <!-- 📱 手機版右下角懸浮目錄按鈕 -->
-    <button class="mobile-toc-btn" onclick="toggleMobileToc()" translate="no">📑 章節導覽</button>
+<div class="wrap">
+  <aside class="toc" id="toc">
+    <div class="toc-title">📑 攻略章節導覽</div>
+    <a href="#s1" onclick="closeToc()">一、7大出身與魔術迴路機率</a>
+    <a href="#s2" onclick="closeToc()">二、先天異能與魔眼寶石級突破</a>
+    <a href="#s3" onclick="closeToc()">三、成長公式與 104 歲壽命大限</a>
+    <a href="#s4" onclick="closeToc()">四、21種魔術/武術硬性屬性門檻</a>
+    <a href="#s5" onclick="closeToc()">五、戰鬥公式、知名度與T0從者榜</a>
+    <a href="#s6" onclick="closeToc()">六、全魔術與全體術無敵養成SOP</a>
+    <a href="#s7" onclick="closeToc()">七、召喚機率與135從者聖遺物辭典</a>
+    <a href="#s8" onclick="closeToc()">八、非同步連線「派出的組」公式</a>
+  </aside>
 
-    <div class="layout-container">
-        <!-- 左側自動生成的懸浮章節導覽列 -->
-        <aside class="sidebar-toc" id="sidebar-toc">
-            <div class="toc-header">📑 攻略章節導覽 (TOC)</div>
-            <ul class="toc-list" id="toc-list"></ul>
-        </aside>
+  <main class="main" id="guide-body">
+    <h1>🏆 《聖杯盈滿之夜》v2.03 終極數據攻略</h1>
+    <div class="sub">全機率、隱藏公式與頂配養成指南 (<span translate="no">The Night the Grail Fills / 성배가 차는 밤</span>)</div>
 
-        <!-- 右側攻略主體渲染區 -->
-        <main class="main-content" id="content-area">
-            正在載入攻略數據...
-        </main>
+    <div class="box-info">
+      <ul style="margin:0;padding-left:20px;">
+        <li>🎮 <strong>遊戲遊玩網址</strong>：<a href="https://holygrailwargame.cupnight.workers.dev/" target="_blank">https://holygrailwargame.cupnight.workers.dev/</a> <em>(支援：繁體中文、简体中文、한국어、日本語、English、Русский)</em></li>
+        <li>🎨 <strong>遊戲原作者 X (Twitter)</strong>：<a href="https://x.com/cupnight_" target="_blank" translate="no">@cupnight_ (Holy Grail War game)</a></li>
+        <li>✍️ <strong>本攻略作者 X (Twitter)</strong>：<a href="https://x.com/AirInMyMind" target="_blank" translate="no">@AirInMyMind (AirInMyMind)</a> <em>(若有疑問或發現新彩蛋，歡迎至 X 交流分享！)</em></li>
+        <li>📅 <strong>適用版本</strong>：<code>v2.03</code> (2026.11.25 更新：包含最新「知名度修正」、「四維情報系統」、「全 135 從者聖遺物即時搜尋器」與「NPC 魔眼機制」)</li>
+        <li>🌐 <strong>多語系與手機適配</strong>：本網頁會自動偵測您的系統預設語言，您亦可隨時點擊頂部按鈕一鍵無刷新切換 6 國語言！手機用戶可左右滑動表格查看完整數據。</li>
+      </ul>
     </div>
 
-<!-- =========================================================
-     📝 攻略 Markdown 原始碼區 (以後想改文字，直接改這裡的 Markdown 即可！)
-     ========================================================= -->
-<script type="text/markdown" id="md-source">
-# 🏆 《聖杯盈滿之夜》v2.03 終極數據攻略
-<div class="subtitle">全機率、隱藏公式與頂配養成指南 (<span class="notranslate" translate="no">The Night the Grail Fills / 성배가 차는 밤</span>)</div>
+    <h2 id="s1">一、 投胎首抽：7 大出身家世、魔術迴路與魔力上限公式</h2>
+    <p>每次點擊「降生」時，系統會先按權重（總和剛好為 100%）抽出你的<strong>「出身家世」</strong>，再從該家世允許的<strong>「魔術迴路區間」</strong>中等機率抽取一個整數等級。</p>
 
-<div class="info-box">
+    <h3>1. 七大出身家世機率與天賦總表</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>出身家世</th><th>出現機率</th><th>魔術迴路範圍</th><th>初始財富</th><th>家傳主修技能池 (出生自帶 Lv.1)</th><th>特殊隱藏加成</th></tr></thead>
+        <tbody>
+          <tr><td><strong>平凡的家庭</strong></td><td><strong>34%</strong></td><td translate="no"><strong>E ～ C</strong> (1~3)</td><td>25 ～ 65</td><td>無 <em>(未覺醒前不可選「修煉」)</em></td><td>武術觸發率 <code>×1.2</code></td></tr>
+          <tr><td><strong>沒落的魔術家門</strong></td><td><strong>18%</strong></td><td translate="no"><strong>D ～ B</strong> (2~4)</td><td>15 ～ 40</td><td>元素、詛咒、鍊金、使魔 (4選1)</td><td>詛咒觸發率 <code>×1.5</code></td></tr>
+          <tr><td><strong>河畔育幼院 (孤兒)</strong></td><td><strong>14%</strong></td><td translate="no"><strong>E ～ B</strong> (1~4)</td><td>5 ～ 20</td><td>無</td><td><strong>天生自帶「復仇者 Avenger」相性 +1</strong>；武術 <code>×1.2</code></td></tr>
+          <tr><td><strong>名門魔術家門的長子</strong></td><td><strong>10%</strong></td><td translate="no"><strong>C ～ A</strong> (3~5)</td><td>60 ～ 85</td><td>元素、寶石、盧恩、結界、降靈、人偶、占星 (7選1)</td><td><strong>可繼承 300 年魔術刻印</strong>；全魔術觸發率 <code>×1.5</code></td></tr>
+          <tr><td><strong>名門魔術家門的次子</strong></td><td><strong>10%</strong></td><td translate="no"><strong>C ～ A</strong> (3~5)</td><td>55 ～ 80</td><td>同名門長子 (7選1)</td><td><strong>100% 必定有兄弟姊妹</strong>；無刻印；全魔術 <code>×1.5</code></td></tr>
+          <tr><td><strong>聖堂教會神父的家門</strong></td><td><strong>8%</strong></td><td translate="no"><strong>D ～ C</strong> (2~3)</td><td>35 ～ 55</td><td><strong>洗禮詠唱</strong> (100% 固定)</td><td><strong>天生自帶「Ruler 裁定者」相性 +1</strong>；治癒/武術 <code>×1.5</code></td></tr>
+          <tr><td><strong>退魔家門</strong></td><td><strong>6%</strong></td><td translate="no"><strong>E ～ C</strong> (1~3)</td><td>30 ～ 55</td><td><strong>退魔體術</strong> (100% 固定)</td><td><strong>唯一能抽中「魔之血」的家世</strong>；全武術觸發率 <code>×2.0</code></td></tr>
+        </tbody>
+      </table>
+    </div>
 
-* 🎮 **遊戲遊玩網址**：[https://holygrailwargame.cupnight.workers.dev/](https://holygrailwargame.cupnight.workers.dev/) *(支援：繁體中文、简体中文、한국어、日本語、English、Русский)*
-* 🎨 **遊戲原作者 X (Twitter)**：[**@cupnight_** (Holy Grail War game)](https://x.com/cupnight_)
-* ✍️ **本攻略作者 X (Twitter)**：[**@AirInMyMind** (AirInMyMind)](https://x.com/AirInMyMind) *(若有疑問或發現新彩蛋，歡迎至 X 交流分享！)*
-* 📅 **適用版本**：`v2.03` (2026.11.25 更新：包含最新「知名度修正」、「四維情報系統」、「全 135 從者聖遺物即時搜尋器」與「NPC 魔眼機制」)
-* 🌐 **智慧多語系支援**：本網站已自動偵測您的系統預設語言，您亦可隨時點擊頂部導航列一鍵無刷新切換 6 國語言！手機用戶可左右滑動表格查看完整數據。
+    <h3>2. 全服魔術迴路等級期望機率與魔力上限公式</h3>
+    <p>御主天生沒有 EX 級迴路，最高即為 <strong>A 級（內部數值 5）</strong>。<br>
+    • <strong>0 歲初始魔力公式</strong> = <code>迴路等級 × 7 + 隨機(0~8)</code><br>
+    • <strong>魔力最大值上限 (manaCap)</strong> = <code>40 + 迴路等級 × 12</code></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>迴路等級</th><th>內部數值</th><th>綜合抽中機率</th><th>魔力最高上限</th><th>系統評語與重要技能門檻</th></tr></thead>
+        <tbody>
+          <tr><td translate="no"><strong>A 級</strong></td><td><code>5</code></td><td><strong>6.67% (1/15)</strong></td><td><strong>100</strong></td><td><em>「非常罕見的資質」</em>（<strong>僅限名門長子/次子可抽出！</strong> 滿足 Lv.4 秘傳魔術門檻）</td></tr>
+          <tr><td translate="no"><strong>B 級</strong></td><td><code>4</code></td><td><strong>16.17%</strong></td><td><strong>88</strong></td><td><em>「非常罕見的資質」</em>（滿足 Lv.4 秘傳魔術門檻）</td></tr>
+          <tr><td translate="no"><strong>C 級</strong></td><td><code>3</code></td><td><strong>30.50%</strong></td><td><strong>76</strong></td><td><em>「堪用的資質」</em>（<strong>所有魔術要升上 Lv.3 高位的最低硬門檻！</strong>）</td></tr>
+          <tr><td translate="no"><strong>D 級</strong></td><td><code>2</code></td><td><strong>26.83%</strong></td><td><strong>64</strong></td><td><em>「常見的資質」</em>（所有魔術終生卡在 Lv.2 熟練，無法升上 Lv.3）</td></tr>
+          <tr><td translate="no"><strong>E 級</strong></td><td><code>1</code></td><td><strong>18.83%</strong></td><td><strong>52</strong></td><td><em>「幾乎等同沒有」</em>（所有魔術終生卡在 Lv.2 熟練）</td></tr>
+        </tbody>
+      </table>
+    </div>
 
+    <h2 id="s2">二、 先天異能與魔眼系統：機率、18 歲覺醒死線與寶石級突破</h2>
+    <h3>1. 出生自帶魔眼 / 異能種子的真實機率</h3>
+    <p>出生時系統會以 <strong><code>3%</code> 為基礎機率</strong> 乘上家世倍率，決定你體內是否帶有異能種子（剛出生時為未覺醒狀態，面板不可見）：</p>
+    <ul>
+      <li><strong>退魔家門（倍率 4x）</strong>：<strong><code>12.0%</code></strong>（唯一能抽中專屬被動<strong>「魔之血」</strong>的出身，且權重極高！）</li>
+      <li><strong>河畔育幼院（倍率 2x）</strong>：<strong><code>6.0%</code></strong></li>
+      <li><strong>名門長子 / 次子 / 沒落 / 教會（倍率 1.5x）</strong>：<strong><code>4.5%</code></strong></li>
+      <li><strong>平凡家庭（倍率 1x）</strong>：<strong><code>3.0%</code></strong></li>
+    </ul>
+
+    <h3>2. 覺醒死線（6 ～ 18 歲）與「喪親爆種機制」</h3>
+    <div class="box-warn">
+      <ul style="margin:0;padding-left:20px;">
+        <li><strong>硬性年齡限制</strong>：魔眼只能在 <strong><code>6 歲 ～ 18 歲</code>（且聖杯戰爭尚未爆發前）</strong> 觸發覺醒！若跨入 19～20 歲仍未跳出覺醒事件，代表這局沒有抽中種子（或屬於約 12% 抽中種子但連續 13 年未骰過的非酋情況），想刷魔眼的玩家可在 19 歲直接重開。</li>
+        <li><strong>🔥 喪親爆種機制</strong>：6～18 歲期間，每年基礎覺醒率為 <strong><code>15%</code></strong>。<strong>但若當年剛好發生「親人過世」事件，當年的魔眼覺醒機率會直接暴增 3 倍變為 <code>45%</code>！</strong></li>
+      </ul>
+    </div>
+
+    <h3>3. 魔眼威力公式與「30% 晉升寶石級」秘訣</h3>
+    <p>魔眼分為 4 個等級（<strong>下級 <code>1.0x</code>、中級 <code>2.5x</code>、上級 <code>4.0x</code>、寶石級 <code>6.0x</code></strong>）與 3 段控制度（<strong>無法控制 <code>0.7x</code>、控制普通 <code>1.0x</code>、控制純熟 <code>1.3x</code></strong>）：</p>
+    <div class="formula">魔眼最終威力倍率 = 等級倍率 × 控制度倍率 （最高為寶石級：6.0 × 1.3 = 7.8 倍！）</div>
+    <ul>
+      <li><strong>控制度修煉</strong>：覺醒後至 50 歲前，每年有 <strong>15%</strong> 機率觸發修煉事件。若有魔術師/師父、教會（花 5 財富）、退魔家門背景，可 <strong>100% 安全提升 1 階控制度</strong>；普通人選「獨自硬撐」只有 <strong>50% 成功率</strong>（失敗扣 5 健康）。</li>
+      <li><strong>💎 晉升寶石級</strong>：當控制度修煉到最高階（<strong>第 2 階：控制純熟</strong>）的那一瞬間，若魔眼尚未達到寶石級，系統會立刻進行一次 <strong><code>30%</code> 機率</strong> 的判定——骰過即可直接將魔眼提升一個階級（最高直接進化為 <strong><code>寶石級魔眼</code></strong>）！</li>
+    </ul>
+
+    <h3>4. 全 10 種魔眼與異能實戰效果一覽</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>魔眼 / 異能名稱</th><th>從者戰主動支援效果</th><th>御主決鬥 (Master 對決) 加成位置與特殊效果</th></tr></thead>
+        <tbody>
+          <tr><td><strong>拘束之魔眼 (<code>bind</code>)</strong></td><td>單回合綁住敵方御主，降低敵方戰鬥力</td><td><strong>【全招式通用 <code>all: 3</code>】</strong> 不論出攻/防/擾皆 100% 觸發加成（寶石級 <code>+23.4</code> 戰力），<strong>且獲勝時額外強制扣敵方御主 5 點健康！</strong></td></tr>
+          <tr><td><strong>強制之魔眼 (<code>compel</code>)</strong></td><td><strong>連續 3 回合操縱敵方御主</strong> <em>(一場決鬥限1次，額外耗8健康)</em></td><td>出<strong>「擾亂 (<code>trk</code>)」</strong>時觸發高額加成（寶石級 <code>+39.0</code> 戰力），<strong>且獲勝時額外強制扣敵方御主 5 點健康！</strong></td></tr>
+          <tr><td><strong>未來視之魔眼 (<code>future</code>)</strong></td><td><strong>連續 3 回合大幅減少所受傷害</strong> <em>(一場決鬥限1次)</em></td><td><strong>【全招式通用 <code>all: 2</code>】</strong> 不論出何招式皆 100% 觸發（寶石級 <code>+15.6</code> 戰力）。</td></tr>
+          <tr><td><strong>石化之魔眼 (<code>stone</code>)</strong></td><td><strong>連續 3 回合石化敵方從者</strong> <em>(敵方對魔力越高效果越弱)</em></td><td>決鬥專用主動技（一場決鬥限1次）。</td></tr>
+          <tr><td><strong>焰之魔眼 (<code>flame</code>)</strong></td><td>單回合使敵方戰鬥力大幅下降</td><td>出<strong>「攻擊 (<code>atk</code>)」</strong>時觸發高額加成（寶石級 <code>+39.0</code> 戰力）。</td></tr>
+          <tr><td><strong>凶兆之魔眼 (<code>jinx</code>)</strong></td><td>為敵方刻下凶兆標記，<strong>每層標記使敵方戰力永久 -5</strong></td><td>出<strong>「攻擊 (<code>atk</code>)」</strong>時觸發加成（寶石級 <code>+31.2</code> 戰力）。</td></tr>
+          <tr><td><strong>魅惑之魔眼 (<code>charm</code>)</strong></td><td>單回合使敵方御主猶豫，降低敵方戰鬥力</td><td>出<strong>「擾亂 (<code>trk</code>)」</strong>時觸發加成（寶石級 <code>+31.2</code> 戰力）。</td></tr>
+          <tr><td><strong>念動 (<code>telek</code>)</strong></td><td>單回合減少我方受到的傷害</td><td>出<strong>「防禦 (<code>def</code>)」</strong>時觸發加成（寶石級 <code>+23.4</code> 戰力）。</td></tr>
+          <tr><td><strong>過去視之魔眼 (<code>past</code>)</strong></td><td><strong>【被動常駐】</strong> 進入戰鬥瞬間自動看穿敵方組別的情報</td><td>無主動消耗，開戰自動獲取大量情報。</td></tr>
+          <tr><td><strong>魔之血 (<code>blood</code>)</strong></td><td><strong>【被動常駐】</strong> <em>(僅限退魔家門可抽中)</em></td><td>御主決鬥使用肉搏三招（<strong>正面衝鋒 / 隱藏身形 / 突襲破綻</strong>）時獲得巨幅加成（寶石級 <strong><code>+62.4</code> 戰力</strong>）！</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="s3">三、 成長與壽命機制：年度目標公式與 104 歲大限</h2>
+    <ol>
+      <li><strong>聖杯戰爭爆發年齡</strong>：出生時即隨機決定在 <strong><code>17 歲 ～ 36 歲</code></strong> 之間的某一年爆發。</li>
+      <li><strong>年齡成長率衰減 (<code>youth</code>)</strong>：<strong><code>6 ～ 25 歲</code></strong> 屬性成長 <strong><code>× 1.2 倍</code></strong>（黃金養成期）｜ <strong><code>26 ～ 45 歲</code></strong> <code>× 1.0 倍</code> ｜ <strong><code>46 ～ 65 歲</code></strong> <code>× 0.75 倍</code> ｜ <strong><code>66 歲以上</code></strong> <code>× 0.5 倍</code>。</li>
+      <li><strong>修煉 (<code>train</code>) 加魔力公式</strong>：
+        <div class="formula">每年魔力增加 = 隨機(2~5) × 年齡倍率 × (0.6 + 迴路等級 × 0.15) × (有魔術家世或師父 ? 1.0 : 0.7)</div>
+        <em>(⚠️ 注意：13 歲後選「修煉」，每年會固定增加 <code>0.15%</code> 的「魔術實驗事故」意外猝死率！)</em>
+      </li>
+      <li><strong>自然死亡率與 <code>104 歲</code> 硬性壽命極限</strong>：40 歲起每年扣減健康；55 歲起魔力 &gt; 30 者每年自然流失 0～2 點魔力。自然死亡率公式含有 <code>exp((50 - 健康) / 16)</code>，將健康維持在 <strong>100</strong> 時，自然死亡率會縮小為 <strong><code>0.044 倍</code>（降低 95.6% 死亡率）</strong>！程式碼中寫死 <code>S.age &gt;= 104</code> 強制觸發往生，故人類角色的最高壽命極限為 <strong><code>104 歲</code></strong>。</li>
+    </ol>
+
+    <h2 id="s4">四、 魔術與武術技能樹：硬性屬性門檻與「2 年 100% 保底升級」機制</h2>
+    <h3>1. 欄位上限與各階升級硬門檻</h3>
+    <ul>
+      <li><strong>技能槽位上限</strong>：一生最多只能習得 <strong><code>3 門魔術系技能</code></strong> ＋ <strong><code>2 門武術/教會系技能</code></strong>！（一旦學滿槽位，就不會再觸發新技能入門，因此不想要的流派請務必選「現在先放著」跳過）。</li>
+      <li><strong>Lv.1（入門）</strong>：魔術需 6～30 歲；武術/教會需 8～35 歲（代行者體術需滿 14 歲、槍械需滿 16 歲）。當年度目標選<strong>「身體 (<code>body</code>)」</strong>時，武術入門觸發率會直接<strong>暴增 4 倍</strong>！</li>
+      <li><strong>Lv.2（熟練）硬門檻</strong>：距離入門滿 2 年、年齡 &lt;= 50 歲，且<strong>該技能對應的檢定屬性必須 &gt;= 40</strong>！</li>
+      <li><strong>Lv.3（高位）硬門檻</strong>：距離熟練滿 3 年、<strong>對應檢定屬性必須 &gt;= 60</strong>，且若是魔術系技能，<strong>天生的魔術迴路必須至少為 <code>C 級 (3)</code> 以上</strong>！</li>
+      <li><strong>Lv.4（秘傳）硬門檻</strong>：全遊戲僅 <strong>元素魔術、結界魔術、詛咒</strong> 三門可達 Lv.4 秘傳！必須年滿 <strong>25 歲</strong>、該魔術必須是你的<strong>「本系主修 (<code>main</code>)」</strong>，且<strong>魔術迴路達 <code>B 級 (4)</code> 以上（或持有家族魔術刻印）</strong>！</li>
+    </ul>
+
+    <h3>2. 「經驗值 (<code>xp</code>) 累積」與「2 年 100% 保底突破規則」</h3>
+    <p>各階所需經驗值門檻為：<strong>升 Lv.2 需 <code>8 xp</code></strong>、<strong>升 Lv.3 需 <code>20 xp</code></strong>、<strong>升 Lv.4 需 <code>40 xp</code></strong>。<br>
+    • 年度目標選 <strong>「修煉」</strong>：本系主修魔術每年 <strong><code>+3 xp</code></strong>（若有魔術師父 <strong><code>×1.4 倍</code> = +4 xp</strong>，若有魔術刻印再 <strong><code>+1 xp</code> = 每年 +5 xp</strong>！）；副修魔術每年輪流 <strong><code>+1 xp</code></strong>。<br>
+    • 年度目標選 <strong>「身體」</strong>：已學會的武術每年 <strong><code>+2 xp</code></strong>。<br>
+    • <strong>🔥 保底突破機制</strong>：當某技能的 <code>xp</code> 練滿達標後，升級事件觸發率立刻 <strong><code>× 3 倍</code></strong>；<strong>若達標後過了 2 年仍未骰中升級事件，第 2 年的觸發率會強制變為 <code>100%</code> 必定升級</strong>！<br>
+    • <strong>🔥 為什麼升級時一定要手動選「深入鑽研」？</strong> 選第一個選項「深入鑽研」（代價僅扣 3 健康、2 人際）會賦予該技能 <strong><code>1.2 倍（高品質）</code></strong> 的永久乘算倍率！在 Lv.3/Lv.4 時，支援威力會從 2.0 倍提升為 <strong><code>2.4 倍</code></strong>！</p>
+
+    <h3>3. 全 21 種技能「對應檢定屬性」與實戰效果速查表</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>必須拉到 40 / 60 的檢定屬性</th><th>綁定該屬性的技能流派</th><th>核心實戰效果與特殊解鎖</th></tr></thead>
+        <tbody>
+          <tr><td><strong>🔵 魔力 (<code>mana</code>)</strong><br><em>(選「修煉」提升)</em></td><td>• <strong>元素魔術</strong> <em>(可達 Lv.4)</em><br>• <strong>寶石魔術</strong> <em>(最高 Lv.3)</em></td><td>• <strong>元素</strong>：強化魔術支援；御主單挑「魔術攻擊」最高傷害加成。<br>• <strong>寶石</strong>：強化魔術；戰鬥中可消耗財富「投擲寶石」爆發。</td></tr>
+          <tr><td><strong>🟣 精神 (<code>will</code>)</strong><br><em>(選「心靈」提升)</em></td><td>• <strong>結界魔術</strong> <em>(可達 Lv.4)</em><br>• <strong>詛咒</strong> <em>(可達 Lv.4)</em><br>• <strong>精神干涉 / 降靈術</strong><br>• <strong>洗禮詠唱</strong> <em>(教會)</em><br>• <strong>劍術 / 暗手</strong> <em>(武術)</em></td><td>• <strong>結界</strong>：掩護結界減傷；單挑「魔術防禦」加成；拆敵方據點結界有利。<br>• <strong>詛咒</strong>：妨礙魔術；單挑「魔術擾亂」最高加成（升 Lv.3 增加殘酷傾向）。<br>• <strong>精神干涉</strong>：可無代價消除目擊者記憶降暴露度！<br>• <strong>降靈術</strong>：開戰自動偷聽敵方情報；<strong>Lv.2 死靈看家 100% 免疫夜襲奇襲</strong>！<br>• <strong>洗禮詠唱</strong>：對復仇者、黑影、死徒威力 <strong>2 倍</strong>！</td></tr>
+          <tr><td><strong>🟢 知識 (<code>lore</code>)</strong><br><em>(選「學習」提升)</em></td><td>• <strong>占星術 / 鍊金術</strong><br>• <strong>盧恩魔術 / 治癒魔術</strong><br>• <strong>人偶術</strong> <em>(皆最高 Lv.3)</em></td><td>• <strong>占星術（T0神技）</strong>：<strong>Lv.1 御主單挑直接看穿敵方出招</strong>；<strong>Lv.2 群星預警 100% 免疫夜襲奇襲</strong>！<br>• <strong>鍊金術</strong>：應急治癒（Lv.3 每場可用 2 次）；<strong>Lv.3 自動免費獲得「人造人」當使魔</strong>！<br>• <strong>盧恩魔術</strong>：一門同時解鎖「掩護結界」與「應急治癒（Lv.3 可用 2 次）」！<br>• <strong>人偶術</strong>：掩護結界；<strong>Lv.2 遭暗殺時可發動「替身人偶」免死一次</strong>！</td></tr>
+          <tr><td><strong>🔴 健康 (<code>health</code>)</strong><br><em>(選「身體」提升)</em></td><td>• <strong>強化魔術</strong> <em>(魔術槽)</em><br>• <strong>槍械・近接制壓</strong><br>• <strong>八極拳 / 退魔體術</strong><br>• <strong>黑鍵 / 代行者體術</strong></td><td>• <strong>強化魔術</strong>：唯一看「健康」的魔術！<strong>若兼修武術，御主單挑肉搏威力額外加成</strong>！<br>• <strong>槍械制壓</strong>：現代武器每場戰爭可用 <strong>2 次</strong>，且大幅提升對魔術師的特攻倍率！<br>• <strong>八極 / 退魔 / 代行者</strong>：解鎖肉搏支援、遭遇暗殺時肉身反擊、單挑專屬必殺技。</td></tr>
+          <tr><td><strong>🟡 人際 (<code>bond</code>)</strong><br><em>(選「人際」提升)</em></td><td>• <strong>使魔魔術</strong> <em>(最高 Lv.3)</em></td><td>• <strong>使魔</strong>：獲得烏鴉或貓（白天偵查/夜晚看門）；Lv.2 偵查情報量 ×1.5 倍（但被抓會扣 5 健康）；<strong>Lv.3 使魔被抓包機率直接減半（×0.5）</strong>！</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="s5">五、 聖杯戰爭戰鬥公式：五圍權重、技能疊加與 v2.03 知名度修正</h2>
+    <h3>1. 從者五圍面板的真實權重公式 (<code>heroBase</code>)</h3>
+    <p>遊戲中五圍等級換算分數為：<strong><code>E=1, D=2, C=3, B=4, A=5, EX=6</code></strong>，每多一個 <code>+</code> 號額外 <strong><code>+0.4</code></strong>（因此 <strong><code>A+++ (6.2)</code></strong> 在數值上比 <strong><code>EX (6.0)</code></strong> 還高 0.2 分！）。</p>
+    <div class="formula">基礎戰力 = [ 78 + 筋力×1.7 + (敏捷 + 耐久 + 魔力)×1.4 + 幸運×1.9 ] × (0.55 + 0.45 × 當前HP / 100)</div>
+    <ul>
+      <li><strong>核心細節 1：「幸運 (<code>×1.9</code>)」是全五圍中加基礎戰力權重最高的屬性</strong>，其次是「筋力 (<code>×1.7</code>)」！</li>
+      <li><strong>核心細節 2（傷勢懲罰與令咒無視傷勢）</strong>：從者扣血會導致基礎戰力下降（殘血時最低跌至 55%）；<strong>但使用「令咒強化」或 Berserker「狂化爆發」的回合，會強制以 <code>100% 滿血</code> 計算最高戰力</strong>！</li>
+    </ul>
+
+    <h3>2. 職階隱藏面板倍率與從者技能疊加公式 (<code>clsBonus</code> &amp; <code>SV</code>)</h3>
+    <ul>
+      <li><strong>職階倍率</strong>：<strong>Caster</strong> 常駐 <code>+魔力×1.2</code>（自家工房防守未破再 <code>+12</code>）｜ <strong>Assassin</strong> 常駐 <code>+敏捷×1.0</code> ｜ <strong>Archer</strong> 前 2 回合無條件 <code>+7</code> 射程優勢 ｜ <strong>魔術師型 Berserker（僅限摩根、克里姆希爾德）</strong> 獨享 <code>+魔力×2.0</code>！</li>
+      <li><strong>技能無上限全疊加</strong>：<strong>攻擊強化類 (<code>power</code>)</strong> 每回合 <code>+總分×1.2</code> ｜ <strong>戰前削弱類 (<code>sabotage</code>)</strong> 扣對手 <code>總分×1.1</code> ｜ <strong>預知洞察類 (<code>insight</code>)</strong> 第 2 回合起 <code>+總分×0.9</code>（若直感/啟示/千里眼達 A 級以上，可自動預知並減免對手未知寶具傷害！）｜ <strong>神性/狂化/統率/進攻騎乘</strong> <code>+總分×0.8</code> ｜ <strong>對魔力 (<code>mr</code>)</strong> 砍對手寶具 <code>總分×2.2</code>、對魔術攻擊扣 <code>總分×1.2</code> ｜ <strong>迴避類 (<code>evade</code>)</strong> 每分提供 <code>3.5%</code> 獨立減傷（封頂 <code>35%</code>）｜ <strong>復仇者 (<code>avenge</code>)</strong> <code>+(100-HP)×0.045×總分</code>。</li>
+    </ul>
+
+    <h3>3. v2.03 新增：「知名度修正 (<code>FAME</code>)」與綜合實戰 T0 從者排行榜</h3>
+    <p>知名度常駐戰力加成公式為 <code>11 × (知名度分數/100)^1.5</code>：<strong><code>EX 級</code> 常駐 <code>+11.00</code> 戰力</strong>、<strong><code>A 級</code> <code>+7.87</code></strong>、<strong><code>B 級</code> <code>+5.11</code></strong>、<strong><code>C 級</code> <code>+2.78</code></strong>、<strong><code>D 級</code> <code>+0.98</code></strong>、<strong><code>E 級</code> <code>+0.00</code></strong>。但知名度 B 以上放寶具會立即暴露真名，且 EX 知名度被敵人掌握情報時受到的針對懲罰倍率高達 <code>×1.7 倍</code>（D/E 級僅 <code>×0.58 ~ ×0.3 倍</code>）。</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>排名</th><th>從者名稱 (職階)</th><th>知名度</th><th>綜合常駐戰力 (含知名度)</th><th>核心機制與強勢點分析</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1</strong></td><td><strong>所羅門 (Caster)</strong></td><td><code>EX</code> (+11.0)</td><td><strong><code>148.0</code></strong></td><td><strong>v2.03 常駐戰力斷檔第一！</strong> 魔力 EX 吃滿 Caster 1.2倍加成、召喚術 EX (+7.2)、所羅門戒指 EX (-6.6 敵戰力)、千里眼 EX (預知閃避敵寶具)。<em>(註：寶具 Ars Nova 為同歸於盡技，平砍與魔術即無敵)</em></td></tr>
+          <tr><td><strong>2</strong></td><td><strong>吉爾伽美什 (Archer)</strong></td><td><code>A</code> (+7.9)</td><td><strong><code>142.1</code></strong> <em>(前兩合 <strong><code>149.1</code></strong>)</em></td><td>開局前兩回合吃滿 Archer 射程 (<code>+7</code>)、王之財寶專屬被動 (<code>+7</code>，半血以下認真模式再 <code>+5</code> = <strong><code>154.1</code></strong>)！物理輸出天花板。</td></tr>
+          <tr><td><strong>3</strong></td><td><strong>貞德 [Alter] (Avenger)</strong></td><td><code>D</code> (+1.0)</td><td><strong><code>139.4</code></strong> <em>(殘血破 <strong><code>155+</code></strong>)</em></td><td>三重高階 <code>power</code> 技能疊加（技能加分 <code>+31.2</code> 全服第一）＋ 復仇者殘血暴走 ＋ <strong>D 知名度放寶具不暴露真名、極少受情報懲罰</strong>！</td></tr>
+          <tr><td><strong>4</strong></td><td><strong>赫拉克勒斯 (Berserker)</strong></td><td><code>EX</code> (+11.0)</td><td><strong><code>139.2</code></strong> <em>(狂化 <strong><code>151.2</code></strong>)</em></td><td>五圍面板總分頂點 (115.8) ＋ EX 知名度 (<code>+11</code>) ＋ 狂化突破 (<code>+12</code> 且無視傷勢) ＋ <strong>戰鬥續行 A (倒下時原地復活一次)</strong>！</td></tr>
+          <tr><td><strong>5</strong></td><td><strong>魁札爾·科亞特爾 (Rider)</strong></td><td><code>B</code> (+5.1)</td><td><strong><code>139.0</code></strong></td><td>3 個 EX 技能 ＋ 3 個 A+ 技能、對魔力 A (砍敵寶具 -11 威力) 與極高續航力。</td></tr>
+          <tr><td><strong>6</strong></td><td><strong>阿爾托莉雅 (Saber)</strong></td><td><code>EX</code> (+11.0)</td><td><strong><code>138.4</code></strong></td><td>EX 知名度 (<code>+11</code>) ＋ 對魔力 A ＋ 直感 A (自動預知閃避敵方寶具) ＋ 魔力放出爆發。</td></tr>
+          <tr><td><strong>7</strong></td><td><strong>克里姆希爾德 (Berserker)</strong></td><td><code>C</code> (+2.8)</td><td><strong><code>137.8</code></strong></td><td>獨享 <code>MAGE_BERSERK</code>（魔力 ×2.0 戰力加成）＋ <code>EDGE</code> 殘血反殺加成 ＋ 高續航。</td></tr>
+          <tr><td><strong>8</strong></td><td><strong>黑森·羅伯 (Avenger)</strong></td><td><code>C</code> (+2.8)</td><td><strong><code>139.5</code></strong></td><td>技能加分高達 <code>+30.6</code>（全服前三）＋ 復仇者殘血加成。</td></tr>
+          <tr><td><strong>9</strong></td><td><strong>平景清 (Avenger)</strong></td><td><code>D</code> (+1.0)</td><td><strong><code>135.0</code></strong></td><td>自帶 <code>14%</code> 獨立迴避 ＋ 戰鬥續行原地復活 ＋ 復仇者殘血暴走 ＋ D 知名度低懲罰。</td></tr>
+          <tr><td><strong>10</strong></td><td><strong>始皇帝 (Ruler)</strong></td><td><code>EX</code> (+11.0)</td><td><strong><code>134.5+</code></strong></td><td>Ruler 職階真名看穿與裁定特權 ＋ EX 知名度 (<code>+11</code>) ＋ 永世帝位專屬常駐 <code>+6</code> 戰力。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="s6">六、 兩套「無敵畢業流派」養成 SOP</h2>
+    <h3>🔮 流派一：【全魔術・根源神代流】</h3>
+    <ul>
+      <li><strong>首抽目標</strong>：<strong>名門魔術家門長子</strong>（自帶 300 年魔術刻印）＋ <strong>魔術迴路 A 級 (或 B 級)</strong> ＋ 家傳主修 <strong>【元素魔術】或【結界魔術】</strong>。</li>
+      <li><strong>3 大魔術槽配置</strong>：1. 主修<strong>【元素魔術】(衝 Lv.4 秘傳)</strong> 主力輸出；2. 副修<strong>【占星術】(Lv.3)</strong> 御主單挑 100% 看穿出招＋群星預警 100% 防夜襲；3. 副修<strong>【鍊金術】(Lv.3)</strong> 每場 2 次應急治癒＋免費贈送「人造人」使魔盯梢開圖！</li>
+      <li><strong>養成時間軸</strong>：6～14 歲年度目標全選 <strong>「學習」</strong> 把<strong>知識衝到 60</strong>（解鎖占星與鍊金 Lv.3 門檻）➔ 15 歲起全程切回 <strong>「修煉」</strong> 把<strong>魔力衝到 90~100</strong>（讓從者五圍全升一階）並灌滿技能 <code>xp</code> 觸發 2 年保底升級！</li>
+    </ul>
+
+    <h3>🥊 流派二：【全體術・魔術師殺手流（手撕從者與御主）】</h3>
+    <ul>
+      <li><strong>首抽目標</strong>：<strong>退魔家門</strong>（12% 機率抽中<strong>「魔之血」</strong>，且全武術觸發率 ×2 倍）＋ <strong>魔術迴路 C 級</strong>。</li>
+      <li><strong>技能槽配置（2 武術 ＋ 1 魔術）</strong>：1. 武術<strong>【退魔體術】(Lv.2 滿) 或【八極拳】(Lv.3)</strong>；2. 武術<strong>【槍械・近接制壓】(16歲解鎖，Lv.3)</strong> 現代槍械可用 2 次，無視猜拳相剋特攻秒殺魔術師；3. 魔術<strong>【強化魔術】(Lv.3)</strong> 唯一檢定「健康」的魔術，大幅強化肉搏單挑威力！</li>
+      <li><strong>養成時間軸</strong>：全程主選 <strong>「身體」</strong>（使武術入門率變 4 倍並穩定 +2 xp，把<strong>健康衝到 90~100</strong>），穿插幾年 <strong>「心靈」</strong> 把<strong>精神拉到 60</strong>。</li>
+    </ul>
+
+    <h2 id="s7">七、 從者召喚與聖遺物機制：獲取途徑、滿月劫持與 全 135 從者聖遺物大辭典</h2>
+    <h3>1. 聖遺物獲取與 4 大召喚判定順位</h3>
+    <ul>
+      <li><strong>聖遺物規則</strong>：上限 <code>3 件</code>；<strong>圖鑑中尚未契約過的從者，其聖遺物與相性召喚出現權重自動 <code>× 2 倍</code></strong>！在聖杯戰爭爆發前一年（<code>warAge - 1</code> 歲）若聖遺物未滿 3 件，必定觸發一次保底獲取事件。<em>(注意：若未設羈絆召喚且身上剛好只有 1 件聖遺物，召喚時會自動放入該聖遺物；持有 2~3 件或有設羈絆召喚時才可自由選擇)。</em></li>
+      <li><strong>第 1 順位【羈絆召喚】</strong>：依首頁設定的過往契約從者成功率判定（最高 100%）。</li>
+      <li><strong>第 2 順位【放入聖遺物 ＆ 聖遺物碎裂機制】</strong>：當你的「復仇」與「正義」隱藏傾向皆 <code>&lt; 5</code> 時，放哪件聖遺物就 <strong>100% 必出該從者</strong>！但若復仇或正義傾向 <strong><code>&gt;= 5</code></strong>，即使放了聖遺物也有 <code>pSp × 50% (15.75% ~ 30%)</code> 機率發生<strong>「聖遺物無聲碎裂」</strong>，強行歪出 <strong>Avenger</strong> 或 <strong>Ruler</strong>！</li>
+      <li><strong>第 3 順位【滿月之夜 BB / Alter Ego 強制劫持】</strong>：每局召喚夜有 <strong><code>12.5% (1/8)</code></strong> 機率為「滿月之夜」。在滿月且<strong>不放聖遺物</strong>時，有 <strong><code>2.5%</code></strong> 機率（若前世達成月之約定則為 <strong><code>5.0%</code></strong>）被月光改寫魔法陣，強制召喚出 <strong><code>Moon Cancer：BB</code></strong>（若已達成過「去往月亮的杯」結局，則有 1/3 機率召出 <strong>Meltryllis</strong> 或 <strong>Passionlip</strong>，且 v2.03 起 BB 會加入首頁羈絆召喚列表！）。</li>
+      <li><strong>第 4 順位【特殊職階亂入 ＆ 常規相性召喚】</strong>：不放聖遺物時，先以 <code>pSp = min(60%, 1.5% + 6% × max(復仇, 正義))</code> 機率判定是否抽出 Avenger / Ruler；若未觸發，則按 <code>exp(性格契合度 / 8) × 未契約加權(2倍)</code> 抽出相性最契合的常規從者！（此外，敵方 6 組 NPC 有 <code>12%</code> 機率出現 Extra 特殊職階）。</li>
+    </ul>
+
+    <h3>2. 📖 全 135 名從者專屬聖遺物（催化劑）、知名度與性格相性即時搜尋大辭典</h3>
+    <div class="search-bar" translate="no">
+      <span>🔍 <strong>聖遺物 / 從者即時搜尋：</strong></span>
+      <input type="text" id="relic-search" class="search-in" placeholder="輸入聖遺物關鍵字 (如：戒指、羽毛、劍) 或從者名、職階..." oninput="filterRelics()">
+      <span id="relic-cnt" style="color:var(--gold);font-weight:700;">顯示 135 / 135 名從者</span>
+    </div>
+
+    <div class="tbl-wrap">
+      <table id="relic-tbl">
+        <thead><tr><th>#</th><th>從者真名</th><th>職階</th><th>知名度</th><th>五圍 (筋/敏/耐/魔/幸)</th><th>性格相性</th><th>專屬聖遺物 (催化劑)</th><th>傳說出處</th></tr></thead>
+        <tbody id="relic-tbody"></tbody>
+      </table>
+    </div>
+
+    <h2 id="s8">八、 非同步連線「派出的組（第 8 組亂入者）」配對與戰力計算公式</h2>
+    <ol>
+      <li><strong>時空配對規則（每位玩家最多可同時維持 <code>30 組</code> 現役隊伍）</strong>：只會出現在<strong>「比你的戰爭年份晚 <code>1 ～ 40 年</code>、且發生在『不同城市』」</strong>的其他玩家聖杯戰爭中（召喚時有 15% 機率亂入，於第 5～7 天登場）。在 <strong><code>1995 ～ 2000 年</code></strong> 獲勝的隊伍擁有最高的現代局配對覆蓋率。</li>
+      <li><strong>派出的御主戰力 (<code>pw</code>) 公式</strong>：<code>clamp(58 ~ 88, 四捨五入(56 + 迴路等級×4 + 擊殺數×3 + 信賴度×0.08))</code>。只要 A 級迴路 (5)、信賴度 100 且親手擊殺 2 組以上，即可達法定上限 <strong><code>88</code> 點</strong>！</li>
+      <li><strong>AI 戰術性格 (<code>ghTac</code>)</strong>：親手擊殺 <code>&gt;= 3 組</code> 成為 <strong><code>Hunter</code>（主動獵殺型）</strong>；擊殺 <code>&lt; 3 組</code> 但信賴度 <code>&gt;= 70</code> 為 <strong><code>Defensive</code>（防守型）</strong>；其餘為 <strong><code>Proud</code> / <code>Cunning</code></strong>。</li>
+      <li><strong>老手記憶壓制 (<code>know</code> / <code>gEdge</code>) 與 v2.03 魔眼繼承</strong>：在該場戰爭中看穿真名 (<code>+5</code>)、看穿寶具 (<code>+3</code>)、親手擊殺 (<code>+2</code>) 過的從者會被記錄，遇到相同從者時最高獲得 <strong><code>+10</code> 戰力優勢</strong>！v2.03 起更會將<strong>已覺醒的魔眼（等級 1~4 與控制度 0~2）</strong>及<strong>剩餘令咒（最高 9 劃）</strong>一併帶入其他玩家的世界！</li>
+    </ol>
+
+    <hr style="border-color:var(--gold-b);margin:32px 0 18px;">
+    <p style="text-align:center;color:var(--muted);font-size:0.92rem;">
+      📌 <strong>攻略整理與數據解析</strong>：<a href="https://x.com/AirInMyMind" target="_blank" translate="no">@AirInMyMind</a> &nbsp;|&nbsp;
+      📌 <strong>特別感謝遊戲開發者</strong>：<a href="https://x.com/cupnight_" target="_blank" translate="no">@cupnight_</a>
+    </p>
+  </main>
 </div>
 
----
-
-## 一、 投胎首抽：7 大出身家世、魔術迴路與魔力上限公式
-
-每次點擊「降生」時，系統會先按權重（總和剛好為 100%）抽出你的**「出身家世」**，再從該家世允許的**「魔術迴路區間」**中等機率抽取一個整數等級。
-
-### 1. 七大出身家世機率與天賦總表
-| 出身家世 | 出現機率 | 魔術迴路範圍 | 初始財富 | 家傳主修技能池（出生自帶 Lv.1） | 特殊隱藏加成 |
-| :--- | :---: | :---: | :---: | :--- | :--- |
-| **平凡的家庭** | **34%** | **E ～ C** (1~3) | 25 ～ 65 | 無 *(未覺醒前不可選「修煉」)* | 武術觸發率 `×1.2` |
-| **沒落的魔術家門** | **18%** | **D ～ B** (2~4) | 15 ～ 40 | 元素、詛咒、鍊金、使魔 (4選1) | 詛咒觸發率 `×1.5` |
-| **河畔育幼院 (孤兒)** | **14%** | **E ～ B** (1~4) | 5 ～ 20 | 無 | **天生自帶「復仇者 Avenger」相性 +1**；武術 `×1.2` |
-| **名門魔術家門的長子** | **10%** | **C ～ A** (3~5) | 60 ～ 85 | 元素、寶石、盧恩、結界、降靈、人偶、占星 (7選1) | **可繼承 300 年魔術刻印**；全魔術觸發率 `×1.5` |
-| **名門魔術家門的次子** | **10%** | **C ～ A** (3~5) | 55 ～ 80 | 同名門長子 (7選1) | **100% 必定有兄弟姊妹**；無刻印；全魔術 `×1.5` |
-| **聖堂教會神父的家門** | **8%** | **D ～ C** (2~3) | 35 ～ 55 | **洗禮詠唱** (100% 固定) | **天生自帶「Ruler 裁定者」相性 +1**；治癒/武術 `×1.5` |
-| **退魔家門** | **6%** | **E ～ C** (1~3) | 30 ～ 55 | **退魔體術** (100% 固定) | **唯一能抽中「魔之血」的家世**；全武術觸發率 `×2.0` |
-
-### 2. 全服魔術迴路等級期望機率與魔力上限公式
-御主天生沒有 EX 級迴路，最高即為 **A 級（內部數值 5）**。
-* **0 歲初始魔力公式** = `迴路等級 × 7 + 隨機(0~8)`
-* **魔力最大值上限 (`manaCap`)** = `40 + 迴路等級 × 12`
-
-| 迴路等級 | 內部數值 | 綜合抽中機率 | 魔力最高上限 | 系統評語與重要技能門檻 |
-| :---: | :---: | :---: | :---: | :--- |
-| **A 級** | `5` | **6.67% (1/15)** | **100** | *「非常罕見的資質」*（**僅限名門長子/次子可抽出！** 滿足 Lv.4 秘傳魔術門檻） |
-| **B 級** | `4` | **16.17%** | **88** | *「非常罕見的資質」*（滿足 Lv.4 秘傳魔術門檻） |
-| **C 級** | `3` | **30.50%** | **76** | *「堪用的資質」*（**所有魔術要升上 Lv.3 高位的最低硬門檻！**） |
-| **D 級** | `2` | **26.83%** | **64** | *「常見的資質」*（所有魔術終生卡在 Lv.2 熟練，無法升上 Lv.3） |
-| **E 級** | `1` | **18.83%** | **52** | *「幾乎等同沒有」*（所有魔術終生卡在 Lv.2 熟練） |
-
----
-
-## 二、 先天異能與魔眼系統：機率、18 歲覺醒死線與寶石級突破
-
-### 1. 出生自帶魔眼 / 異能種子的真實機率
-出生時系統會以 **`3%` 為基礎機率** 乘上家世倍率，決定你體內是否帶有異能種子（剛出生時為未覺醒狀態，面板不可見）：
-* **退魔家門（倍率 4x）**：**`12.0%`**（唯一能抽中專屬被動**「魔之血」**的出身，且權重極高！）
-* **河畔育幼院（倍率 2x）**：**`6.0%`**
-* **名門長子 / 次子 / 沒落 / 教會（倍率 1.5x）**：**`4.5%`**
-* **平凡家庭（倍率 1x）**：**`3.0%`**
-
-### 2. 覺醒死線（6 ～ 18 歲）與「喪親爆種機制」
-<div class="warn-box">
-
-* **硬性年齡限制**：魔眼只能在 **`6 歲 ～ 18 歲`（且聖杯戰爭尚未爆發前）** 觸發覺醒！若跨入 19～20 歲仍未跳出覺醒事件，代表這局沒有抽中種子（或屬於約 12% 抽中種子但連續 13 年未骰過的非酋情況），想刷魔眼的玩家可在 19 歲直接重開。
-* **🔥 喪親爆種機制**：6～18 歲期間，每年基礎覺醒率為 **`15%`**。**但若當年剛好發生「親人過世」事件，當年的魔眼覺醒機率會直接暴增 3 倍變為 `45%`！**
-
-</div>
-
-### 3. 魔眼威力公式與「30% 晉升寶石級」秘訣
-魔眼分為 4 個等級（**下級 `1.0x`、中級 `2.5x`、上級 `4.0x`、寶石級 `6.0x`**）與 3 段控制度（**無法控制 `0.7x`、控制普通 `1.0x`、控制純熟 `1.3x`**）：
-<div class="formula-box">魔眼最終威力倍率 = 等級倍率 × 控制度倍率 （最高為寶石級：6.0 × 1.3 = 7.8 倍！）</div>
-
-* **控制度修煉**：覺醒後至 50 歲前，每年有 **15%** 機率觸發修煉事件。若有魔術師/師父、教會（花 5 財富）、退魔家門背景，可 **100% 安全提升 1 階控制度**；普通人選「獨自硬撐」只有 **50% 成功率**（失敗扣 5 健康）。
-* **💎 晉升寶石級**：當控制度修煉到最高階（**第 2 階：控制純熟**）的那一瞬間，若魔眼尚未達到寶石級，系統會立刻進行一次 **`30%` 機率** 的判定——骰過即可直接將魔眼提升一個階級（最高直接進化為 **`寶石級魔眼`**）！
-
-### 4. 全 10 種魔眼與異能實戰效果一覽
-| 魔眼 / 異能名稱 | 從者戰主動支援效果 | 御主決鬥 (Master 對決) 加成位置與特殊效果 |
-| :--- | :--- | :--- |
-| **拘束之魔眼 (`bind`)** | 單回合綁住敵方御主，降低敵方戰鬥力 | **【全招式通用 `all: 3`】** 不論出攻/防/擾皆 100% 觸發加成（寶石級 `+23.4` 戰力），**且獲勝時額外強制扣敵方御主 5 點健康！** |
-| **強制之魔眼 (`compel`)**| **連續 3 回合操縱敵方御主** *(一場決鬥限1次，額外耗8健康)* | 出**「擾亂 (`trk`)」**時觸發高額加成（寶石級 `+39.0` 戰力），**且獲勝時額外強制扣敵方御主 5 點健康！** |
-| **未來視之魔眼 (`future`)**| **連續 3 回合大幅減少所受傷害** *(一場決鬥限1次)* | **【全招式通用 `all: 2`】** 不論出何招式皆 100% 觸發（寶石級 `+15.6` 戰力）。 |
-| **石化之魔眼 (`stone`)** | **連續 3 回合石化敵方從者** *(敵方對魔力越高效果越弱)* | 決鬥專用主動技（一場決鬥限1次）。 |
-| **焰之魔眼 (`flame`)** | 單回合使敵方戰鬥力大幅下降 | 出**「攻擊 (`atk`)」**時觸發高額加成（寶石級 `+39.0` 戰力）。 |
-| **凶兆之魔眼 (`jinx`)** | 為敵方刻下凶兆標記，**每層標記使敵方戰力永久 -5** | 出**「攻擊 (`atk`)」**時觸發加成（寶石級 `+31.2` 戰力）。 |
-| **魅惑之魔眼 (`charm`)** | 單回合使敵方御主猶豫，降低敵方戰鬥力 | 出**「擾亂 (`trk`)」**時觸發加成（寶石級 `+31.2` 戰力）。 |
-| **念動 (`telek`)** | 單回合減少我方受到的傷害 | 出**「防禦 (`def`)」**時觸發加成（寶石級 `+23.4` 戰力）。 |
-| **過去視之魔眼 (`past`)** | **【被動常駐】** 進入戰鬥瞬間自動看穿敵方組別的情報 | 無主動消耗，開戰自動獲取大量情報。 |
-| **魔之血 (`blood`)** | **【被動常駐】** *(僅限退魔家門可抽中)* | 御主決鬥使用肉搏三招（**正面衝鋒 / 隱藏身形 / 突襲破綻**）時獲得巨幅加成（寶石級 **`+62.4` 戰力**）！ |
-
----
-
-## 三、 成長與壽命機制：年度目標公式與 104 歲大限
-
-1. **聖杯戰爭爆發年齡**：出生時即隨機決定在 **`17 歲 ～ 36 歲`** 之間的某一年爆發。
-2. **年齡成長率衰減 (`youth`)**：
-   * **`6 ～ 25 歲`**：屬性成長 **`× 1.2 倍`**（黃金養成期）
-   * **`26 ～ 45 歲`**：`× 1.0 倍` ｜ **`46 ～ 65 歲`**：`× 0.75 倍` ｜ **`66 歲以上`**：`× 0.5 倍`
-3. **修煉 (`train`) 加魔力公式**：
-   <div class="formula-box">每年魔力增加 = 隨機(2~5) × 年齡倍率 × (0.6 + 迴路等級 × 0.15) × (有魔術家世或師父 ? 1.0 : 0.7)</div>
-   *(⚠️ 注意：13 歲後選「修煉」，每年會固定增加 `0.15%` 的「魔術實驗事故」意外猝死率！)*
-4. **自然死亡率與 `104 歲` 硬性壽命極限**：
-   * 40 歲起每年扣減健康；55 歲起魔力 > 30 者每年自然流失 0～2 點魔力。
-   * **健康值的長壽效應**：自然死亡率公式中含有 `exp((50 - 健康) / 16)`。將健康維持在 **100** 時，自然死亡率會縮小為 **`0.044 倍`（降低 95.6% 死亡率）**！
-   * **絕對壽命大限**：程式碼中寫死 `S.age >= 104` 強制觸發往生，故人類角色的最高壽命極限為 **`104 歲`**。
-
----
-
-## 四、 魔術與武術技能樹：硬性屬性門檻與「2 年 100% 保底升級」機制
-
-許多玩家疑惑為何魔術卡在「入門」或「熟練」升不上去，那是因為沒達到該技能綁定的**「隱藏屬性硬門檻」**！
-
-### 1. 欄位上限與各階升級硬門檻
-* **技能槽位上限**：一生最多只能習得 **`3 門魔術系技能`** ＋ **`2 門武術/教會系技能`**！（一旦學滿槽位，就不會再觸發新技能入門，因此不想要的流派請務必選「現在先放著」跳過）。
-* **Lv.1（入門）**：魔術需 6～30 歲；武術/教會需 8～35 歲（代行者體術需滿 14 歲、槍械需滿 16 歲）。
-  * *💡 武術入門秘訣*：武術平時的入門率僅 `0.6%`，但當年度目標選**「身體 (`body`)」**時，入門觸發率會直接**暴增 4 倍**！
-* **Lv.2（熟練）硬門檻**：距離入門滿 2 年、年齡 <= 50 歲，且**該技能對應的檢定屬性必須 >= 40**！
-* **Lv.3（高位）硬門檻**：距離熟練滿 3 年、**對應檢定屬性必須 >= 60**，且若是魔術系技能，**天生的魔術迴路必須至少為 `C 級 (3)` 以上**！
-* **Lv.4（秘傳）硬門檻**：全遊戲僅 **元素魔術、結界魔術、詛咒** 三門可達 Lv.4 秘傳！必須年滿 **25 歲**、該魔術必須是你的**「本系主修 (`main`)」**，且**魔術迴路達 `B 級 (4)` 以上（或持有家族魔術刻印）**！
-
-### 2. 「經驗值 (`xp`) 累積」與「2 年 100% 保底突破規則」
-各階所需經驗值門檻為：**升 Lv.2 需 `8 xp`**、**升 Lv.3 需 `20 xp`**、**升 Lv.4 需 `40 xp`**。
-* 年度目標選 **「修煉」**：本系主修魔術每年 **`+3 xp`**（若有魔術師父 **`×1.4 倍` = +4 xp**，若有魔術刻印再 **`+1 xp` = 每年 +5 xp**！）；副修魔術每年輪流 **`+1 xp`**。
-* 年度目標選 **「身體」**：已學會的武術每年 **`+2 xp`**。
-* **🔥 保底突破機制**：當某技能的 `xp` 練滿達標後，升級事件觸發率立刻 **`× 3 倍`**；**若達標後過了 2 年仍未骰中升級事件，第 2 年的觸發率會強制變為 `100%` 必定升級**！
-* **🔥 為什麼升級時一定要手動選「深入鑽研」？**
-  選第一個選項「深入鑽研」（代價僅扣 3 健康、2 人際）會賦予該技能 **`1.2 倍（高品質）`** 的永久乘算倍率！在 Lv.3/Lv.4 時，支援威力會從 2.0 倍提升為 **`2.4 倍`**！（開啟「自動決定 Auto」時系統預設只會選普通品質 1.0 倍，因此技能升級強烈建議手動點選！）。
-
-### 3. 全 21 種技能「對應檢定屬性」與實戰效果速查表
-| 必須拉到 40 / 60 的檢定屬性 | 綁定該屬性的技能流派 | 核心實戰效果與特殊解鎖 |
-| :--- | :--- | :--- |
-| **🔵 魔力 (`mana`)**<br>*(選「修煉」提升)* | • **元素魔術** *(可達 Lv.4)*<br>• **寶石魔術** *(最高 Lv.3)* | • **元素**：強化魔術支援；御主單挑「魔術攻擊」最高傷害加成。<br>• **寶石**：強化魔術；戰鬥中可消耗財富「投擲寶石」爆發。 |
-| **🟣 精神 (`will`)**<br>*(選「心靈」提升)* | • **結界魔術** *(可達 Lv.4)*<br>• **詛咒** *(可達 Lv.4)*<br>• **精神干涉 / 降靈術**<br>• **洗禮詠唱** *(教會)*<br>• **劍術 / 暗手** *(武術)* | • **結界**：掩護結界減傷；單挑「魔術防禦」加成；拆敵方據點結界有利。<br>• **詛咒**：妨礙魔術；單挑「魔術擾亂」最高加成（升 Lv.3 增加殘酷傾向）。<br>• **精神干涉**：可無代價消除目擊者記憶降暴露度！<br>• **降靈術**：開戰自動偷聽敵方情報；**Lv.2 死靈看家 100% 免疫夜襲奇襲**！<br>• **洗禮詠唱**：對復仇者、黑影、死徒威力 **2 倍**！ |
-| **🟢 知識 (`lore`)**<br>*(選「學習」提升)* | • **占星術 / 鍊金術**<br>• **盧恩魔術 / 治癒魔術**<br>• **人偶術** *(皆最高 Lv.3)* | • **占星術（T0神技）**：**Lv.1 御主單挑直接看穿敵方出招**；**Lv.2 群星預警 100% 免疫夜襲奇襲**！<br>• **鍊金術**：應急治癒（Lv.3 每場可用 2 次）；**Lv.3 自動免費獲得「人造人」當使魔**！<br>• **盧恩魔術**：一門同時解鎖「掩護結界」與「應急治癒（Lv.3 可用 2 次）」！<br>• **人偶術**：掩護結界；**Lv.2 遭暗殺時可發動「替身人偶」免死一次**！ |
-| **🔴 健康 (`health`)**<br>*(選「身體」提升)* | • **強化魔術** *(魔術槽)*<br>• **槍械・近接制壓**<br>• **八極拳 / 退魔體術**<br>• **黑鍵 / 代行者體術** | • **強化魔術**：唯一看「健康」的魔術！**若兼修武術，御主單挑肉搏威力額外加成**！<br>• **槍械制壓**：現代武器每場戰爭可用 **2 次**，且大幅提升對魔術師的特攻倍率！<br>• **八極 / 退魔 / 代行者**：解鎖肉搏支援、遭遇暗殺時肉身反擊、單挑專屬必殺技。 |
-| **🟡 人際 (`bond`)**<br>*(選「人際」提升)* | • **使魔魔術** *(最高 Lv.3)* | • **使魔**：獲得烏鴉或貓（白天偵查/夜晚看門）；Lv.2 偵查情報量 ×1.5 倍（但被抓會扣 5 健康）；**Lv.3 使魔被抓包機率直接減半（×0.5）**！ |
-
----
-
-## 五、 聖杯戰爭戰鬥公式：五圍權重、技能疊加與 v2.03 知名度修正
-
-### 1. 從者五圍面板的真實權重公式 (`heroBase`)
-遊戲中五圍等級換算分數為：**`E=1, D=2, C=3, B=4, A=5, EX=6`**，每多一個 `+` 號額外 **`+0.4`**（因此 **`A+++ (6.2)`** 在數值上比 **`EX (6.0)`** 還高 0.2 分！）。
-<div class="formula-box">基礎戰力 = [ 78 + 筋力×1.7 + (敏捷 + 耐久 + 魔力)×1.4 + 幸運×1.9 ] × (0.55 + 0.45 × 當前HP / 100)</div>
-
-* **核心細節 1：「幸運 (`×1.9`)」是全五圍中加基礎戰力權重最高的屬性**，其次是「筋力 (`×1.7`)」！
-* **核心細節 2（傷勢懲罰與令咒無視傷勢）**：從者扣血會導致基礎戰力下降（殘血時最低跌至 55%）；**但使用「令咒強化」或 Berserker「狂化爆發」的回合，會強制以 `100% 滿血` 計算最高戰力**！
-
-### 2. 職階隱藏面板倍率 (`clsBonus` & `clsEdge`)
-* **Caster（魔術師）**：常駐額外增加 **`魔力 × 1.2`** 戰鬥力！若在自家魔術工房防守且結界未破，再加 **`+12` 戰力**。
-* **Assassin（刺客）**：常駐額外增加 **`敏捷 × 1.0`** 戰鬥力！主動奇襲的第 1 回合依「氣息遮斷」等級額外爆發。
-* **Archer（弓兵）**：每一場戰鬥的**前 2 回合，無條件自帶「射程優勢 `+7` 戰鬥力」**！
-* **🔥 魔術師型 Berserker（僅限「摩根」與「克里姆希爾德」兩人）**：隱藏被動 `MAGE_BERSERK`，常駐額外增加 **`魔力 × 2.0`** 戰鬥力（比 Caster 還高）！
-
-### 3. 從者技能無上限疊加公式 (`SV`)
-同類型的從者技能在計算時是**「全部相加」**的：
-* **攻擊強化類 (`power`，如魔力放出、龍之爐心、女神神核、高速神言等)**：每回合常駐 **`+ 技能總分 × 1.2`** 戰力！
-* **戰前削弱類 (`sabotage`，如破壞工作、所羅門的戒指等)**：每回合直接**扣除對手 `技能總分 × 1.1`** 戰力！
-* **預知洞察類 (`insight`，如直感、千里眼、無窮的武練)**：第 2 回合起常駐 **`+ 技能總分 × 0.9`** 戰力。
-  * **🌟 預知閃避寶具 (`FORESEE`)**：只要「直感 / 啟示 / 千里眼」達 **A 級以上**（如所羅門、阿爾托莉雅等），即使面對敵人第一次解放的未知寶具，也能自動預知並減免傷害！
-* **神性 (`div`) / 狂化 (`mad`) / 統率 (`rally`)**：每回合常駐 **`+ 技能總分 × 0.8`** 戰力（主動進攻時，**騎乘 `ride`** 也提供 `× 0.8` 戰力）。
-* **對魔力 (`mr`)**：直接削減對手寶具 **`技能總分 × 2.2`** 的威力；對戰 Caster 或魔術攻擊時每回合扣對手 **`技能總分 × 1.2`** 戰力。
-* **迴避類 (`evade`，如矢避之加護、彗星跑法)**：每 1 分技能等級提供 **`3.5%` 獨立減傷/閃避率（最高封頂 `35%`）**。
-* **復仇者 (`avenge`)**：每回合增加 **`(100 - 當前HP) × 0.045 × 技能總分`** 戰力（血越少越強）。
-
-### 4. v2.03 新增：「知名度修正 (`FAME`)」與「四維情報」
-* **知名度常駐戰力加成 (`fameP = 11 × (知名度分數/100)^1.5`)**：
-  * **`EX` 級（共 11 人：所羅門、赫拉克勒斯、阿爾托莉雅、貞德、始皇帝、亞歷山大、拿破崙、達文西、福爾摩斯、莫札特、莎士比亞）**：無條件常駐 **`+11.00` 戰鬥力**！
-  * **`A` 級（吉爾伽美什、阿基里斯、梅林、巖窟王、莉莉絲等）**：常駐 **`+7.87` 戰鬥力**。
-  * **`B` 級（羽蛇神、伊絲塔、迦爾納、超人俄里翁等）**：常駐 **`+5.11` 戰鬥力**。
-  * **`C` 級**：**`+2.78`** ｜ **`D` 級（黑貞德、平景清等）**：**`+0.98`** ｜ **`E` 級（衛宮、BB、Meltryllis 等非歷史人物）**：**`+0.00`**。
-* **知名度暴露懲罰 (`fameX`)**：知名度在 **B 級以上** 的從者，一旦在戰鬥中解放寶具，真名就會當場暴露；且當敵人掌握了你的從者情報（`S`）時，EX 知名度的從者受到的針對懲罰倍率高達 `×1.7 倍`，而 D/E 知名度的從者幾乎不受情報暴露懲罰（僅 `×0.58 ~ ×0.3 倍`）！
-
-### 5. v2.03 綜合實戰強度 T0 從者排行榜（依底層公式總分排序）
-| 排名 | 從者名稱 (職階) | 知名度 | 綜合常駐戰力 (含知名度) | 核心機制與強勢點分析 |
-| :---: | :--- | :---: | :---: | :--- |
-| **1** | **所羅門 (Caster)** | `EX` (+11.0) | **`148.0`** | **v2.03 常駐戰力斷檔第一！** 魔力 EX 吃滿 Caster 1.2倍加成、召喚術 EX (+7.2)、所羅門戒指 EX (-6.6 敵戰力)、千里眼 EX (預知閃避敵寶具)。*(註：寶具 Ars Nova 為同歸於盡技，平砍與魔術即無敵)* |
-| **2** | **吉爾伽美什 (Archer)** | `A` (+7.9) | **`142.1`**<br>*(前兩回合 **`149.1`**)* | 開局前兩回合吃滿 Archer 射程 (`+7`)、王之財寶專屬被動 (`+7`，半血以下認真模式再 `+5` = **`154.1`**)！物理輸出天花板。 |
-| **3** | **貞德 [Alter] (Avenger)** | `D` (+1.0) | **`139.4`**<br>*(殘血破 **`155+`**)* | 三重高階 `power` 技能疊加（技能加分 `+31.2` 全服第一）＋ 復仇者殘血暴走 ＋ **D 知名度放寶具不暴露真名、極少受情報懲罰**！ |
-| **4** | **赫拉克勒斯 (Berserker)**| `EX` (+11.0) | **`139.2`**<br>*(狂化爆發 **`151.2`**)*| 五圍面板總分頂點 (115.8) ＋ EX 知名度 (`+11`) ＋ 狂化突破 (`+12` 且無視傷勢) ＋ **戰鬥續行 A (倒下時原地復活一次)**！ |
-| **5** | **魁札爾·科亞特爾 (Rider)**| `B` (+5.1) | **`139.0`** | 3 個 EX 技能 ＋ 3 個 A+ 技能、對魔力 A (砍敵寶具 -11 威力) 與極高續航力。 |
-| **6** | **阿爾托莉雅 (Saber)** | `EX` (+11.0) | **`138.4`** | EX 知名度 (`+11`) ＋ 對魔力 A ＋ 直感 A (自動預知閃避敵方寶具) ＋ 魔力放出爆發。 |
-| **7** | **克里姆希爾德 (Berserker)**| `C` (+2.8) | **`137.8`** | 獨享 `MAGE_BERSERK`（魔力 ×2.0 戰力加成）＋ `EDGE` 殘血反殺加成 ＋ 高續航。 |
-| **8** | **黑森·羅伯 (Avenger)** | `C` (+2.8) | **`139.5`** | 技能加分高達 `+30.6`（全服前三）＋ 復仇者殘血加成。 |
-| **9** | **平景清 (Avenger)** | `D` (+1.0) | **`135.0`** | 自帶 `14%` 獨立迴避 ＋ 戰鬥續行原地復活 ＋ 復仇者殘血暴走 ＋ D 知名度低懲罰。 |
-| **10**| **始皇帝 (Ruler)** | `EX` (+11.0) | **`134.5+`** | Ruler 職階真名看穿與裁定特權 ＋ EX 知名度 (`+11`) ＋ 永世帝位專屬常駐 `+6` 戰力。 |
-
----
-
-## 六、 兩套「無敵畢業流派」養成 SOP
-
-### 🔮 流派一：【全魔術・根源神代流】
-* **首抽目標**：**名門魔術家門長子**（自帶 300 年魔術刻印）＋ **魔術迴路 A 級 (或 B 級)** ＋ 家傳主修 **【元素魔術】或【結界魔術】**。
-* **3 大魔術槽配置**：
-  1. 主修：**【元素魔術】(衝 Lv.4 秘傳)** —— 主力輸出與強化。
-  2. 副修 1：**【占星術】(Lv.3 高位)** —— Lv.1 御主單挑 100% 看穿對手出招；Lv.2 群星預警 100% 免疫夜襲！
-  3. 副修 2：**【鍊金術】(Lv.3 高位)** —— 每場戰鬥 2 次應急治癒，且 Lv.3 **免費贈送「人造人」當使魔**（不佔使魔魔術槽位即可白天偵查盯梢、偷看敵人寶具真名！）。
-* **養成時間軸**：6～14 歲年度目標全選 **「學習」** 把**知識衝到 60**（解鎖占星與鍊金 Lv.3 門檻）➔ 15 歲起全程切回 **「修煉」** 把**魔力衝到 90~100**（讓從者五圍全部升一階）並灌滿技能 `xp` 觸發 2 年保底升級！
-
-### 🥊 流派二：【全體術・魔術師殺手流（手撕從者與御主）】
-* **首抽目標**：**退魔家門**（12% 機率抽中**「魔之血」**，且全武術觸發率 ×2 倍）＋ **魔術迴路 C 級**。
-* **技能槽配置（2 武術 ＋ 1 魔術）**：
-  1. 武術 1：**【退魔體術】(Lv.2 滿)** 或 **【八極拳】(Lv.3)** —— 解鎖遭遇暗殺時肉身反殺與單挑必殺技。
-  2. 武術 2：**【槍械・近接制壓】(16 歲解鎖，Lv.3)** —— 現代槍械可用 **2 次**，無視單挑猜拳相剋，對正統魔術師擁有毀滅性特攻！
-  3. 魔術槽：**【強化魔術】(Lv.3)** —— 唯一檢定「健康」的魔術！與武術連動，大幅強化御主肉搏單挑威力！
-* **養成時間軸**：全程主選 **「身體」**（使武術入門率變 4 倍並穩定 +2 xp，把**健康衝到 90~100**），穿插幾年 **「心靈」** 把**精神拉到 60**。在御主決鬥或與從者死鬥（Duel）中，靠著 v2.03 新增的「施放高位秘技當回合免疫從者普攻」與雙發特攻手槍，御主本人就能正面擊潰敵方陣營！
-
----
-
-## 七、 從者召喚與聖遺物機制：獲取途徑、滿月劫持與 全 135 從者聖遺物大辭典
-
-### 1. 聖遺物（催化劑）的獲取規則與「戰前一年保底」
-* **持有上限**：每段人生最多可同時持有 **`3 件`** 聖遺物（僅會抽出常規七職階從者的聖遺物）。
-* **圖鑑未收錄加權 (`sumW`)**：只要是你的**「從者圖鑑中尚未契約過」**的從者，無論在隨機獲得聖遺物、或是不放聖遺物進行相性召喚時，其出現權重都會**自動 `× 2 倍`**！
-* **5 大獲取途徑**：
-  1. **魔術家門庫房發現**（限魔術師家世）。
-  2. **海外留學奇遇**（曾觸發海外/時計塔留學事件）。
-  3. **孤兒院身世遺物**（河畔育幼院出身且解開身世之謎，會獲得當年被遺棄時留在身邊的聖遺物）。
-  4. **沒落家門戰前黑市舉債購買**（**沒落的魔術家門**專屬：若到聖杯戰爭爆發時身上 1 件聖遺物都沒有，可在開戰前夕選擇**「舉債購買催化劑（財富 -20）」**強制獲得 1 件聖遺物！）。
-  5. **🔥 戰前一年強制保底事件**：在聖杯戰爭爆發的**前一年（`warAge - 1` 歲）**，只要你身上的聖遺物少於 3 件，系統必定會強制觸發一次古董店/遺物事件讓你有機會入手聖遺物！
-* **⚠️ 單一聖遺物的自動放入注意**：若你沒有設定首頁的「羈絆召喚」，且身上**剛好只有 `1 件` 聖遺物**，召喚時系統不會跳出選擇視窗，而是會**自動將該聖遺物放入陣中直接召喚**！只有當持有 `2 ～ 3 件` 聖遺物（或有設定羈絆召喚）時，才會跳出選單讓你挑「放哪一件」或「什麼都不放」。
-
-### 2. 召喚儀式的前置隱藏選項（開戰前夕）
-當手背浮現令咒時，依據你的出身與經歷會解鎖特殊的開戰準備選項：
-* **名門長子 / 名門次子 / 持有魔術刻印** ➔ 可選**「按家族儀式準備 3 天（財富 -6）」**：開局直接獲得**防禦結界與從者信賴度加成**！
-* **聖堂教會神父家門** ➔ 可選**「先告知父親」**：獲得聖堂教會的暗中支援，戰爭期間監督官的情報會悄悄流入你手中！
-* **曾出國留學 (`abroad`)** ➔ 可選**「向時計塔的師父尋求建議」**：開局直接獲得參加本次戰爭的魔術協會派系御主情報！
-
-### 3. 召喚卡池的 4 大分支判定順序與精確機率公式
-
-當你進入午夜召喚儀式時，系統會嚴格按照以下 **1 ➔ 2 ➔ 3 ➔ 4** 的優先順序進行判定：
-
-#### 【第 1 順位】羈絆召喚 (`Bond Summon`)
-* 若在首頁選擇了過往契約過的從者並點選「緣之召喚」，會依顯示的羈絆成功率（最高 **100% 必定成功**）進行判定。若未命中，則自動轉入下方的「無聖遺物召喚」流程。
-
-#### 【第 2 順位】放入聖遺物召喚（含「聖遺物碎裂」強行歪出 Avenger / Ruler 機制！）
-* **一般情況（復仇與正義傾向皆 `< 5`）**：放入哪一件聖遺物，就 **`100%` 必定召喚出該聖遺物對應的從者**！
-* **🔥 聖遺物碎裂機制（當你的隱藏傾向 `復仇 avenger` 或 `正義 judge` 累積達 `5 點以上` 時）**：
-  即使你放入了某位從者的專屬聖遺物，也有 **`pSp × 50%`（約 `15.75% ～ 30%`）** 的機率發生**「魔法陣中央的聖遺物無聲碎裂！回應你的不是遺物呼喚的英靈，而是與你相似的某種存在」**，直接無視聖遺物，強行召喚出 **Avenger（復仇者）** 或 **Ruler（裁定者）**！
-
-#### 【第 3 順位】不放聖遺物 ➔ 「滿月之夜 BB / Alter Ego 強制劫持召喚」
-* **滿月之夜機率**：每一局聖杯戰爭的召喚之夜，固定有 **`12.5% (1/8)`** 的機率出現*「那天晚上，天上升起了滿月」*。
-* **BB 劫持率 (`moonHijP`)**：在**「滿月之夜」且「不放任何聖遺物」**時，會有 **`2.5%`** 的機率（若前世達成過與 BB 的「月之約定 `moonVow`」，劫持率翻倍為 **`5.0%`**）觸發滿月月光改寫魔法陣！
-  * 若尚未看過「去往月亮的杯 (`moonSend`)」結局：**`100%` 強制召喚出 `Moon Cancer：BB`**！
-  * 若已達成過「去往月亮的杯」結局：有 **`1/3 (33.3%)` 機率召喚出 `Alter Ego`（Meltryllis 或 Passionlip）**，**`2/3 (66.7%)` 機率召喚出 `BB`**！
-  * *(💡 註：v2.03 版本起，只要達成過一次「去往月亮的杯」結局，BB 就會永久解鎖並加入首頁的「羈絆召喚」列表中！此外，當你自己擔任 BB 的御主時，戰爭第 2～8 天每天早上有 4% 機率，Meltryllis 或 Passionlip 會作為額外組別亂入戰場！)*
-
-#### 【第 4 順位】不放聖遺物 ➔ 「特殊職階（Avenger / Ruler）亂入」或「常規相性召喚」
-1. **先判定特殊職階亂入率 (`pSp`)**：
-   <div class="formula-box">Avenger / Ruler 亂入率 pSp = min( 60%, 1.5% + 6% × max(復仇傾向, 正義傾向) )</div>
-   * 即使你的復仇與正義傾向都是 `0`，不放聖遺物時也有 **`1.5%` 的保底機率** 直接抽中 Avenger 或 Ruler！
-   * 孤兒院出身（自帶復仇 +1）或教會出身（自帶正義 +1），開局基礎亂入率即從 **`7.5%`** 起跳；傾向疊到 10 點時可達最高 **`60%`**！
-   * 決定出特殊職階後，抽出 Avenger 與 Ruler 的權重比為 `(復仇傾向 + 0.5) : (正義傾向 + 0.5)`。
-2. **最後進行常規七職階「相性召喚 (`affinity`)」**：
-   * 若未觸發上述特殊職階，系統會計算你的性格與全體常規從者的契合度分數 `fitScore`，並按權重公式 **`權重 = exp(契合度 / 8) × 未契約過加權(2倍)`** 抽出與你靈魂波長最契合的從者！
-
-### 4. 敵方陣營出現特殊職階（Extra Class）的機率
-* 每一場聖杯戰爭開局時，另外 6 組 NPC 敵人中，固定有 **`12.0%`** 的機率會將其中一席常規職階替換為 **特殊職階（Avenger / Ruler / Alter Ego；若當天為滿月之夜，敵方特殊席位也有機率刷出野生 BB！）**。
-
-### 5. 📖 全 135 名從者專屬聖遺物（催化劑）、知名度與性格相性即時搜尋大辭典
-
-<div class="search-container">
-    <span>🔍 <b>聖遺物 / 從者即時搜尋：</b></span>
-    <input type="text" id="relic-search" class="search-input" placeholder="輸入聖遺物關鍵字 (如：戒指、羽毛、劍) 或從者名、職階..." oninput="filterRelicTable()">
-    <span class="search-count" id="relic-count">顯示 135 / 135 名從者</span>
-</div>
-
-<div id="relic-table-box">
-
-| # | 從者真名 | 職階 | 知名度 | 五圍 (筋/敏/耐/魔/幸) | 性格相性 | 專屬聖遺物 (催化劑) | 傳說出處 |
-| :---: | :--- | :---: | :---: | :---: | :---: | :--- | :--- |
-| 1 | **西格魯德** | Saber | `B` | `A+/B/A+/C/E` | 名譽、憐憫 | 被火燻黑的戒指碎片 | 北歐神話 |
-| 2 | **齊格飛** | Saber | `B` | `B+/B/A/C/E` | 忠誠、憐憫 | 一片龍鱗 | 尼伯龍根之歌 |
-| 3 | **蘭斯洛特** | Berserker | `A` | `A/A+/A/C/B` | 忠誠、憐憫 | 被湖水侵蝕的銀馬刺 | 亞瑟王傳說 |
-| 4 | **阿周那** | Archer | `B` | `A/B/B/B/A++` | 名譽、憐憫 | 破舊的弓弦絲線 | 摩訶婆羅多 |
-| 5 | **羅賓漢** | Archer | `A` | `C/B/C/B/B` | 自由、憐憫 | 橡樹葉箭羽 | 英國民間故事 |
-| 6 | **阿塔蘭黛** | Archer | `C` | `D/A/E/B/C` | 自由、憐憫 | 卡呂冬野豬的獠牙碎片 | 希臘神話 |
-| 7 | **庫·夫林** | Lancer | `B` | `B/A/C/C/E` | 自由、名譽 | 曾綁在石柱上的腰帶 | 阿爾斯特傳說 |
-| 8 | **赫克托耳** | Lancer | `B` | `B/A/B/B/B` | 忠誠、憐憫 | 青銅頭盔的馬尾盔纓 | 伊利亞德 |
-| 9 | **列奧尼達一世** | Lancer | `A` | `B/D/A/C/C` | 忠誠、名譽 | 溫泉關生鏽的槍尖 | 希羅多德歷史 |
-| 10 | **伊斯坎達爾** | Rider | `EX` | `B/D/A/C/A+` | 野心、自由 | 刻有王之面容的銀幣 | 古希臘史書 |
-| 11 | **布狄卡** | Rider | `C` | `C/C/B+/D/D` | 憐憫、自由 | 青銅戰車飾件 | 羅馬史書 |
-| 12 | **阿基里斯** | Rider | `A` | `B+/A+/A/C/D` | 名譽、野心 | 赫淮斯托斯之盾的青銅碎片 | 伊利亞德 |
-| 13 | **美狄亞** | Caster | `B` | `E/C/D/A+/B` | 野心 | 一縷金色羊毛 | 希臘悲劇 |
-| 14 | **梅林** | Caster | `A` | `B/D/E/A/C` | 自由 | 長滿青苔的橡樹枝 | 亞瑟王傳說 |
-| 15 | **帕拉塞爾蘇斯** | Caster | `B` | `D/C/E/A/B` | 野心、憐憫 | 曾鑲在劍柄上的紅石碎片 | 文藝復興醫學史 |
-| 16 | **荊軻** | Assassin | `C` | `D/A/E/E/D` | 忠誠、名譽 | 易水畔冰冷的石頭 | 史記刺客列傳 |
-| 17 | **赫拉克勒斯** | Berserker | `EX` | `A+/A/A/A/B` | 憐憫、名譽 | 涅墨亞巨獅的毛髮 | 希臘神話 |
-| 18 | **斯巴達克斯** | Berserker | `A` | `A/D/EX/E/D` | 自由、憐憫 | 生鏽的腳鐐鐵環 | 羅馬史書 |
-| 19 | **呂布奉先** | Berserker | `B` | `A+/B+/A+/C+/C+` | 野心 | 赤紅雉雞翎毛 | 三國志故事 |
-| 20 | **巖窟王** | Avenger | `A` | `B/C/A+/B/-` | 野心、憐憫 | 挖開監獄牆壁的斷裂湯匙 | 基督山恩仇記 |
-| 21 | **安東尼奧·薩里耶利** | Avenger | `B` | `B/A/C/C/B` | 野心、名譽 | 泛黃的五線譜紙 | 普希金戲劇與維也納傳聞 |
-| 22 | **貞德** | Ruler | `EX` | `B/A/B/A/C` | 憐憫、忠誠 | 燒焦的旗幟布料 | 百年戰爭紀錄 |
-| 23 | **始皇帝** | Ruler | `EX` | `B+/B+/B+/B+/B+` | 野心、名譽 | 斷成兩半的玉璽碎片 | 史記秦始皇本紀 |
-| 24 | **阿爾托莉雅·潘德拉剛** | Saber | `EX` | `B/B/B/A/A+` | 名譽、忠誠 | 閃耀金光的劍鞘碎片 | 亞瑟王傳說 |
-| 25 | **尼祿·克勞狄烏斯** | Saber | `A` | `D/A/D/B/A` | 野心、憐憫 | 金線刺繡的玫瑰繡片 | 羅馬史書 |
-| 26 | **高文** | Saber | `B` | `B+/B+/B+/A/A` | 忠誠、名譽 | 綠色腰帶的絲線 | 亞瑟王傳說 |
-| 27 | **莫德雷德** | Saber | `B` | `B+/B/A/B/D` | 野心、自由 | 鏽成暗紅的頭盔飾件 | 亞瑟王傳說 |
-| 28 | **阿蒂拉** | Saber | `A` | `B/A/A/B/A` | 野心、憐憫 | 染上三色光芒的劍之碎片 | 匈人編年史 |
-| 29 | **查理曼** | Saber | `A` | `A/B/C/A/A` | 名譽、自由 | 留有十二道傷痕的劍柄裝飾 | 查理曼傳說 |
-| 30 | **貝德維爾** | Saber | `C` | `A/A+/B/C/B` | 忠誠、憐憫 | 沾濕湖水的銀色指節 | 亞瑟王傳說 |
-| 31 | **沖田總司** | Saber | `C` | `C/A+/E/E/D` | 忠誠、名譽 | 印有「誠」字的羽織衣角 | 幕末紀錄 |
-| 32 | **宮本武藏** | Saber | `A` | `B/B/B/E/B` | 自由、名譽 | 兩把木劍的木屑 | 五輪書 |
-| 33 | **羅摩** | Saber | `B` | `A/A+/B/B/B` | 名譽、憐憫 | 被火燻黑的金色鹿毛 | 羅摩衍那 |
-| 34 | **理查一世** | Saber | `B` | `B/EX/B/B/C` | 名譽、野心 | 刻有獅子紋章的盾牌碎片 | 十字軍編年史 |
-| 35 | **衛宮** | Archer | `E` | `D/C/C/B/E` | 憐憫、名譽 | 出現裂痕的紅寶石吊墜 | 某位魔術師的終點 |
-| 36 | **吉爾伽美什** | Archer | `A` | `B/B/B/A/A` | 野心、自由 | 世上第一條蛻皮之蛇的化石 | 吉爾伽美什史詩 |
-| 37 | **喀戎** | Archer | `B` | `B/A+/B/B/C` | 憐憫、忠誠 | 半人馬的破舊弓弦 | 希臘神話 |
-| 38 | **阿拉什** | Archer | `C` | `B/B+/A/E/D` | 憐憫、忠誠 | 身軀碎裂之弓手的箭簇 | 波斯傳承 |
-| 39 | **崔斯坦** | Archer | `B` | `B/A/B/B/E` | 憐憫、自由 | 斷裂的一根豎琴琴弦 | 亞瑟王傳說 |
-| 40 | **織田信長** | Archer | `A` | `C/C/B/B/B` | 野心、自由 | 被火燒焦的南蠻披風碎片 | 信長公記 |
-| 41 | **巴御前** | Archer | `C` | `C/C/D/B/A` | 忠誠、憐憫 | 繪有火焰紋樣的射箭護手 | 平家物語 |
-| 42 | **尼古拉·特斯拉** | Archer | `A` | `D/C/C/B/D` | 野心、憐憫 | 燒毀的一截線圈 | 近代科學史 |
-| 43 | **拿破崙** | Archer | `EX` | `D/A/C/E/B` | 野心、憐憫 | 雙角帽上的羽毛 | 近代歐洲史 |
-| 44 | **俄里翁** | Archer | `B` | `D/B/C/A/A+` | 自由、憐憫 | 蘊含月光的銀箭 | 希臘神話 |
-| 45 | **超人俄里翁** | Archer | `B` | `A/B+/A/C/A` | 自由、野心 | 徒步橫渡大海的獵人涼鞋 | 希臘神話 |
-| 46 | **迪爾姆德·奧迪那** | Lancer | `C` | `B/A+/C/D/E` | 忠誠、名譽 | 紅槍與黃槍的綁繩裝飾 | 費奧納傳說 |
-| 47 | **迦爾納** | Lancer | `B` | `B/A/C/B/D` | 名譽、憐憫 | 黃金鎧甲的一片甲鱗 | 摩訶婆羅多 |
-| 48 | **弗拉德三世** | Lancer | `A` | `B/E/A/A/D` | 忠誠、名譽 | 生鏽的木樁尖端 | 東歐史書 |
-| 49 | **伊莉莎白·巴托里** | Lancer | `B` | `C/E/D/A/B` | 野心、自由 | 破裂的手拿鏡 | 匈牙利紀錄 |
-| 50 | **恩奇都** | Lancer | `B` | `?/?/?/?/?` | 忠誠、憐憫 | 一把烏魯克城牆的泥土 | 吉爾伽美什史詩 |
-| 51 | **斯卡哈** | Lancer | `C` | `B/A/A/C/D` | 名譽、自由 | 掛在影之國大門上的紅布 | 阿爾斯特傳說 |
-| 52 | **羅慕路斯** | Lancer | `B` | `B/A/A/C/B` | 野心、憐憫 | 飲狼乳之孩童的銅鈴 | 羅馬建國神話 |
-| 53 | **布倫希爾德** | Lancer | `B` | `B+/A/A/C/E` | 憐憫、忠誠 | 從火焰之環中取出的戒指 | 北歐神話 |
-| 54 | **秦良玉** | Lancer | `D` | `C/A/B/D/A` | 忠誠、名譽 | 白欓槍的槍纓流蘇 | 明史 |
-| 55 | **芬恩·麥克庫爾** | Lancer | `C` | `B+/A+/B/C/C` | 自由、野心 | 智慧鮭魚的魚鱗 | 費奧納傳說 |
-| 56 | **梅杜莎** | Rider | `A` | `B/A/D/B/E` | 憐憫、忠誠 | 天馬佩加索斯的白羽 | 希臘神話 |
-| 57 | **法蘭西斯·德雷克** | Rider | `B` | `D/B/C/E/EX` | 自由、野心 | 刻有金鹿紋樣的船釘 | 大航海時代紀錄 |
-| 58 | **阿斯托爾福** | Rider | `C` | `D/B/D/C/A+` | 自由、憐憫 | 從月球帶回的玻璃瓶 | 瘋狂奧蘭多 |
-| 59 | **喬治亞斯** | Rider | `A` | `D/C++/A+/D/A+` | 名譽、憐憫 | 染有龍血的十字徽章 | 黃金傳說 |
-| 60 | **愛德華·蒂奇 (黑鬍子)** | Rider | `B` | `B+/E/A/D/C` | 野心、自由 | 曾插在鬍鬚上的一截導火線 | 海盜紀錄 |
-| 61 | **奧茲曼迪亞斯** | Rider | `A` | `C/B/C/A/A+` | 野心、名譽 | 刻有太陽紋樣的石板碎片 | 埃及史書 |
-| 62 | **女王梅芙** | Rider | `C` | `E/B/E/C/EX` | 野心、自由 | 裝有一塊起司的銀盒 | 阿爾斯特傳說 |
-| 63 | **牛若丸** | Rider | `B` | `D/A+/C/B/A` | 忠誠、野心 | 鞍馬山天狗的羽扇 | 平家物語 |
-| 64 | **伊凡雷帝** | Rider | `B` | `B+/D/A+/C/B` | 野心、名譽 | 黃金權杖的尖端飾件 | 俄羅斯史書 |
-| 65 | **奧德修斯** | Rider | `A` | `C/D/A+/B+/EX` | 忠誠、野心 | 特洛伊木馬的木片 | 奧德賽 |
-| 66 | **希波呂忒** | Rider | `C` | `B/A/B/C/D` | 名譽、自由 | 從軍神腰帶上掉落的金屬飾片 | 希臘神話 |
-| 67 | **吉爾·德·萊斯** | Caster | `C` | `D/D/E/C/E` | 野心、憐憫 | 被火燒焦的聖女旗幟絲線 | 法國紀錄 |
-| 68 | **玉藻前** | Caster | `C` | `E/B/E/A/D` | 憐憫、忠誠 | 以狐尾毛編織的護身符 | 日本傳承 |
-| 69 | **漢斯·克里斯蒂安·安徒生** | Caster | `A` | `E/E/E/EX/E` | 自由、憐憫 | 墨水暈開的一頁原稿 | 丹麥文學史 |
-| 70 | **威廉·莎士比亞** | Caster | `EX` | `E/D/E/C++/B` | 自由、野心 | 第一對開本撕裂的扉頁 | 英國文學史 |
-| 71 | **李奧納多·達文西** | Caster | `EX` | `E/C/E/A+/B` | 自由、憐憫 | 以鏡像文字書寫的一張便條 | 文藝復興美術史 |
-| 72 | **尼托克里絲** | Caster | `D` | `E/C/E/A/B+` | 名譽、忠誠 | 刻有冥界神祇的鏡子碎片 | 希羅多德歷史 |
-| 73 | **沃夫岡·阿瑪迪斯·莫札特** | Caster | `EX` | `D/B/E/B+/D` | 自由、憐憫 | 沾有墨漬的安魂曲樂譜 | 維也納音樂史 |
-| 74 | **玄奘三藏** | Caster | `A` | `E/B/D/A+/EX` | 憐憫、自由 | 一圈金箍 | 西遊記 |
-| 75 | **喀耳刻** | Caster | `B` | `E/D/B/A+/A` | 野心、憐憫 | 小豬造型的銀胸針 | 奧德賽 |
-| 76 | **阿維斯布隆** | Caster | `D` | `E/D/E/A/B` | 野心 | 刻有希伯來文字的泥板 | 中世紀猶太哲學 |
-| 77 | **法蘭索瓦·普雷拉蒂** | Caster | `D` | `E/C/D/A/B` | 自由、野心 | 畫有倒五芒星的卡片 | 法國紀錄 |
-| 78 | **佐佐木小次郎** | Assassin | `C` | `C/A+/E/E/A` | 自由、名譽 | 長刀「物干竿」的刀鐔 | 巖流島傳承 |
-| 79 | **咒腕哈桑** | Assassin | `D` | `B/A/C/C/E` | 忠誠、野心 | 纏繞右臂的繃帶布料 | 暗殺教團傳承 |
-| 80 | **百貌哈桑** | Assassin | `D` | `C/A/D/C/E` | 忠誠 | 白色骷髏面具的碎片 | 暗殺教團傳承 |
-| 81 | **靜謐哈桑** | Assassin | `D` | `D/A+/D/C/A` | 憐憫、忠誠 | 以毒草編織的髮帶 | 暗殺教團傳承 |
-| 82 | **山之翁 (王哈桑)** | Assassin | `B` | `B/B/A/E/E` | 名譽、忠誠 | 刻有晚鐘紋樣的黑鐵碎片 | 暗殺教團傳承 |
-| 83 | **賽米拉米斯** | Assassin | `C` | `E/D/D/A/A` | 野心 | 插著鴿羽的銀色毒藥瓶 | 亞述傳承 |
-| 84 | **開膛手傑克** | Assassin | `A` | `C/A/C/C/E` | 自由、憐憫 | 霧夜裡的報紙碎片 | 倫敦白教堂事件 |
-| 85 | **李書文** | Assassin | `D` | `C/A+/D/E/E` | 名譽、自由 | 槍頭磨損的大槍 | 八極拳傳承 |
-| 86 | **夏爾-亨利·桑松** | Assassin | `C` | `D/C/D/D/A` | 憐憫、名譽 | 斷頭台刀刃的鐵鏽碎片 | 法國大革命紀錄 |
-| 87 | **酒吞童子** | Assassin | `C` | `A/B/B/A+/D` | 自由、野心 | 紅色酒盞碎片 | 日本傳承 |
-| 88 | **弗蘭肯斯坦** | Berserker | `A` | `C/D/B/D/B` | 憐憫、自由 | 燒焦的一顆螺栓 | 科學怪人或現代普羅米修斯 |
-| 89 | **阿斯忒里翁** | Berserker | `B` | `A++/C/A++/D/E` | 憐憫、自由 | 迷宮牆壁的石塊碎片 | 希臘神話 |
-| 90 | **大流士三世** | Berserker | `C` | `A/B/A+/E/D` | 名譽、野心 | 不死軍團的槍尖 | 古波斯史書 |
-| 91 | **貝奧武夫** | Berserker | `B` | `A/C/A/D/A` | 名譽、自由 | 格倫戴爾的爪子 | 貝奧武夫 |
-| 92 | **坂田金時** | Berserker | `C` | `A+/B/B/C/C` | 忠誠、憐憫 | 金色巨斧的裝飾繩結 | 日本傳承 |
-| 93 | **源賴光** | Berserker | `C` | `A/D/B/A/C` | 憐憫、忠誠 | 雷電紋樣的弓弰 | 日本傳承 |
-| 94 | **茨木童子** | Berserker | `D` | `B/C/A+/C/B` | 自由、野心 | 曾包裹斷臂的絲綢 | 日本傳承 |
-| 95 | **彭忒西勒亞** | Berserker | `D` | `A+/C/B+/A/D` | 名譽、野心 | 亞馬遜女王折斷的長槍 | 希臘神話 |
-| 96 | **土方歲三** | Berserker | `C` | `C/C/C/E/D` | 忠誠、名譽 | 「誠」字軍旗的碎片 | 幕末紀錄 |
-| 97 | **卡利古拉** | Berserker | `A` | `A+/B+/B+/D+/D+` | 野心、憐憫 | 沐浴月光的金幣 | 羅馬史書 |
-| 98 | **黑森·羅伯** | Avenger | `C` | `A+/A+/B+/E/D` | 自由、野心 | 一撮灰狼毛髮 | 西頓動物記與斷頭谷 |
-| 99 | **平景清** | Avenger | `D` | `D/A+/A/B/B` | 野心 | 平家的紅旗碎片 | 平家物語 |
-| 100 | **安哥拉曼紐** | Avenger | `C` | `E/A/E/D/E+` | 自由、憐憫 | 印有紅色刺青的繃帶 | 瑣羅亞斯德教傳承 |
-| 101 | **貞德 [Alter]** | Avenger | `D` | `A/A/C/A+/E` | 野心、自由 | 燒成漆黑的旗幟布料 | 百年戰爭的陰影 |
-| 102 | **天草四郎** | Ruler | `C` | `C/B/C/A/B` | 憐憫、野心 | 刻有十字架的念珠 | 島原之亂紀錄 |
-| 103 | **夏洛克·福爾摩斯** | Ruler | `EX` | `D/B+/C/B/A++` | 自由、名譽 | 沾有菸斗菸灰的放大鏡 | 福爾摩斯系列 |
-| 104 | **凱妮絲** | Lancer | `C` | `A/A/B+/D/B` | 自由、野心 | 被海水沖刷的槍刃碎片 | 希臘神話 |
-| 105 | **唐吉訶德** | Lancer | `A` | `C/C/C/C/EX` | 名譽、憐憫 | 缺了一角的理髮師銅盆 | 唐吉訶德 |
-| 106 | **珀西瓦爾** | Lancer | `B` | `B/B/A/C/B` | 名譽、憐憫 | 目睹聖杯之騎士的銀酒杯 | 亞瑟王傳說 |
-| 107 | **長尾景虎** | Lancer | `B` | `C/C/D+/C+/A` | 名譽、自由 | 印有「毘」字的軍旗碎片 | 戰國時代紀錄 |
-| 108 | **摩根** | Berserker | `B` | `C/B/E/A+/B` | 野心、忠誠 | 結凍湖水的水滴結晶 | 亞瑟王傳說 |
-| 109 | **武田信玄** | Rider | `B` | `B+/B+/C+/C/C+` | 野心、忠誠 | 風林火山軍旗的一根絲線 | 戰國時代紀錄 |
-| 110 | **托勒密** | Archer | `C` | `B/C/A/A/A++` | 忠誠、憐憫 | 亞歷山大燈塔的石塊碎片 | 托勒密王朝紀錄 |
-| 111 | **克里姆希爾德** | Berserker | `C` | `C++/C/D/A/EX` | 忠誠、野心 | 留有血跡的菩提樹葉 | 尼伯龍根之歌 |
-| 112 | **所羅門** | Caster | `EX` | `E/E/B/A++/A++` | 憐憫、自由 | 第十枚戒指 | 舊約聖經列王紀 |
-| 113 | **芭萬·希** | Archer | `D` | `A/A/C/B/D` | 忠誠、野心 | 鞋跟磨損的一隻紅色高跟鞋 | 妖精國不列顛 |
-| 114 | **巴格斯特** | Saber | `D` | `B+/A/A/C/C` | 名譽、憐憫 | 被黑焰燻黑的獸角碎片 | 妖精國不列顛 |
-| 115 | **梅柳齊娜** | Lancer | `C` | `C/B/A+/A+/B` | 忠誠、憐憫 | 閃耀虹光的一片龍鱗 | 妖精國不列顛 |
-| 116 | **千子村正** | Saber | `C` | `B/D/A/E/B` | 名譽、憐憫 | 村正一派鍛造的一把短刀 | 伊勢桑名刀匠紀錄 |
-| 117 | **伊絲塔** | Archer | `B` | `B/B/B/EX/A` | 野心、自由 | 曾奉納於烏魯克神殿的青金石項鍊 | 美索不達米亞神話 |
-| 118 | **艾蕾什基伽爾** | Lancer | `C` | `A/D/B/B/B` | 名譽、憐憫 | 刻有冥界七道門的泥板 | 美索不達米亞神話 |
-| 119 | **蘭陵王** | Saber | `C` | `B/A+/B/D/D` | 忠誠、名譽 | 出現裂痕的鬼面面具碎片 | 北齊書 |
-| 120 | **哈貝特洛特** | Rider | `D` | `E/B/D/C/A+` | 憐憫、自由 | 小巧的紡車與一束金線 | 妖精國不列顛 |
-| 121 | **魁札爾·科亞特爾** | Rider | `B` | `B/B+/B/EX/A+` | 憐憫、自由 | 刻有羽蛇圖騰的石雕碎片 | 阿茲特克神話 |
-| 122 | **迦摩** | Assassin | `C` | `D/B/B+/A+/B` | 自由、野心 | 以甘蔗莖製成的弓 | 印度神話 |
-| 123 | **示巴女王** | Caster | `A` | `D/D/C/A/A` | 野心、自由 | 曾裝著香料與黃金的舊木盒 | 列王紀與衣索比亞傳承 |
-| 124 | **阿斯克勒庇俄斯** | Caster | `B` | `D/B/D/A/D` | 憐憫、名譽 | 盤繞著蛇的木杖 | 希臘神話 |
-| 125 | **君士坦丁十一世** | Rider | `C` | `C/C/A/D/C` | 名譽、忠誠 | 狄奧多西城牆的石塊碎片 | 拜占庭帝國紀錄 |
-| 126 | **呼延灼** | Assassin | `D` | `C+/A/C/D/D` | 野心、忠誠 | 竹節形狀的一對鐵鞭 | 水滸傳 |
-| 127 | **莉莉絲** | Berserker | `A` | `D+/B/B+/A+/B` | 自由、野心 | 黑色貓頭鷹的羽毛 | 美索不達米亞與猶太傳承 |
-| 128 | **遊翼哈桑** | Assassin | `D` | `D/C/C/D/E` | 自由、憐憫 | 熄滅的破舊影燈籠 | 暗殺教團傳承 |
-| 129 | **無名 Assassin** | Assassin | `E` | `C/A/B/C/D` | 名譽、憐憫 | 出現裂痕的骷髏面具碎片 | 暗殺教團傳承 |
-| 130 | **BB** | Moon Cancer | `E` | `C/C/C/A++/EX` | 自由、忠誠 | 尾端褪色的一根紅緞帶 *(註：滿月無催化劑劫持/羈絆召喚)* | 月之聖杯 Moon Cell |
-| 131 | **Meltryllis (梅爾特莉莉絲)** | Alter Ego | `E` | `E/A+/C/A/B` | 自由、野心 | 鞋尖磨得鋒利的一隻銀色芭蕾舞鞋 *(註：滿月劫持/羈絆召喚)* | BB 的 Alter Ego 紀錄 |
-| 132 | **Passionlip (帕森莉普)** | Alter Ego | `E` | `A+/C/A/B/E` | 忠誠、憐憫 | 留有深深爪痕的小巧音樂盒 *(註：滿月劫持/羈絆召喚)* | BB 的 Alter Ego 紀錄 |
-| 133 | **鈴鹿御前** | Saber | `D` | `D/A/D/A/B` | 自由、憐憫 | 當作手機吊飾的一截紅色刀繩 | 鈴鹿山傳承 |
-| 134 | **玉藻貓** | Berserker | `D` | `B+/A/E/A/B` | 忠誠、憐憫 | 留有爪痕的一隻巨大貓掌手套 | 日本傳承 |
-| 135 | **衛宮 [Alter]** | Archer | `E` | `C/D/B/B/E` | 自由、野心 | 附刃手槍退出的空彈殼 *(註：黑聖杯/特殊事件解鎖)* | 慘遭貶落的執行者 |
-
-*(※ 註：第 136 位隱藏規格外角色為 **Beast Ⅲ/R「殺生院祈荒」**，五圍 `C/B/EX/EX/A`、寶具 `快樂天・胎藏曼荼羅 (EX)`，於 Beast 危機劇本中作為最終 Boss 降臨，正常遊戲中不開放聖遺物召喚。)*
-
-</div>
-
----
-
-## 八、 非同步連線「派出的組（第 8 組亂入者）」配對與戰力計算公式
-
-當你贏得聖杯戰爭且從者存活時，可在結算畫面或往生紀錄中將隊伍派往其他玩家的聖杯戰爭（每位玩家最多可在伺服器上同時維持 **`30 組`** 現役隊伍）：
-1. **時空配對規則**：你的隊伍只會出現在**「比你的戰爭年份晚 `1 ～ 40 年`、且發生在『不同城市』」**的其他玩家聖杯戰爭中（其他玩家在召喚時有 **15% 機率** 抽中第 8 組亂入）。由於大多數玩家遊玩預設的現代局（戰爭年份約落在 `1995 ～ 2035 年`），在 **`1995 ～ 2000 年`** 左右獲勝的隊伍擁有最高的配對覆蓋率。
-2. **派出的御主戰力 (`pw`) 公式**（最低 58，最高封頂 **88**）：
-   <div class="formula-box">派出御主戰力 pw = clamp( 58 ~ 88, 四捨五入(56 + 迴路等級×4 + 擊殺數×3 + 信賴度×0.08) )</div>
-   *(只要是 A 級迴路 (5)、信賴度 100，且親手擊殺滿 2 組以上敵人，派出去的御主戰力即可達到滿值 **`88` 點**！)*
-3. **派出的 AI 戰術性格 (`ghTac`)**：
-   * 該場戰爭親手擊殺 **>= 3 組** ➔ 成為 **`Hunter`（主動獵殺型 AI）**，在別人世界裡每晚積極主動出擊！
-   * 擊殺 < 3 組但信賴度 **>= 70** ➔ 成為 **`Defensive`（防守型 AI）**。
-   * 擊殺 1 ~ 2 組且信賴度 < 70 ➔ 成為 **`Proud`（自傲型 AI）**。
-4. **老手記憶壓制 (`know` / `gEdge`) 與 v2.03 魔眼繼承**：
-   * 你在該場戰爭中「看穿真名 (`+5`)、看穿寶具 (`+3`)、親手擊殺 (`+2`)」過的從者會被記錄在隊伍記憶中。若其他玩家召喚出你曾殺過的從者，你的分身會說出專屬台詞並獲得最高 **`+10` 戰鬥力優勢**！
-   * **v2.03 更新**：派出的御主現在會將**已覺醒的魔眼（等級 1~4 與控制度 0~2）**以及**剩餘令咒（最高支援至 9 劃）**一併帶入其他玩家的世界中！
-
----
-> 📌 **攻略整理與數據解析**：[**@AirInMyMind**](https://x.com/AirInMyMind)  
-> 📌 **特別感謝遊戲開發者**：[**@cupnight_**](https://x.com/cupnight_) 製作出如此優秀且細節豐富的型月同人作品！
-</script>
-
-<!-- =========================================================
-     ⚙️ 網站核心驅動腳本：Markdown 渲染 + 自動生成 TOC 目錄 + 聖遺物搜尋 + 6國語言自動翻譯
-     ========================================================= -->
 <script>
-// 1. 渲染 Markdown 並自動包裝所有表格為手機可橫向滑動的容器
-(function renderApp() {
-    var mdText = document.getElementById('md-source').textContent;
-    var contentArea = document.getElementById('content-area');
-    contentArea.innerHTML = marked.parse(mdText);
+// 1. 全 135 名從者聖遺物完整資料庫 (純原生陣列渲染，零 Markdown 星號殘留，極速過濾)
+const SERVANTS = [
+[1,"西格魯德","Saber","B","A+/B/A+/C/E","名譽、憐憫","被火燻黑的戒指碎片","北歐神話"],
+[2,"齊格飛","Saber","B","B+/B/A/C/E","忠誠、憐憫","一片龍鱗","尼伯龍根之歌"],
+[3,"蘭斯洛特","Berserker","A","A/A+/A/C/B","忠誠、憐憫","被湖水侵蝕的銀馬刺","亞瑟王傳說"],
+[4,"阿周那","Archer","B","A/B/B/B/A++","名譽、憐憫","破舊的弓弦絲線","摩訶婆羅多"],
+[5,"羅賓漢","Archer","A","C/B/C/B/B","自由、憐憫","橡樹葉箭羽","英國民間故事"],
+[6,"阿塔蘭黛","Archer","C","D/A/E/B/C","自由、憐憫","卡呂冬野豬的獠牙碎片","希臘神話"],
+[7,"庫·夫林","Lancer","B","B/A/C/C/E","自由、名譽","曾綁在石柱上的腰帶","阿爾斯特傳說"],
+[8,"赫克托耳","Lancer","B","B/A/B/B/B","忠誠、憐憫","青銅頭盔的馬尾盔纓","伊利亞德"],
+[9,"列奧尼達一世","Lancer","A","B/D/A/C/C","忠誠、名譽","溫泉關生鏽的槍尖","希羅多德歷史"],
+[10,"伊斯坎達爾","Rider","EX","B/D/A/C/A+","野心、自由","刻有王之面容的銀幣","古希臘史書"],
+[11,"布狄卡","Rider","C","C/C/B+/D/D","憐憫、自由","青銅戰車飾件","羅馬史書"],
+[12,"阿基里斯","Rider","A","B+/A+/A/C/D","名譽、野心","赫淮斯托斯之盾的青銅碎片","伊利亞德"],
+[13,"美狄亞","Caster","B","E/C/D/A+/B","野心","一縷金色羊毛","希臘悲劇"],
+[14,"梅林","Caster","A","B/D/E/A/C","自由","長滿青苔的橡樹枝","亞瑟王傳說"],
+[15,"帕拉塞爾蘇斯","Caster","B","D/C/E/A/B","野心、憐憫","曾鑲在劍柄上的紅石碎片","文藝復興醫學史"],
+[16,"荊軻","Assassin","C","D/A/E/E/D","忠誠、名譽","易水畔冰冷的石頭","史記刺客列傳"],
+[17,"赫拉克勒斯","Berserker","EX","A+/A/A/A/B","憐憫、名譽","涅墨亞巨獅的毛髮","希臘神話"],
+[18,"斯巴達克斯","Berserker","A","A/D/EX/E/D","自由、憐憫","生鏽的腳鐐鐵環","羅馬史書"],
+[19,"呂布奉先","Berserker","B","A+/B+/A+/C+/C+","野心","赤紅雉雞翎毛","三國志故事"],
+[20,"巖窟王","Avenger","A","B/C/A+/B/-","野心、憐憫","挖開監獄牆壁的斷裂湯匙","基督山恩仇記"],
+[21,"安東尼奧·薩里耶利","Avenger","B","B/A/C/C/B","野心、名譽","泛黃的五線譜紙","普希金戲劇與維也納傳聞"],
+[22,"貞德","Ruler","EX","B/A/B/A/C","憐憫、忠誠","燒焦的旗幟布料","百年戰爭紀錄"],
+[23,"始皇帝","Ruler","EX","B+/B+/B+/B+/B+","野心、名譽","斷成兩半的玉璽碎片","史記秦始皇本紀"],
+[24,"阿爾托莉雅·潘德拉剛","Saber","EX","B/B/B/A/A+","名譽、忠誠","閃耀金光的劍鞘碎片","亞瑟王傳說"],
+[25,"尼祿·克勞狄烏斯","Saber","A","D/A/D/B/A","野心、憐憫","金線刺繡的玫瑰繡片","羅馬史書"],
+[26,"高文","Saber","B","B+/B+/B+/A/A","忠誠、名譽","綠色腰帶的絲線","亞瑟王傳說"],
+[27,"莫德雷德","Saber","B","B+/B/A/B/D","野心、自由","鏽成暗紅的頭盔飾件","亞瑟王傳說"],
+[28,"阿蒂拉","Saber","A","B/A/A/B/A","野心、憐憫","染上三色光芒的劍之碎片","匈人編年史"],
+[29,"查理曼","Saber","A","A/B/C/A/A","名譽、自由","留有十二道傷痕的劍柄裝飾","查理曼傳說"],
+[30,"貝德維爾","Saber","C","A/A+/B/C/B","忠誠、憐憫","沾濕湖水的銀色指節","亞瑟王傳說"],
+[31,"沖田總司","Saber","C","C/A+/E/E/D","忠誠、名譽","印有「誠」字的羽織衣角","幕末紀錄"],
+[32,"宮本武藏","Saber","A","B/B/B/E/B","自由、名譽","兩把木劍的木屑","五輪書"],
+[33,"羅摩","Saber","B","A/A+/B/B/B","名譽、憐憫","被火燻黑的金色鹿毛","羅摩衍那"],
+[34,"理查一世","Saber","B","B/EX/B/B/C","名譽、野心","刻有獅子紋章的盾牌碎片","十字軍編年史"],
+[35,"衛宮","Archer","E","D/C/C/B/E","憐憫、名譽","出現裂痕的紅寶石吊墜","某位魔術師的終點"],
+[36,"吉爾伽美什","Archer","A","B/B/B/A/A","野心、自由","世上第一條蛻皮之蛇的化石","吉爾伽美什史詩"],
+[37,"喀戎","Archer","B","B/A+/B/B/C","憐憫、忠誠","半人馬的破舊弓弦","希臘神話"],
+[38,"阿拉什","Archer","C","B/B+/A/E/D","憐憫、忠誠","身軀碎裂之弓手的箭簇","波斯傳承"],
+[39,"崔斯坦","Archer","B","B/A/B/B/E","憐憫、自由","斷裂的一根豎琴琴弦","亞瑟王傳說"],
+[40,"織田信長","Archer","A","C/C/B/B/B","野心、自由","被火燒焦的南蠻披風碎片","信長公記"],
+[41,"巴御前","Archer","C","C/C/D/B/A","忠誠、憐憫","繪有火焰紋樣的射箭護手","平家物語"],
+[42,"尼古拉·特斯拉","Archer","A","D/C/C/B/D","野心、憐憫","燒毀的一截線圈","近代科學史"],
+[43,"拿破崙","Archer","EX","D/A/C/E/B","野心、憐憫","雙角帽上的羽毛","近代歐洲史"],
+[44,"俄里翁","Archer","B","D/B/C/A/A+","自由、憐憫","蘊含月光的銀箭","希臘神話"],
+[45,"超人俄里翁","Archer","B","A/B+/A/C/A","自由、野心","徒步橫渡大海的獵人涼鞋","希臘神話"],
+[46,"迪爾姆德·奧迪那","Lancer","C","B/A+/C/D/E","忠誠、名譽","紅槍與黃槍的綁繩裝飾","費奧納傳說"],
+[47,"迦爾納","Lancer","B","B/A/C/B/D","名譽、憐憫","黃金鎧甲的一片甲鱗","摩訶婆羅多"],
+[48,"弗拉德三世","Lancer","A","B/E/A/A/D","忠誠、名譽","生鏽的木樁尖端","東歐史書"],
+[49,"伊莉莎白·巴托里","Lancer","B","C/E/D/A/B","野心、自由","破裂的手拿鏡","匈牙利紀錄"],
+[50,"恩奇都","Lancer","B","?/?/?/?/?","忠誠、憐憫","一把烏魯克城牆的泥土","吉爾伽美什史詩"],
+[51,"斯卡哈","Lancer","C","B/A/A/C/D","名譽、自由","掛在影之國大門上的紅布","阿爾斯特傳說"],
+[52,"羅慕路斯","Lancer","B","B/A/A/C/B","野心、憐憫","飲狼乳之孩童的銅鈴","羅馬建國神話"],
+[53,"布倫希爾德","Lancer","B","B+/A/A/C/E","憐憫、忠誠","從火焰之環中取出的戒指","北歐神話"],
+[54,"秦良玉","Lancer","D","C/A/B/D/A","忠誠、名譽","白欓槍的槍纓流蘇","明史"],
+[55,"芬恩·麥克庫爾","Lancer","C","B+/A+/B/C/C","自由、野心","智慧鮭魚的魚鱗","費奧納傳說"],
+[56,"梅杜莎","Rider","A","B/A/D/B/E","憐憫、忠誠","天馬佩加索斯的白羽","希臘神話"],
+[57,"法蘭西斯·德雷克","Rider","B","D/B/C/E/EX","自由、野心","刻有金鹿紋樣的船釘","大航海時代紀錄"],
+[58,"阿斯托爾福","Rider","C","D/B/D/C/A+","自由、憐憫","從月球帶回的玻璃瓶","瘋狂奧蘭多"],
+[59,"喬治亞斯","Rider","A","D/C++/A+/D/A+","名譽、憐憫","染有龍血的十字徽章","黃金傳說"],
+[60,"愛德華·蒂奇 (黑鬍子)","Rider","B","B+/E/A/D/C","野心、自由","曾插在鬍鬚上的一截導火線","海盜紀錄"],
+[61,"奧茲曼迪亞斯","Rider","A","C/B/C/A/A+","野心、名譽","刻有太陽紋樣的石板碎片","埃及史書"],
+[62,"女王梅芙","Rider","C","E/B/E/C/EX","野心、自由","裝有一塊起司的銀盒","阿爾斯特傳說"],
+[63,"牛若丸","Rider","B","D/A+/C/B/A","忠誠、野心","鞍馬山天狗的羽扇","平家物語"],
+[64,"伊凡雷帝","Rider","B","B+/D/A+/C/B","野心、名譽","黃金權杖的尖端飾件","俄羅斯史書"],
+[65,"奧德修斯","Rider","A","C/D/A+/B+/EX","忠誠、野心","特洛伊木馬的木片","奧德賽"],
+[66,"希波呂忒","Rider","C","B/A/B/C/D","名譽、自由","從軍神腰帶上掉落的金屬飾片","希臘神話"],
+[67,"吉爾·德·萊斯","Caster","C","D/D/E/C/E","野心、憐憫","被火燒焦的聖女旗幟絲線","法國紀錄"],
+[68,"玉藻前","Caster","C","E/B/E/A/D","憐憫、忠誠","以狐尾毛編織的護身符","日本傳承"],
+[69,"漢斯·克里斯蒂安·安徒生","Caster","A","E/E/E/EX/E","自由、憐憫","墨水暈開的一頁原稿","丹麥文學史"],
+[70,"威廉·莎士比亞","Caster","EX","E/D/E/C++/B","自由、野心","第一對開本撕裂的扉頁","英國文學史"],
+[71,"李奧納多·達文西","Caster","EX","E/C/E/A+/B","自由、憐憫","以鏡像文字書寫的一張便條","文藝復興美術史"],
+[72,"尼托克里絲","Caster","D","E/C/E/A/B+","名譽、忠誠","刻有冥界神祇的鏡子碎片","希羅多德歷史"],
+[73,"沃夫岡·阿瑪迪斯·莫札特","Caster","EX","D/B/E/B+/D","自由、憐憫","沾有墨漬的安魂曲樂譜","維也納音樂史"],
+[74,"玄奘三藏","Caster","A","E/B/D/A+/EX","憐憫、自由","一圈金箍","西遊記"],
+[75,"喀耳刻","Caster","B","E/D/B/A+/A","野心、憐憫","小豬造型的銀胸針","奧德賽"],
+[76,"阿維斯布隆","Caster","D","E/D/E/A/B","野心","刻有希伯來文字的泥板","中世紀猶太哲學"],
+[77,"法蘭索瓦·普雷拉蒂","Caster","D","E/C/D/A/B","自由、野心","畫有倒五芒星的卡片","法國紀錄"],
+[78,"佐佐木小次郎","Assassin","C","C/A+/E/E/A","自由、名譽","長刀「物干竿」的刀鐔","巖流島傳承"],
+[79,"咒腕哈桑","Assassin","D","B/A/C/C/E","忠誠、野心","纏繞右臂的繃帶布料","暗殺教團傳承"],
+[80,"百貌哈桑","Assassin","D","C/A/D/C/E","忠誠","白色骷髏面具的碎片","暗殺教團傳承"],
+[81,"靜謐哈桑","Assassin","D","D/A+/D/C/A","憐憫、忠誠","以毒草編織的髮帶","暗殺教團傳承"],
+[82,"山之翁 (王哈桑)","Assassin","B","B/B/A/E/E","名譽、忠誠","刻有晚鐘紋樣的黑鐵碎片","暗殺教團傳承"],
+[83,"賽米拉米斯","Assassin","C","E/D/D/A/A","野心","插著鴿羽的銀色毒藥瓶","亞述傳承"],
+[84,"開膛手傑克","Assassin","A","C/A/C/C/E","自由、憐憫","霧夜裡的報紙碎片","倫敦白教堂事件"],
+[85,"李書文","Assassin","D","C/A+/D/E/E","名譽、自由","槍頭磨損的大槍","八極拳傳承"],
+[86,"夏爾-亨利·桑松","Assassin","C","D/C/D/D/A","憐憫、名譽","斷頭台刀刃的鐵鏽碎片","法國大革命紀錄"],
+[87,"酒吞童子","Assassin","C","A/B/B/A+/D","自由、野心","紅色酒盞碎片","日本傳承"],
+[88,"弗蘭肯斯坦","Berserker","A","C/D/B/D/B","憐憫、自由","燒焦的一顆螺栓","科學怪人或現代普羅米修斯"],
+[89,"阿斯忒里翁","Berserker","B","A++/C/A++/D/E","憐憫、自由","迷宮牆壁的石塊碎片","希臘神話"],
+[90,"大流士三世","Berserker","C","A/B/A+/E/D","名譽、野心","不死軍團的槍尖","古波斯史書"],
+[91,"貝奧武夫","Berserker","B","A/C/A/D/A","名譽、自由","格倫戴爾的爪子","貝奧武夫"],
+[92,"坂田金時","Berserker","C","A+/B/B/C/C","忠誠、憐憫","金色巨斧的裝飾繩結","日本傳承"],
+[93,"源賴光","Berserker","C","A/D/B/A/C","憐憫、忠誠","雷電紋樣的弓弰","日本傳承"],
+[94,"茨木童子","Berserker","D","B/C/A+/C/B","自由、野心","曾包裹斷臂的絲綢","日本傳承"],
+[95,"彭忒西勒亞","Berserker","D","A+/C/B+/A/D","名譽、野心","亞馬遜女王折斷的長槍","希臘神話"],
+[96,"土方歲三","Berserker","C","C/C/C/E/D","忠誠、名譽","「誠」字軍旗的碎片","幕末紀錄"],
+[97,"卡利古拉","Berserker","A","A+/B+/B+/D+/D+","野心、憐憫","沐浴月光的金幣","羅馬史書"],
+[98,"黑森·羅伯","Avenger","C","A+/A+/B+/E/D","自由、野心","一撮灰狼毛髮","西頓動物記與斷頭谷"],
+[99,"平景清","Avenger","D","D/A+/A/B/B","野心","平家的紅旗碎片","平家物語"],
+[100,"安哥拉曼紐","Avenger","C","E/A/E/D/E+","自由、憐憫","印有紅色刺青的繃帶","瑣羅亞斯德教傳承"],
+[101,"貞德 [Alter]","Avenger","D","A/A/C/A+/E","野心、自由","燒成漆黑的旗幟布料","百年戰爭的陰影"],
+[102,"天草四郎","Ruler","C","C/B/C/A/B","憐憫、野心","刻有十字架的念珠","島原之亂紀錄"],
+[103,"夏洛克·福爾摩斯","Ruler","EX","D/B+/C/B/A++","自由、名譽","沾有菸斗菸灰的放大鏡","福爾摩斯系列"],
+[104,"凱妮絲","Lancer","C","A/A/B+/D/B","自由、野心","被海水沖刷的槍刃碎片","希臘神話"],
+[105,"唐吉訶德","Lancer","A","C/C/C/C/EX","名譽、憐憫","缺了一角的理髮師銅盆","唐吉訶德"],
+[106,"珀西瓦爾","Lancer","B","B/B/A/C/B","名譽、憐憫","目睹聖杯之騎士的銀酒杯","亞瑟王傳說"],
+[107,"長尾景虎","Lancer","B","C/C/D+/C+/A","名譽、自由","印有「毘」字的軍旗碎片","戰國時代紀錄"],
+[108,"摩根","Berserker","B","C/B/E/A+/B","野心、忠誠","結凍湖水的水滴結晶","亞瑟王傳說"],
+[109,"武田信玄","Rider","B","B+/B+/C+/C/C+","野心、忠誠","風林火山軍旗的一根絲線","戰國時代紀錄"],
+[110,"托勒密","Archer","C","B/C/A/A/A++","忠誠、憐憫","亞歷山大燈塔的石塊碎片","托勒密王朝紀錄"],
+[111,"克里姆希爾德","Berserker","C","C++/C/D/A/EX","忠誠、野心","留有血跡的菩提樹葉","尼伯龍根之歌"],
+[112,"所羅門","Caster","EX","E/E/B/A++/A++","憐憫、自由","第十枚戒指","舊約聖經列王紀"],
+[113,"芭萬·希","Archer","D","A/A/C/B/D","忠誠、野心","鞋跟磨損的一隻紅色高跟鞋","妖精國不列顛"],
+[114,"巴格斯特","Saber","D","B+/A/A/C/C","名譽、憐憫","被黑焰燻黑的獸角碎片","妖精國不列顛"],
+[115,"梅柳齊娜","Lancer","C","C/B/A+/A+/B","忠誠、憐憫","閃耀虹光的一片龍鱗","妖精國不列顛"],
+[116,"千子村正","Saber","C","B/D/A/E/B","名譽、憐憫","村正一派鍛造的一把短刀","伊勢桑名刀匠紀錄"],
+[117,"伊絲塔","Archer","B","B/B/B/EX/A","野心、自由","曾奉納於烏魯克神殿的青金石項鍊","美索不達米亞神話"],
+[118,"艾蕾什基伽爾","Lancer","C","A/D/B/B/B","名譽、憐憫","刻有冥界七道門的泥板","美索不達米亞神話"],
+[119,"蘭陵王","Saber","C","B/A+/B/D/D","忠誠、名譽","出現裂痕的鬼面面具碎片","北齊書"],
+[120,"哈貝特洛特","Rider","D","E/B/D/C/A+","憐憫、自由","小巧的紡車與一束金線","妖精國不列顛"],
+[121,"魁札爾·科亞特爾","Rider","B","B/B+/B/EX/A+","憐憫、自由","刻有羽蛇圖騰的石雕碎片","阿茲特克神話"],
+[122,"迦摩","Assassin","C","D/B/B+/A+/B","自由、野心","以甘蔗莖製成的弓","印度神話"],
+[123,"示巴女王","Caster","A","D/D/C/A/A","野心、自由","曾裝著香料與黃金的舊木盒","列王紀與衣索比亞傳承"],
+[124,"阿斯克勒庇俄斯","Caster","B","D/B/D/A/D","憐憫、名譽","盤繞著蛇的木杖","希臘神話"],
+[125,"君士坦丁十一世","Rider","C","C/C/A/D/C","名譽、忠誠","狄奧多西城牆的石塊碎片","拜占庭帝國紀錄"],
+[126,"呼延灼","Assassin","D","C+/A/C/D/D","野心、忠誠","竹節形狀的一對鐵鞭","水滸傳"],
+[127,"莉莉絲","Berserker","A","D+/B/B+/A+/B","自由、野心","黑色貓頭鷹的羽毛","美索不達米亞與猶太傳承"],
+[128,"遊翼哈桑","Assassin","D","D/C/C/D/E","自由、憐憫","熄滅的破舊影燈籠","暗殺教團傳承"],
+[129,"無名 Assassin","Assassin","E","C/A/B/C/D","名譽、憐憫","出現裂痕的骷髏面具碎片","暗殺教團傳承"],
+[130,"BB","Moon Cancer","E","C/C/C/A++/EX","自由、忠誠","尾端褪色的一根紅緞帶 (滿月劫持/羈絆召喚)","月之聖杯 Moon Cell"],
+[131,"Meltryllis (梅爾特莉莉絲)","Alter Ego","E","E/A+/C/A/B","自由、野心","鞋尖磨得鋒利的一隻銀色芭蕾舞鞋","BB 的 Alter Ego 紀錄"],
+[132,"Passionlip (帕森莉普)","Alter Ego","E","A+/C/A/B/E","忠誠、憐憫","留有深深爪痕的小巧音樂盒","BB 的 Alter Ego 紀錄"],
+[133,"鈴鹿御前","Saber","D","D/A/D/A/B","自由、憐憫","當作手機吊飾的一截紅色刀繩","鈴鹿山傳承"],
+[134,"玉藻貓","Berserker","D","B+/A/E/A/B","忠誠、憐憫","留有爪痕的一隻巨大貓掌手套","日本傳承"],
+[135,"衛宮 [Alter]","Archer","E","C/D/B/B/E","自由、野心","附刃手槍退出的空彈殼","慘遭貶落的執行者"]
+];
 
-    // 為所有表格套上響應式滾動容器 .table-wrap
-    contentArea.querySelectorAll('table').forEach(function(tbl) {
-        var wrapper = document.createElement('div');
-        wrapper.className = 'table-wrap';
-        tbl.parentNode.insertBefore(wrapper, tbl);
-        wrapper.appendChild(tbl);
-    });
-
-    // 自動生成左側章節導覽 (TOC)
-    var tocList = document.getElementById('toc-list');
-    var headings = contentArea.querySelectorAll('h2, h3');
-    headings.forEach(function(h, idx) {
-        var id = 'section-' + idx;
-        h.id = id;
-        var li = document.createElement('li');
-        var a = document.createElement('a');
-        a.href = '#' + id;
-        a.textContent = h.textContent;
-        if (h.tagName === 'H3') a.className = 'toc-h3';
-        a.onclick = function() {
-            document.getElementById('sidebar-toc').classList.remove('mobile-open');
-        };
-        li.appendChild(a);
-        tocList.appendChild(li);
-    });
+(function initTable(){
+  const tb = document.getElementById('relic-tbody');
+  tb.innerHTML = SERVANTS.map(r => `<tr><td>${r[0]}</td><td><strong>${r[1]}</strong></td><td translate="no">${r[2]}</td><td translate="no"><code>${r[3]}</code></td><td translate="no"><code>${r[4]}</code></td><td>${r[5]}</td><td>${r[6]}</td><td>${r[7]}</td></tr>`).join('');
 })();
 
-// 2. 手機版目錄開關
-function toggleMobileToc() {
-    document.getElementById('sidebar-toc').classList.toggle('mobile-open');
+function filterRelics(){
+  const q = document.getElementById('relic-search').value.trim().toLowerCase();
+  const rows = document.querySelectorAll('#relic-tbody tr');
+  let n = 0;
+  rows.forEach(r => {
+    const show = !q || r.textContent.toLowerCase().includes(q);
+    r.style.display = show ? '' : 'none';
+    if(show) n++;
+  });
+  document.getElementById('relic-cnt').textContent = `顯示 ${n} / ${rows.length} 名從者`;
 }
 
-// 3. 全 135 名從者聖遺物即時搜尋過濾器
-function filterRelicTable() {
-    var input = document.getElementById('relic-search');
-    if (!input) return;
-    var q = input.value.trim().toLowerCase();
-    var box = document.getElementById('relic-table-box');
-    if (!box) return;
-    var rows = box.querySelectorAll('tbody tr');
-    var shown = 0;
-    rows.forEach(function(r) {
-        var txt = r.textContent.toLowerCase();
-        if (!q || txt.includes(q)) {
-            r.style.display = '';
-            shown++;
-        } else {
-            r.style.display = 'none';
-        }
+function closeToc(){ document.getElementById('toc').classList.remove('open'); }
+
+// 2. Google 官方全球 CDN 原生頁內無刷新翻譯引擎 + 系統預設語言自動匹配
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'zh-TW',
+    includedLanguages: 'zh-TW,zh-CN,ko,ja,en,ru',
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('btn-' + lang);
+  if (btn) btn.classList.add('active');
+
+  document.cookie = `googtrans=/zh-TW/${lang}; path=/`;
+  document.cookie = `googtrans=/zh-TW/${lang}; path=/; domain=.${location.hostname}`;
+
+  const combo = document.querySelector('.goog-te-combo');
+  if (combo) {
+    combo.value = lang;
+    combo.dispatchEvent(new Event('change'));
+  } else {
+    location.reload();
+  }
+}
+
+(function bootI18n(){
+  const s = document.createElement('script');
+  s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  s.async = true;
+  document.head.appendChild(s);
+
+  // 自動偵測讀者系統預設語言
+  const sys = (navigator.language || 'zh-TW').toLowerCase();
+  let def = 'zh-TW';
+  if (sys.startsWith('zh-cn') || sys.startsWith('zh-hans') || sys === 'zh') def = 'zh-CN';
+  else if (sys.startsWith('ko')) def = 'ko';
+  else if (sys.startsWith('ja')) def = 'ja';
+  else if (sys.startsWith('ru')) def = 'ru';
+  else if (sys.startsWith('en')) def = 'en';
+
+  const m = document.cookie.match(/googtrans=\/zh-TW\/([a-zA-Z\-]+)/);
+  const cur = m ? m[1] : def;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  const b = document.getElementById('btn-' + cur);
+  if (b) b.classList.add('active');
+
+  if (!m && def !== 'zh-TW') {
+    document.cookie = `googtrans=/zh-TW/${def}; path=/`;
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const combo = document.querySelector('.goog-te-combo');
+        if (combo) { combo.value = def; combo.dispatchEvent(new Event('change')); }
+      }, 900);
     });
-    var cnt = document.getElementById('relic-count');
-    if (cnt) cnt.textContent = '顯示 ' + shown + ' / ' + rows.length + ' 名從者';
-}
-
-// 4. 啟動 GitHub 開源 translate.js v3 智慧多語系引擎 (免跳轉、原頁無刷新翻譯 + 自動匹配系統預設語言)
-function changeLanguage(langName) {
-    document.querySelectorAll('.lang-btn').forEach(function(b) { b.classList.remove('active'); });
-    var btn = document.getElementById('lang-' + langName);
-    if (btn) btn.classList.add('active');
-    if (typeof translate !== 'undefined') {
-        translate.changeLanguage(langName);
-    }
-}
-
-window.addEventListener('DOMContentLoaded', function() {
-    if (typeof translate !== 'undefined') {
-        // 設定原文為繁體中文
-        translate.language.setLocal('chinese_traditional');
-        // 使用高速客戶端通道 v2
-        translate.service.use('client.edge');
-        // 保護特定代碼與職階不被誤翻
-        translate.ignore.tag.push('code');
-        translate.ignore.class.push('notranslate');
-        // 自動偵測使用者系統預設語言並直接切換！
-        var sys = (navigator.language || navigator.userLanguage || 'zh-TW').toLowerCase();
-        var defaultLang = 'chinese_traditional';
-        if (sys.startsWith('zh-cn') || sys.startsWith('zh-hans') || sys === 'zh') defaultLang = 'chinese_simplified';
-        else if (sys.startsWith('ko')) defaultLang = 'korean';
-        else if (sys.startsWith('ja')) defaultLang = 'japanese';
-        else if (sys.startsWith('ru')) defaultLang = 'russian';
-        else if (sys.startsWith('en')) defaultLang = 'english';
-
-        translate.execute();
-
-        // 若使用者尚未手動選過語言，且系統語言非繁中，自動切換為使用者系統語言
-        var savedLang = translate.language.getCurrent();
-        var activeLang = savedLang || defaultLang;
-        document.querySelectorAll('.lang-btn').forEach(function(b) { b.classList.remove('active'); });
-        var activeBtn = document.getElementById('lang-' + activeLang);
-        if (activeBtn) activeBtn.classList.add('active');
-        if (!savedLang && defaultLang !== 'chinese_traditional') {
-            setTimeout(function() { translate.changeLanguage(defaultLang); }, 300);
-        }
-    }
-});
+  }
+})();
 </script>
 </body>
 </html>
